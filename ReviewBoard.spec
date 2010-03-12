@@ -2,12 +2,12 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        2.beta1%{?dist}
+Release:        3.beta1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -33,7 +33,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}beta1
 
 # Avoid trying to bootstrap setup.py; we have this via RPM:
 sed -i 's/^from ez_setup/#from ez_setup/' setup.py
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri Mar 12 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-3.beta1
+- Fix some places where 'beta1' was missing, causing build failure
+
 * Fri Mar 12 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-2.beta1
 - Correct version to meet naming guidelines
 
