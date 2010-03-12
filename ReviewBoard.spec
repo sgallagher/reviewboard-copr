@@ -1,19 +1,19 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.0.5.1
-Release:        2%{?dist}
+Version:        1.5beta1
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.0/%{name}-%{version}.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.5-0.1.rc1
+Requires:       python-djblets >= 0.5.7
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -24,6 +24,7 @@ Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments
 Requires:       django-evolution
+Requires:       python-recaptcha-client
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -50,6 +51,14 @@ rm -rf $RPM_BUILD_ROOT
 # manage.py has a shebang and is meaningful to run; make it executable:
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 
+# RHEL 5 packages don't have egg-info files, so remove the requires.txt
+# It isn't needed, because RPM will guarantee the dependency itself
+%if 0%{?rhel} > 0
+%if 0%{?rhel} <= 5
+rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}-%{version}-py2.4.egg-info/requires.txt
+%endif
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -64,6 +73,14 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri Mar 12 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5beta1-1
+- Add missing dependency on python-recaptcha-client
+
+* Mon Feb 15 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5beta1-0
+- New upstream release
+- Complete release notes at
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5-beta-1/
+
 * Tue Dec 22 2009 Stephen Gallagher <sgallagh@redhat.com> - 1.0.5.1-2
 - Fix source tarball location
 - Add comment to spec file regarding the lack of .desktop file
