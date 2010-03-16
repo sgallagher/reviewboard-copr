@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        3.beta1%{?dist}
+Release:        5.beta1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -25,6 +25,7 @@ Requires:       pytz
 Requires:       python-pygments
 Requires:       django-evolution
 Requires:       python-recaptcha-client
+Requires:       python-paramiko
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -73,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Tue Mar 16 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-5.beta1
+- Add Requires: python-paramiko
+
 * Fri Mar 12 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-3.beta1
 - Fix some places where 'beta1' was missing, causing build failure
 
