@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        5.beta1%{?dist}
+Release:        6.beta1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -27,6 +27,8 @@ Requires:       django-evolution
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 
+Patch0001: 0001-Greatly-reduce-the-number-of-SQL-queries-in-the-Dash.patch
+
 %description
 Review Board is a powerful web-based code review tool that offers
 developers an easy way to handle code reviews. It scales well from small
@@ -35,6 +37,8 @@ of the stress and time out of the code review process.
 
 %prep
 %setup -q -n %{name}-%{version}beta1
+
+%patch0001 -p1
 
 # Avoid trying to bootstrap setup.py; we have this via RPM:
 sed -i 's/^from ez_setup/#from ez_setup/' setup.py
@@ -74,6 +78,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Sat Apr 17 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-6.beta1
+- Include upstream patch to drastically reduce the number of
+- SQL lookups
+
 * Tue Mar 16 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-5.beta1
 - Add Requires: python-paramiko
 

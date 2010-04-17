@@ -1,0 +1,104 @@
+From e1f42de80de189175a539191e891c6505f525b0c Mon Sep 17 00:00:00 2001
+From: Christian Hammond <chipx86@chipx86.com>
+Date: Fri, 26 Mar 2010 17:10:24 -0700
+Subject: [PATCH] Greatly reduce the number of SQL queries in the Dashboard.
+
+The dashboard is pretty slow, especially with certain column types. This
+is mainly due to a large number of SQL queries made per-row. This change
+reduces the number of queries by a considerable amount.
+
+There are a few main things done here:
+
+1) Through the new queryset augmentation in Djblets, the My Comments column
+   requests the number of total reviews made on the review request by the user,
+   the number of private (unpublished) reviews, and the number of reviews
+   marked "Ship It." We can use these values to determine what label or text to
+   show, instead of grabbing each review on each review request and looping
+   through them.
+
+2) The Summary column now includes the associated draft's summary (if any)
+   in the review request query, instead of attempting to fetch a draft
+   individually for every review request.
+
+3) The Summary column now compares the user ID on the review request (as
+   stored in the ReviewRequest object) with the requester's ID, instead of
+   fetching the user object and then comparing that object's ID. This saves
+   us one query per row.
+
+4) The Review Request Starred column takes the list of review request IDs
+   that are to be shown in the datagrid (as determined by the datagrid itself)
+   and runs one query to get all the starred review requests associated with
+   the user's profile. It then caches these, later setting a flag on the
+   review request itself, so that the Starred template tag can render directly
+   from there. This saves a query per row.
+
+5) All the counts for the sidebar ("Outgoing Reviews", "Incoming Reviews",
+   groups, etc.) are all pre-calculated and stored on the datagrid. The
+   template tag for displaying this information no longer performs the
+   queries, but rather grabs the stored values. There's actually not a benefit
+   for anything but the groups (which I'll describe next), but is all there
+   in one place for consistency.
+
+6) We now make one query that returns counts for every group (joined and
+   starred) in the dashboard, instead of one per. We do need one query
+   before this to get a list of all unique group names that we can feed into
+   the second query, as we otherwise end up with duplicates that I can't
+   seem to get rid of.
+
+7) Use values() and values_list() in places where we know we only care about
+   a single attribute and don't need all data for, say, a Group.
+
+This along with the recent Djblets changes cuts back our SQL queries quite a
+bit. As an example, take a dashboard with 20 review requests (with 5 unique
+submitters), 6 groups joined (or starred -- doesn't matter), and the
+My Comments, Summary, Starred, and Submitter columns turned on.
+
+Previously, you'd get roughly the following number of queries:
+
+Datagrid:    1 query
+My Comments: 20 queries (with data loaded into Review objects)
+Summary:     20 queries (with data loaded into the ReviewRequestDraft objects)
+Starred:     20 queries
+Submitter:   20 queries
+Sidebar:     11 queries (5 mains, 6 groups)
+Total:       92 queries (embarrassing)
+
+Now, you should get:
+
+Datagrid:    1 query
+My Comments: 0 queries (data is pre-loaded in main query)
+Summary:     0 queries (data is pre-loaded in main query)
+Starred:     1 query
+Submitter:   5 queries (one per user)
+Sidebar:     7 queries (5 mains, 2 total for all group calculations)
+Total:       14 queries
+
+MUCH BETTER
+
+Reviewed at http://reviews.reviewboard.org/r/1339/
+
+Conflicts:
+
+	setup.py
+---
+ setup.py |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 970fb6edc9606b6dc420b0aff34d677e6a3723fe..34454293d6a93ea78883b4ee26c659bf11e04edf 100755
+--- a/setup.py
++++ b/setup.py
+@@ -95,8 +95,8 @@ setup(name=PACKAGE_NAME,
+       install_requires=[
+           'Django>=1.1.1',
+           'django_evolution',
+-          'Djblets>=0.5.7',
+-          'Pygments>=1.1.1',
++          'Djblets>=0.5.7.20100112',
++          'Pygments>=0.10',
+           'flup',
+           'paramiko',
+           'pytz',
+-- 
+1.7.0.1
+
