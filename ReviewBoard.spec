@@ -2,18 +2,18 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        7.beta1%{?dist}
+Release:        10.beta2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta1.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.5.7
+Requires:       python-djblets >= 0.6.1
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -34,7 +34,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta1
+%setup -q -n %{name}-%{version}beta2
 
 # Avoid trying to bootstrap setup.py; we have this via RPM:
 sed -i 's/^from ez_setup/#from ez_setup/' setup.py
@@ -74,6 +74,17 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri May 14 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-10.beta2
+- Added support for custom site-specific management commands
+- Set the HOME directory for Review Board to be he site directory’s
+- data directory by default
+- Multiple review requests can now be closed or reopened at once by
+- administrators in the administration UI’s database browser
+- Added a new REST API
+- Usability Improvements
+- Assorted bugfixes
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5-beta-2/
+
 * Sat Apr 17 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-7.beta1
 - Remove previous patch. It was actually already in the source tree
 
