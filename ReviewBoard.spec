@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        10.beta2%{?dist}
+Release:        11.beta2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -74,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
-* Fri May 14 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-10.beta2
+* Fri May 14 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-11.beta2
 - Added support for custom site-specific management commands
 - Set the HOME directory for Review Board to be he site directory’s
 - data directory by default
