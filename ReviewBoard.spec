@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        12.rc1%{?dist}
+Release:        13.rc1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -56,7 +56,7 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 # It isn't needed, because RPM will guarantee the dependency itself
 %if 0%{?rhel} > 0
 %if 0%{?rhel} <= 5
-rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}-%{version}-py2.4.egg-info/requires.txt
+rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
 %endif
 %endif
 
@@ -71,9 +71,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
-%{python_sitelib}/*
+%{python_sitelib}/reviewboard/
+%{python_sitelib}/ReviewBoard*.egg-info/
+%{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-13.rc1
+- Specfile change: more specific %files section
+
 * Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-12.rc1
 - Added support for the iPhone and iPad
 - Improved move detection in diff viewer
