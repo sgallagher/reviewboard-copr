@@ -2,18 +2,18 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        11.beta2%{?dist}
+Release:        12.rc1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}rc1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.6.1
+Requires:       python-djblets >= 0.6.3
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -22,10 +22,13 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments
-Requires:       django-evolution
+Requires:       python-pygments >= 1.1.1
+Requires:       django-evolution >= 0.5
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
+Requires:       python-memcached
+
+Patch1000: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -34,11 +37,8 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta2
-
-# Avoid trying to bootstrap setup.py; we have this via RPM:
-sed -i 's/^from ez_setup/#from ez_setup/' setup.py
-sed -i 's/^use_setuptools()/#use_setuptools()/' setup.py
+%setup -q -n %{name}-%{version}rc1
+%patch1000 -p1
 
 %build
 %{__python} setup.py build
@@ -74,6 +74,14 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-12.rc1
+- Added support for the iPhone and iPad
+- Improved move detection in diff viewer
+- Support for WSGI installations
+- Improvements to the JSON API
+- Assorted bugfixes
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5-rc-1/
+
 * Fri May 14 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-11.beta2
 - Added support for custom site-specific management commands
 - Set the HOME directory for Review Board to be he site directory’s

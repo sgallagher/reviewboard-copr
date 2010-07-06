@@ -1,0 +1,27 @@
+From 86d1b40676ee90f00aa6d494107161e9edff4e3a Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Tue, 22 Jun 2010 08:14:30 -0400
+Subject: [PATCH] Disable ez_setup when installing by RPM
+
+---
+ setup.py |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 14ebd9f47b6a624b667e7f34dc21adadab7cbc76..6c9e58076f8b7d21fcbcd85297875712e23f5d38 100755
+--- a/setup.py
++++ b/setup.py
+@@ -8,8 +8,8 @@
+ import os
+ import sys
+ 
+-from ez_setup import use_setuptools
+-use_setuptools()
++#from ez_setup import use_setuptools
++#use_setuptools()
+ 
+ from setuptools import setup, find_packages
+ from distutils.command.install_data import install_data
+-- 
+1.7.1
+
