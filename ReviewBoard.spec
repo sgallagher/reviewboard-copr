@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        14.rc1%{?dist}
+Release:        15.rc1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
-* Fri Jul 09 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-14.rc1
+* Fri Jul 09 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-15.rc1
 - Added support for the iPhone and iPad
 - Improved move detection in diff viewer
 - Support for WSGI installations
