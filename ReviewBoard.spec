@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        13.rc1%{?dist}
+Release:        14.rc1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -27,6 +27,7 @@ Requires:       django-evolution >= 0.5
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
+Requires:       python-dateutil
 
 Patch1000: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 
@@ -76,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Jul 09 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-14.rc1
+- Add missing Requires: python-dateutil
+
 * Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-13.rc1
 - Specfile change: more specific %files section
 
