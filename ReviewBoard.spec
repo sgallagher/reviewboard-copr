@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        14.rc1%{?dist}
+Release:        14.rc1%{?dist}.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -77,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 1.5-14.rc1.1
+- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+
 * Fri Jul 09 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-14.rc1
 - Add missing Requires: python-dateutil
 
