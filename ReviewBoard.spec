@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        14.rc1%{?dist}.1
+Release:        15.rc2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.6.3
+Requires:       python-djblets >= 0.6.4
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -38,7 +38,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}rc1
+%setup -q -n %{name}-%{version}rc2
 %patch1000 -p1
 
 %build
@@ -77,6 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Sep 20 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-15.rc2
+- Update to new upstream release 1.5rc2
+- Added Python 2.7 compatibility.
+- Added compatibility with PyLucene 3.x. Support for 2.x still remains.
+- Added support for review requests without diffs, for image/screenshot review
+- Assorted API improvements and bugfixes
+- Update Djblets requirement to 0.6.4
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5-rc-2/
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 1.5-14.rc1.1
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
