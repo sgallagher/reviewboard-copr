@@ -2,12 +2,12 @@
 
 Name:           ReviewBoard
 Version:        1.5
-Release:        16.rc2%{?dist}
+Release:        17%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}rc2.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -38,7 +38,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}rc2
+%setup -q -n %{name}-%{version}
 %patch1000 -p1
 
 %build
@@ -77,6 +77,11 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Oct 01 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-17
+- Release ReviewBoard 1.5 final
+- Full release notes:
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5/
+
 * Mon Sep 20 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-16.rc2
 - Fix specfile typo causing build break
 
