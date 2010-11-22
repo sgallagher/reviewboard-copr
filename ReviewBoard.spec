@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5
-Release:        17%{?dist}
+Version:        1.5.1
+Release:        18%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.6.4
+Requires:       python-djblets >= 0.6.6
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -23,7 +23,7 @@ Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments >= 1.1.1
-Requires:       django-evolution >= 0.5
+Requires:       django-evolution >= 0.6.2
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
@@ -77,6 +77,52 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Nov 22 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5.1-18
+- New Features
+-      Permission denied errors are shown when accessing unreachable local Git
+-      repositories. (Bug #1765)
+-      Previously, if a Git repository was used and there wasn’t sufficient
+-      file permissions to access it, a vague error saying that the repository
+-      was unreachable would appear. Now we check to find out if it’s a
+-      permissions error, and display an appropriate error message.
+- Performance Improvements
+-      Reduce the number of SQL queries in the legacy JSON API.
+-      Some of the legacy API handlers performed more queries than necessary.
+-      We now perform fewer queries. Patch by Ben Hollis.
+- Bug Fixes
+-      Fixed several small problems in the Admin UI from bundling Django media
+-      files.
+-      For historical reasons, we’ve always shipped the Django Admin media
+-      files as part of Review Board. This comes from a time before rb-site
+-      existed, when we needed a single media directory with everything inside
+-      it. However, it just introduces various compatibility problems these
+-      days. We now make use of the media files that are installed with Django
+-      Fixed a breakage in the diff viewer with SCons files. (Bug #1864)
+-      Any SCons files put up for review would break the diff viewer, due to a
+-      typo when looking up information on that type of file.
+-      Added the Parent Diff field to the New Review Request page. (Bug #1651)
+-      The Parent Diff field was missing for Git, Bazaar, and Mercurial,
+-      making it impossible to upload a parent diff through the web UI when
+-      creating a new review request.
+-      Fixed some common installation problems with the generated
+-      lighttpd.conf file. (Bug #1618, Bug #1639)
+-      Several installs with lighttpd would give 404 Not Found errors, due to
+-      some configuration problems in the sample config file.
+-      Fixed support for multiple e-mail addresses assigned to a group.
+-      (Bug #1661)
+-      Multiple e-mail addresses for a group were supported, but broken in
+-      1.5. We now split them out properly.
+-      The screenshot area is no longer hidden immediately after uploading a
+-      screenshot.
+-      Fixed an error in the web API when serializing to XML.
+-      Fixed broken intervals for search updating in the generated crontab
+-      file.
+-      The intervals would cause a full index to happen at every minute at 2AM
+-      on Sundays, rather than only at 2AM.
+-      Fixed an error when permanently deleting a review request.
+-      The administrator-specific ability to permanently delete a review
+-      request would succeed but generate an error page.
+
 * Fri Oct 01 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-17
 - Release ReviewBoard 1.5 final
 - Full release notes:
