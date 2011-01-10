@@ -1,0 +1,27 @@
+From 8f44b649e53ef72aad1ab6196479dab68852a9d7 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Mon, 10 Jan 2011 11:18:47 -0500
+Subject: [PATCH 2/2] Notify WSGI users that config changes are needed
+
+---
+ reviewboard/cmdline/rbsite.py |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
+index a7917d87a19e8da64326efeffce512ea9bbf79fa..c94a1933c65b4f1e0ea935ad89bd7d90c5e19031 100755
+--- a/reviewboard/cmdline/rbsite.py
++++ b/reviewboard/cmdline/rbsite.py
+@@ -1530,6 +1530,10 @@ class UpgradeCommand(Command):
+             print "    SetEnv HOME %s" % os.path.join(site.abs_install_dir,
+                                                       "data")
+ 
++        print "If you are upgrading from version 1.5.1 or older and are running ReviewBoard on mod_wsgi,"
++        print "you need to update your Apache configuration as described at:"
++        print "http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.2/#important-updates"
++
+ 
+ class ManageCommand(Command):
+     """
+-- 
+1.7.3.4
+
