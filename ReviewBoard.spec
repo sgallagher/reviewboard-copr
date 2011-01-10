@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.1
-Release:        18%{?dist}
+Version:        1.5.2
+Release:        19%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -12,8 +12,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-Requires:       Django >= 1.1.1
-Requires:       python-djblets >= 0.6.6
+Requires:       Django >= 1.1.3
+Requires:       python-djblets >= 0.6.7
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -72,11 +72,56 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
+%{_bindir}/rbssh
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jan 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-19
+- Important Updates
+-     Users using existing WSGI configurations must update their configuration
+-     for authentication with the new API to work.
+- New Features
+-     Added SSH key management for SSH-backed repositories
+-     Authentication failures when setting up repositories are now more useful
+-     Added our own SSH replacement for standardizing on behavior and working
+-     around OpenSSH limitations
+-     The Repository page in the administration UI now talks about API Tokens
+-     and links to the GitHub Account page for Git repositories, making it
+-     easier to set up a GitHub repository
+- API Fixes
+-     Fixed logging in on requests using HTTP Basic Auth
+-     Fixed wrong responses when performing a request requiring authentication
+-     as an anonymous user
+-     Fixed anonymous access to the API when anonymous access is enabled
+-     Fixed replies to screenshot comments in the new web API
+-     Fixed removing screenshots from review requests
+-     Changed the request when doing a HTTP PUT on a review request draft
+-     Fixed search queries in /api/users/
+- Bug Fixes
+-     Fixed a problem with SSH host checking on Git repositories
+-     Fixed support for private GitHub repositories
+-     The API Token for GitHub repositories are now extracted properly in the
+-     Repository page in the administration UI
+-     Fixed extra whitespace highlight toggling
+-     Images on the dashboard are now cached, reducing the number of requests
+-     made to the server
+-     Disabled auto-complete and default values for the repository
+-     username/password fields
+-     Support for Amazon S3 now works again with new versions of Django
+-     Storages
+-     Authentication with the new API now works with new Apache+wsgi setups
+-     Fixed some rewrite rule for fastcgi
+-     Fix 404 errors with newly generated lighttpd.conf files
+-     Fixed errrors when passing a non-integer value for ?show_submitted= on
+-     the dashboard or other review request listings
+-     Fixed a crash when attempting to log SSH-related problems
+-     The contributed svn-hook-postcommit-review script wasn't parsing the
+-     base path correctly
+- Release Notes
+-     http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.2/
+
 * Mon Nov 22 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5.1-18
 - New Features
 -      Permission denied errors are shown when accessing unreachable local Git
