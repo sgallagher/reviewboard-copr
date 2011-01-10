@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5.2
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -29,7 +29,8 @@ Requires:       python-paramiko
 Requires:       python-memcached
 Requires:       python-dateutil
 
-Patch1000: FED01-Disable-ez_setup-when-installing-by-RPM.patch
+Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
+Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -39,7 +40,8 @@ of the stress and time out of the code review process.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1000 -p1
+%patch1001 -p1
+%patch1002 -p1
 
 %build
 %{__python} setup.py build
@@ -78,6 +80,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jan 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-20
+- Add message to upgrade script to alert users that manual edits may be
+- required if using mod_wsgi
+
 * Mon Jan 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-19
 - Important Updates
 -     Users using existing WSGI configurations must update their configuration
