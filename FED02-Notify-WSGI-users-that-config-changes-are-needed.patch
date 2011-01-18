@@ -1,23 +1,50 @@
-From 8f44b649e53ef72aad1ab6196479dab68852a9d7 Mon Sep 17 00:00:00 2001
+From 02be4fe37e86b451f7830176ce73c0e901027f21 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Mon, 10 Jan 2011 11:18:47 -0500
 Subject: [PATCH 2/2] Notify WSGI users that config changes are needed
 
+When upgrading from 1.5.1 or older, we should inform users that
+changes are required to their WSGI configuration to support the
+API properly
 ---
- reviewboard/cmdline/rbsite.py |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ reviewboard/cmdline/rbsite.py |   15 +++++++++++++++
+ 1 files changed, 15 insertions(+), 0 deletions(-)
 
 diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
-index a7917d87a19e8da64326efeffce512ea9bbf79fa..c94a1933c65b4f1e0ea935ad89bd7d90c5e19031 100755
+index a7917d87a19e8da64326efeffce512ea9bbf79fa..0d204a6ca1876746be78f5e35b39e37d8e906d2c 100755
 --- a/reviewboard/cmdline/rbsite.py
 +++ b/reviewboard/cmdline/rbsite.py
-@@ -1530,6 +1530,10 @@ class UpgradeCommand(Command):
+@@ -1500,12 +1500,19 @@ class UpgradeCommand(Command):
+ 
+     def run(self):
+         site.setup_settings()
++        os.environ["DJANGO_SETTINGS_MODULE"] = "reviewboard.settings"
+ 
+         data_dir_exists = os.path.exists(os.path.join(site.install_dir, "data"))
+ 
+         print "Rebuilding directory structure"
+         site.rebuild_site_directory()
+ 
++        from djblets.siteconfig.models import SiteConfiguration
++        siteconfig = SiteConfiguration.objects.get_current()
++        print "Upgrading from version %s" % str(siteconfig.version)
++
++        version = [int(x) for x in siteconfig.version.split(' ')[0].split('.')]
++
+         if options.upgrade_db:
+             print "Updating database. This may take a while."
+             site.sync_database()
+@@ -1530,6 +1537,14 @@ class UpgradeCommand(Command):
              print "    SetEnv HOME %s" % os.path.join(site.abs_install_dir,
                                                        "data")
  
-+        print "If you are upgrading from version 1.5.1 or older and are running ReviewBoard on mod_wsgi,"
-+        print "you need to update your Apache configuration as described at:"
-+        print "http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.2/#important-updates"
++        if version[0] < 1 or (version[0] == 1 and (version[1] < 5 or (version[1] == 5 and version[2] < 2))):
++            print "############################################################################################"
++            print "# Warning: your configuration may require an update                                        #"
++            print "# If you are running ReviewBoard on mod_wsgi, you need to update your Apache configuration #"
++            print "# as described at:                                                                         #"
++            print "# http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.2/#important-updates    #"
++            print "############################################################################################"
 +
  
  class ManageCommand(Command):

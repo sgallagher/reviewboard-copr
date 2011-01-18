@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5.2
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -52,8 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 # --skip-build causes bad stuff in siteconfig.py as of 0.8.4
 %{__python} setup.py install --skip-build --root $RPM_BUILD_ROOT
 
-# manage.py has a shebang and is meaningful to run; make it executable:
+# These scripts have a shebang and are meaningful to run; make them executable:
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
+chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbssh.py
+chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbsite.py
 
 # RHEL 5 packages don't have egg-info files, so remove the requires.txt
 # It isn't needed, because RPM will guarantee the dependency itself
@@ -62,6 +64,10 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
 %endif
 %endif
+
+# Remove test data from the installed packages
+rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
+       $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/scmtools/testdata
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,6 +86,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Jan 18 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-21
+- Change mod_wsgi notification patch to the version submitted upstream
+- This warning will now only be displayed if upgrading from an affected
+- version, rather than on all upgrades.
+- Don't install files used only for test purposes
+
 * Mon Jan 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-20
 - Add message to upgrade script to alert users that manual edits may be
 - required if using mod_wsgi
@@ -198,7 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add missing Requires: python-dateutil
 
 * Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-13.rc1
-- Specfile change: more specific %files section
+- Specfile change: more specific %%files section
 
 * Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-12.rc1
 - Added support for the iPhone and iPad
