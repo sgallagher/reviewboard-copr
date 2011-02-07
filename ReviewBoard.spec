@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.2
-Release:        21%{?dist}
+Version:        1.5.3
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -86,6 +86,15 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Feb 07 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.3-1
+- New upstream release 1.5.3
+- Added support for matching repository names instead of paths with RBTools
+- 0.3.1
+- Fixed many compatibility issues with the new SSH implementation
+- Removed some spurious print statements causing mod_wsgi to have problems
+- The Search Index setting in the administration UI now validates the path
+- to ensure that it’s an absolute path, it exists, and it’s writeable
+
 * Tue Jan 18 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.2-21
 - Change mod_wsgi notification patch to the version submitted upstream
 - This warning will now only be displayed if upgrading from an affected
