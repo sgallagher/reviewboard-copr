@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.3
-Release:        2%{?dist}
+Version:        1.5.4
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -86,6 +86,25 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Feb 21 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.4-1
+- New upstream release 1.5.4
+- Added API support for creating/updating/removing repositories
+- Added API for change number-related updates
+- Fix validation problems with the Search Index settings in the
+- Administration UI
+- Comments begining in expanded regions of a diff and ending in
+- collapsed regions should no longer break the diff viewer
+- Usernames with @ in the name (such as when using e-mail addresses
+- as usernames) are now allowed
+- IntelliJ-generated SVN diffs should now be parsed properly
+- The update_changenum method in the old API no longer returns an
+- HTTP 500 error
+- When replying to a review, names containing an apostrophe are no
+- longer displayed incorrectly
+- Using a bug number on a review request without a repository no
+- longer causes an HTTP 500 error
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.4/
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.5.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
