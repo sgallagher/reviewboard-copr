@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.4
+Version:        1.5.5
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -57,13 +57,12 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbssh.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbsite.py
 
-# RHEL 5 packages don't have egg-info files, so remove the requires.txt
-# It isn't needed, because RPM will guarantee the dependency itself
-%if 0%{?rhel} > 0
-%if 0%{?rhel} <= 5
+# The requires.txt file isn't needed, because RPM will guarantee the
+# dependency itself. Furthermore, upstream's requires.txt has workarounds
+# to handle easy_install that cause problems with RPM (notably, an exact
+# version requirement on python-dateutil==1.5 to prevent auto-updating to
+# the python3-only python-dateutil 2.0)
 rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
-%endif
-%endif
 
 # Remove test data from the installed packages
 rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
@@ -86,6 +85,31 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Mar 30 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.5-1
+- New upstream release 1.5.5
+- Added a Show SSH Public Key link in the Add/Change Repository page
+- Added timezone information to the Server Information resource API
+- New installs no longer try to install python-dateutil 2.0, which only
+- supports Python 3. This would cause errors during use
+- Fix image links in HTML e-mails
+- Fixed errors when using the same change number on different repositories
+- Fixed some problems caching diffs on memcached. The generated cache keys
+- would sometimes be invalid
+- The diff viewer no longer crashes when trying to find a method name near the
+- end of the file
+- Turned off resizing of text areas on Google Chrome
+- The administration page could break when trying to load the Amazon S3
+- settings
+- Fixed importing PIL (Python Imaging Library) on some installs
+- Better handle errors during syntax highlighting
+- Optimize the starring feature in the dashboard. This simplifies the
+- JavaScript and reduces the HTML file size
+- rbssh now uses the current user’s username as a default when connecting to
+- a repository. This doesn't really affect repository access in Review Board
+- except under very specific circumstances, but is mostly for testing on the
+- command line
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.5/
+
 * Mon Feb 21 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.4-1
 - New upstream release 1.5.4
 - Added API support for creating/updating/removing repositories
