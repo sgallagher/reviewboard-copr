@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.4
-Release:        1%{?dist}
+Version:        1.6
+Release:        1%{?dist}.beta1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-Requires:       Django >= 1.1.3
+Requires:       Django >= 1.2.4
 Requires:       python-djblets >= 0.6.7
 Requires:       python-imaging
 Requires:       httpd
@@ -22,7 +22,7 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.1.1
+Requires:       python-pygments >= 1.3.1
 Requires:       django-evolution >= 0.6.2
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
@@ -86,6 +86,35 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Mar 30 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-1.beta1
+- New upstream beta release
+- Site divisions within Review Board
+- Invite-only groups
+- Hidden groups
+- Access control on repositories
+- Collapsible reviews
+- One-click Ship It!
+- Delete detection for Git and Perforce
+- The review request ID is now displayed under the summary on the review
+- request
+- Added error messages when typing an invalid reviewer (user or group). Prior
+- to this, the invalid reviewer would just disappear from the list, leaving no
+- indication that it was wrong
+- Plastic SCM support
+- Better custom authentication backends
+- Improved user page
+- User info bubble
+- Better DKIM support for e-mails
+- Searching by change numbers now works. This may require a full reindex
+- The dashboard is now much faster
+- Reduced the number of round trips to the database when loading the diff
+- viewer
+- The old 1.0 API has been removed
+- The old iPhone interface has been removed
+- Review Board now depends on Django 1.2
+- The entire web UI has been updated to use the new API
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-beta-1/
+
 * Mon Feb 21 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.4-1
 - New upstream release 1.5.4
 - Added API support for creating/updating/removing repositories
