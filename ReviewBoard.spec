@@ -7,12 +7,12 @@ Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-Requires:       Django >= 1.2.4
+Requires:       Django >= 1.3
 Requires:       python-djblets >= 0.6.7
 Requires:       python-imaging
 Requires:       httpd
@@ -39,7 +39,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}beta1
 %patch1001 -p1
 %patch1002 -p1
 
@@ -57,13 +57,12 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbssh.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbsite.py
 
-# RHEL 5 packages don't have egg-info files, so remove the requires.txt
-# It isn't needed, because RPM will guarantee the dependency itself
-%if 0%{?rhel} > 0
-%if 0%{?rhel} <= 5
+# The requires.txt file isn't needed, because RPM will guarantee the
+# dependency itself. Furthermore, upstream's requires.txt has workarounds
+# to handle easy_install that cause problems with RPM (notably, an exact
+# version requirement on python-dateutil==1.5 to prevent auto-updating to
+# the python3-only python-dateutil 2.0)
 rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
-%endif
-%endif
 
 # Remove test data from the installed packages
 rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \

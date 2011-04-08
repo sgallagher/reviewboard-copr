@@ -1,4 +1,4 @@
-From 02be4fe37e86b451f7830176ce73c0e901027f21 Mon Sep 17 00:00:00 2001
+From 6d78366500e105fb435da2250a3fe165faff00c5 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Mon, 10 Jan 2011 11:18:47 -0500
 Subject: [PATCH 2/2] Notify WSGI users that config changes are needed
@@ -11,10 +11,10 @@ API properly
  1 files changed, 15 insertions(+), 0 deletions(-)
 
 diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
-index a7917d87a19e8da64326efeffce512ea9bbf79fa..0d204a6ca1876746be78f5e35b39e37d8e906d2c 100755
+index d07f7590695f8c20a6c7501f86fe449135e1ef17..345d6f7c72c30d2004a32426643ced199fd0de54 100755
 --- a/reviewboard/cmdline/rbsite.py
 +++ b/reviewboard/cmdline/rbsite.py
-@@ -1500,12 +1500,19 @@ class UpgradeCommand(Command):
+@@ -1575,6 +1575,7 @@ class UpgradeCommand(Command):
  
      def run(self):
          site.setup_settings()
@@ -22,8 +22,9 @@ index a7917d87a19e8da64326efeffce512ea9bbf79fa..0d204a6ca1876746be78f5e35b39e37d
  
          data_dir_exists = os.path.exists(os.path.join(site.install_dir, "data"))
  
-         print "Rebuilding directory structure"
-         site.rebuild_site_directory()
+@@ -1585,6 +1586,12 @@ class UpgradeCommand(Command):
+             print "Upgrading site settings_local.py"
+             site.upgrade_settings()
  
 +        from djblets.siteconfig.models import SiteConfiguration
 +        siteconfig = SiteConfiguration.objects.get_current()
@@ -34,7 +35,7 @@ index a7917d87a19e8da64326efeffce512ea9bbf79fa..0d204a6ca1876746be78f5e35b39e37d
          if options.upgrade_db:
              print "Updating database. This may take a while."
              site.sync_database()
-@@ -1530,6 +1537,14 @@ class UpgradeCommand(Command):
+@@ -1609,6 +1616,14 @@ class UpgradeCommand(Command):
              print "    SetEnv HOME %s" % os.path.join(site.abs_install_dir,
                                                        "data")
  
@@ -50,5 +51,5 @@ index a7917d87a19e8da64326efeffce512ea9bbf79fa..0d204a6ca1876746be78f5e35b39e37d
  class ManageCommand(Command):
      """
 -- 
-1.7.3.4
+1.7.4
 
