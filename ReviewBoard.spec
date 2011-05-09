@@ -2,12 +2,12 @@
 
 Name:           ReviewBoard
 Version:        1.6
-Release:        1%{?dist}.beta1
+Release:        2%{?dist}.beta2
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta1.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -39,7 +39,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta1
+%setup -q -n %{name}-%{version}beta2
 %patch1001 -p1
 %patch1002 -p1
 
@@ -85,6 +85,74 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon May 09 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-2.beta2
+- This release contains all bug fixes and features found in Review Board
+- version 1.5.5.
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.5/
+- Important Upgrade Notes
+-   * The generated settings_local.py file for new sites in 1.6 beta 1 had a
+-     shortened version of the database engine path (stored in ENGINE). This
+-     is deprecated. We now generate the full path.
+-   * Sites created in 1.6 beta 1 may need adjustment to be compatible with
+-     future versions of Django. Locate the line with 'ENGINE:' '<name>' and
+-     prefix django.db.backends. before <name>
+- New Features
+-   * Added basic issue tracking support for comments and reviews
+-   * Added a quick search field
+-   * Review draft banners now stay on screen while the review is shown
+-   * Added support for e-mailing administrators when new users register
+-   * Aded move/rename information in the diff viewer
+-   * Added support for copy/rename information in git-style diffs on
+-     Mercurial
+-   * Added X-ReviewGroup headers for e-mails, improving e-mail filtering
+-   * Added a brand new Clear Case implementation
+-   * SSH keys can now be defined per-Local Site.
+-     * This means if a server has a Review Board instance partitioned into
+-       two Local Sites, each can have their own SSH keys configured
+- Removed Features
+-   * Removed RSS/Atom feed support (never referenced)
+- API Changes
+-   * Added API for getting change descriptions
+-   * Added a quick search API for retrieving basic searchable information
+-   * Draft resources weren’t always being fetched correctly, returning 404s
+-   * Links in resources on Local Sites are no longer broken
+- Bug Fixes
+-   * Fixed compatibility with Django 1.3
+-   * The groups box in the user preferences page is no longer displayed if
+-     there are no groups to join
+-   * Increased the size of the text field son the New Review Request page.
+-     They’re now the width of the page
+-   * Git patches containing new or deleted files would not have all the
+-     information preserved in the downloaded diff
+-   * Saving a review request in the admin UI no longer fails due to a blank
+-     Local ID field
+-   * Table captions in the admin dashboard were scrambled on Google Chrome
+-   * Review Board no longer breaks when set up with mod_wsgi without
+-     mod_python installed
+-   * The starred reviews counts weren't incremented properly. This would
+-     cause removing a star to show a negative count in the dashboard
+-   * The incoming group counts on the dashboard weren’t always updated
+-     properly
+-   * Both the groups and people reviewer auto-complete lists now have a
+-     “Press Tab to auto-complete” footer at the bottom of the list.
+-     Previously, only one of the lists had this.
+-   * Fixed a breakage when reporting errors on failed diffs
+-   * The proper user information on the user page wasn't correct. The logged
+-     in user was being shown instead of the user represented by the URL
+-   * Newly uploaded screenshots are no longer shown on the review request
+-     until the draft is published. Since 1.0, we’ve always shown whether or
+-     not they were intended to be public
+-   * Draft captions for screenshots are now properly displayed on the review
+-     request page. Previously, we’d show the original caption
+-   * Editing a caption for a screenshot properly saves it again
+-   * The order of values in the change descriptions were seemingly random.
+-     This affected such fields as bug numbers and reviewers. Now they
+-     maintain the order shown in the actual fields
+-   * Fixed a usability problem with the user infobox
+-   * Fixed visual issues in the user infobox on Google Chrome
+-   * Fixed several problems with commenting and saving reviews
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-beta-2/
+
 * Wed Mar 30 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-1.beta1
 - New upstream beta release
 - Site divisions within Review Board
