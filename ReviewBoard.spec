@@ -2,12 +2,12 @@
 
 Name:           ReviewBoard
 Version:        1.6
-Release:        2%{?dist}.beta2
+Release:        3%{?dist}.beta2.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.1.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -31,6 +31,7 @@ Requires:       python-dateutil
 
 Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
+Patch1003: FED03-Change-default-cache-file-path.patch
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -39,9 +40,10 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta2
+%setup -q -n %{name}-%{version}beta2.1
 %patch1001 -p1
 %patch1002 -p1
+%patch1003 -p1
 
 %build
 %{__python} setup.py build
@@ -85,6 +87,11 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Jun 17 2011 Stepgen Gallagher <sgallagh@redhat.com> - 1.6-3.beta2.1
+- Fix serious upgrade bug from 1.6beta1
+- Resolves: rhbz#598463 - rb-site suggests that I use an unsafe temporary
+-                         directory
+
 * Mon May 09 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-2.beta2
 - This release contains all bug fixes and features found in Review Board
 - version 1.5.5.

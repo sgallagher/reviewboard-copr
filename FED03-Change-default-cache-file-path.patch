@@ -1,0 +1,40 @@
+From 06ff349cab6d6597f7f38e9b5fbe7f6cc0b45457 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Fri, 17 Jun 2011 15:50:05 -0400
+Subject: [PATCH 3/3] Change default cache file path
+
+FHS requirement
+---
+ contrib/conf/settings_local.py.tmpl |    2 +-
+ reviewboard/cmdline/rbsite.py       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/contrib/conf/settings_local.py.tmpl b/contrib/conf/settings_local.py.tmpl
+index a2773ffb9ba4ad0b44d1d0868e15db5a692ce1b4..3db98dc5d7d82065d36dc0c15f53058e383099f4 100644
+--- a/contrib/conf/settings_local.py.tmpl
++++ b/contrib/conf/settings_local.py.tmpl
+@@ -14,7 +14,7 @@ SECRET_KEY = '***********************************************'
+ # In most Installations, memcached is the best option. Development
+ # installations can get away with a file-based or local memory cache.
+ #
+-# CACHE_BACKEND = 'file:///tmp/reviewboard_cache?max_entries=5000'
++# CACHE_BACKEND = 'file:///var/cache/reviewboard/cache?max_entries=5000'
+ # CACHE_BACKEND = 'memcached://localhost:11211//'
+ CACHE_BACKEND = 'locmem:///'
+ 
+diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
+index 0d204a6ca1876746be78f5e35b39e37d8e906d2c..2fd1e7e8fec56cd62e2522f34fcbe28a59d04154 100755
+--- a/reviewboard/cmdline/rbsite.py
++++ b/reviewboard/cmdline/rbsite.py
+@@ -1386,7 +1386,7 @@ class InstallCommand(Command):
+                        is_visible_func=lambda: site.cache_type == "file")
+ 
+         ui.prompt_input(page, "Cache Directory",
+-                        site.cache_info or "/tmp/reviewboard_cache",
++                        site.cache_info or "/var/cache/reviewboard/cache",
+                         normalize_func=lambda value: "file://" + value,
+                         save_obj=site, save_var="cache_info")
+ 
+-- 
+1.7.5.4
+
