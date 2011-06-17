@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -31,6 +31,7 @@ Requires:       python-dateutil
 
 Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
+Patch1003: FED03-Change-default-cache-file-path.patch
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -85,6 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Jun 17 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.5-2
+- Resolves: rhbz#598463 - rb-site suggest that I use an unsafe temporary
+-                         directory
+
 * Wed Mar 30 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.5-1
 - New upstream release 1.5.5
 - Added a Show SSH Public Key link in the Add/Change Repository page
