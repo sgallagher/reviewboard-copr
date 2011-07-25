@@ -2,18 +2,18 @@
 
 Name:           ReviewBoard
 Version:        1.6
-Release:        3%{?dist}.beta2.1
+Release:        5%{?dist}.rc2
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}beta2.1.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}rc2.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.3
-Requires:       python-djblets >= 0.6.7
+Requires:       python-djblets >= 0.6.8
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -22,8 +22,8 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.3.1
-Requires:       django-evolution >= 0.6.2
+Requires:       python-pygments >= 1.4
+Requires:       django-evolution >= 0.6.4
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
@@ -40,7 +40,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta2.1
+%setup -q -n %{name}-%{version}rc2
 %patch1001 -p1
 %patch1002 -p1
 %patch1003 -p1
@@ -87,7 +87,92 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
-* Fri Jun 17 2011 Stepgen Gallagher <sgallagh@redhat.com> - 1.6-3.beta2.1
+* Mon Jul 25 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-5.rc2
+http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-rc-2/
+- New Features
+-   File attachment comments
+-   File attachment drag-and-drop
+-   Added close descriptions to review requests
+-   Added alerts whenever leaving a page would cause data loss
+-   Added confirmation when canceling a field with new changes
+-   Added a Control-S shortcut to save the field you’re editing
+-   Added support for HTTP Basic Auth for Git repositories when using the
+-   web-based raw file URL method
+-   Added stunnel support for Perforce
+-   Provide better instructions when manual updates to the server are required
+-   Added Gitorious as a hosting service for repositories
+-   Added People and Groups columns to the dashboard
+-   Added additional LDAP configuration for name attributes
+- Web API Changes
+-   Added a ?ship-it= parameter to the review requests list resource
+-   Added support for HTTP caching headers for resources
+-   Fixed accessing diff resources for closed review requests
+-   Errors accessing Perforce repositories are now reported in the web API
+- Bug Fixes
+-   Review request counts in the dashboard's sidebar should now be correct
+-   if they were broken in older releases
+-   LDAP referrals are now turned off
+-   Fixed JavaScript errors on Internet Explorer
+-   Fixed a JavaScript error when canceling a newly created, empty reply to a
+-   comment
+-   Fixed the star/unstar issue counts for review requests
+-   Fixed screenshot comment location problems on Chrome and Firefox
+-   Closing issues no longer changes the review timestamp
+-   The dashboard should no longer generate errors about id_list not being set
+-   Invalid bug tracker URLs (those with extra "%%s" or other format strings)
+-   no longer break review requests
+-   Trailing ) characters on links are no longer included in the link
+-   The proper screenshot caption is now shown after uploading a screenshot
+-   through the Add Screenshot button
+-   The issue tracker buttons ("Fixed" and "Discard") are no longer shown to
+-   all users, just to the owner of the review request
+-   Removed the unwanted "Uploaded files" label on review requests without
+-   file attachments
+-   The Expand Reviews button is no longer shown if there aren’t any reviews
+-   Fixed the name of the "recaptcha-client" dependency. This didn’t affect
+-   most users, but it was causing problems for some packagers
+- Feature Polish
+-   The user page now has a bit of polish, and looks closer to how the user
+-   hover bubble looks
+-   Updated the styles for the issue bars. The icons and color scheme have
+-   been tweaked a bit
+
+* Thu Jun 23 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-4.rc1
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-rc-1/
+- New Features
+-   Added generic file attachment
+-   Added support for private profiles
+-   Added support for private GitHub Organizations
+-   New review request notifications are now reflected in the page icon
+-   The "Discarded" and "Submitted" labels in the dashboard views now have
+-   their own distinct colors
+-   The Review Request Updated e-mails now clearly show when the summary,
+-   rather than the description, was changed
+- Performance Enhancements
+-   Sped up the rendering of the New Review Request page
+-   The rendering of syntax highlighting in diffs is now faster
+-   Reduced queries when looking up SCMTools in the database
+- Bug Fixes
+-   Fixed an error when attempting to show a changeset-related error during
+-   the creation of a review request
+-   Fixed a page breakage where a user profile was incorrectly assumed to
+-   exist when viewing a review request
+-   Clear Case wasn’t properly recognizing brand new files
+-   Fixed a Python 2.4 compatibility problem in Clear Case
+-   Fixed a breakage with Internet Explorer that was introduced in 1.6 beta 2
+-   Fixed a rare crash in rb-site on the memcached server location page
+-   Fixed an inconsistent recommendation in rb-site
+-   Fixed possible problems if a .ssh/authorized_keys file contained a bad
+-   line
+-   The new Quick Search results list no longer appears off-screen
+-   The log file no longer spews file locations on every new web server worker
+-   thread/process unless the log level is set to DEBUG
+-   Public servers not running in DEBUG mode would cause any HTTP 400 errors
+-   to e-mail the administrator
+- Internal Changes
+-   Review Board now depends on Django 1.3
+
+* Fri Jun 17 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-3.beta2.1
 - Fix serious upgrade bug from 1.6beta1
 - Resolves: rhbz#598463 - rb-site suggests that I use an unsafe temporary
 -                         directory
