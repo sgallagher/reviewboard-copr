@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.5
-Release:        2%{?dist}
+Version:        1.5.6
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.1.3
-Requires:       python-djblets >= 0.6.7
+Requires:       python-djblets >= 0.6.10
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -22,8 +22,8 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.1.1
-Requires:       django-evolution >= 0.6.2
+Requires:       python-pygments >= 1.4
+Requires:       django-evolution >= 0.6.5
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
@@ -43,6 +43,7 @@ of the stress and time out of the code review process.
 %setup -q -n %{name}-%{version}
 %patch1001 -p1
 %patch1002 -p1
+%patch1003 -p1
 
 %build
 %{__python} setup.py build
@@ -86,6 +87,54 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Aug 22 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.6-1
+- New upstream release 1.5.6
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.6/
+- New Features:
+-   The PATH environment variable is now shown in the error when patch.exe
+    can't be found, in order to help figure out where it needs to go
+-   rb-site more clearly informs that an existing database with valid
+    permissions is needed for installation
+-   rb-site now lists recommendations for different services, and lists
+    options that aren’t officially supported
+-   Tabs in the diff viewer are now marked up, allowing custom stylesheets to
+    display them differently. By default, they don’t look any different
+-   Added Fedora Hosted to the hosting provider options
+-   Editing a field and then canceling it on a review request now prompts for
+    confirmation before discarding the new text
+-   Control-S now saves the current text in review request fields
+-   We now support storing lots of text in the Description and Testing Done
+    fields on MySQL
+- Performance Improvements:
+-   Review Board now requires Pygments 1.4 or higher. Older installations
+    running older versions of Pygments should get a performance increase when
+    rendering diffs
+- Bug Fixes:
+-   Using Review Board with wsgi without mod_python installed on the system no
+    longer prevents Review Board from breaking
+-   Screenshot draft captions are now always displayed correctly. Previously,
+    only the main caption would display, making them appear blank on new
+    uploads
+-   Changing screenshot draft captions now invalidates the cache, allowing
+    them to be seen when reloading the page
+-   When sending an e-mail, we no longer crash if the sender has no e-mail
+    address
+-   Caching really long files or diffs now works more consistently.
+    Previously, it was possible for the data to not be stored correctly
+-   Fixed a date range calculation sometimes causing the log viewer to fail on
+    the first of the month
+-   Failing to load the Review Board News feed in the administration UI due to
+    a proxy will no longer cause an HTTP 500 error to display
+-   Invalid bug tracker URLs (those containing more than one %%s, for example)
+    in the administration UI no longer breaks review requests
+-   The Mercurial support no longer overrides the SSH client configuration if
+    one is already provided
+-   The recaptcha_client dependency has been renamed to recaptcha-client. Both
+    technically work, but the former is more correct and makes packaging
+    easier
+-   Fixed a few occasional errors that could show up on the dashboard under
+    certain conditions
+
 * Fri Jun 17 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.5-2
 - Resolves: rhbz#598463 - rb-site suggest that I use an unsafe temporary
 -                         directory
