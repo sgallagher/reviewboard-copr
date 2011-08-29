@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.5.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -22,7 +22,7 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.4
+Requires:       python-pygments >= 1.1.1
 Requires:       django-evolution >= 0.6.5
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
@@ -87,6 +87,11 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Aug 29 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.6-2
+- Fix python-pygments requirement
+- ReviewBoard will work with python-pygments >= 1.1.1, but performance may
+  be slower.
+
 * Mon Aug 22 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.6-1
 - New upstream release 1.5.6
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.6/
