@@ -1,19 +1,19 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6
-Release:        5%{?dist}.rc2
+Version:        1.6.1
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}rc2.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.6/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-Requires:       Django >= 1.3
-Requires:       python-djblets >= 0.6.8
+Requires:       Django >= 1.3.1
+Requires:       python-djblets >= 0.6.11
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -23,9 +23,9 @@ Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments >= 1.4
-Requires:       django-evolution >= 0.6.4
+Requires:       django-evolution >= 0.6.5
 Requires:       python-recaptcha-client
-Requires:       python-paramiko
+Requires:       python-paramiko >= 1.7.6
 Requires:       python-memcached
 Requires:       python-dateutil
 
@@ -40,7 +40,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}rc2
+%setup -q -n %{name}-%{version}
 %patch1001 -p1
 %patch1002 -p1
 %patch1003 -p1
@@ -87,6 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Sep 13 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.1-1
+- Security Updates:
+  * Review Board 1.6.1 now requires Django 1.3.1. Django 1.3.1 contains a
+    number of important security fixes.
+- Bug Fixes:
+  * Fixed the Dashboard counters showing up as 0 or negative numbers
+
 * Mon Jul 25 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6-5.rc2
 http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-rc-2/
 - New Features
