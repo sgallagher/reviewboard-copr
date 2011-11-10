@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.1
+Version:        1.6.2
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.3.1
-Requires:       python-djblets >= 0.6.11
+Requires:       python-djblets >= 0.6.14
 Requires:       python-imaging
 Requires:       httpd
 Requires:       python-sqlite
@@ -87,6 +87,36 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Nov 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.2-1
+- New upstream release
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.2/
+- New Features:
+-     Staff members can now access all Local Sites
+-     Auto-generated e-mails are now marked as "auto-generated" to avoid auto
+      replies
+- API Changes:
+-     Added API for deleting review groups
+-     Allow for archiving repositories
+- Bug Fixes:
+-     Fixed the default Apache WSGI configuration for subdirectory installs
+-     Added explicit permisisions in the default Apache configurations
+-     The favicon for the page is now properly switching to the "New Updates"
+      favicon on all browsers when there are review request updates
+-     Specifying bug numbers on review requests without a repository no longer
+      fails
+-     Fixed saving captions for newly added screenshots and files
+-     Fixed using special characters in SVN URLs
+-     Fixed Bazaar when pointing to a repository root that exists on the local
+      filesystem
+-     Clicking Cancel on an "Add comment" box now fully removes the box,
+      instead of leaving a bit of it behind
+-     Fixed dashboard counters for brand new review requests on Local Sites
+-     Group names in the dashboard are now ordered by name in the sidebar
+-     Fixed a hard-coded media URL for the "Expand All" button
+-     Fixed a problem with IE8 where the "Publish" button on comment dialogs
+      weren’t being shown
+-     Fixed API authentication failures when : was in the password
+
 * Tue Sep 13 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.1-1
 - Security Updates:
   * Review Board 1.6.1 now requires Django 1.3.1. Django 1.3.1 contains a
