@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.6
-Release:        2%{?dist}
+Version:        1.5.7
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -87,6 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Nov 15 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.7-1
+- New upstream security release 1.5.7
+- Security Fixes:
+-    A script injection vulnerability was discovered in the commenting system.
+     This affected the diff viewer and screenshot pages, and allowed a
+     commenter to break the page and execute JavaScript
+
 * Mon Aug 29 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.6-2
 - Fix python-pygments requirement
 - ReviewBoard will work with python-pygments >= 1.1.1, but performance may
