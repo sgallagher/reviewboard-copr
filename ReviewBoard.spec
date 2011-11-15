@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.2
+Version:        1.6.3
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -87,6 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Nov 15 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.3-1
+- New upstream security release 1.6.3
+- Security Fixes:
+    A script injection vulnerability was discovered in the commenting system.
+    This affected the diff viewer and screenshot pages, and allowed a
+    commenter to break the page and execute JavaScript
+
 * Thu Nov 10 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.2-1
 - New upstream release
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.2/
