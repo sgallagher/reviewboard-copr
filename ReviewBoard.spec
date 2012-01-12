@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Tue Nov 15 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.6.3-1
 - New upstream security release 1.6.3
 - Security Fixes:
