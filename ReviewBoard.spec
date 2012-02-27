@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.3
-Release:        2%{?dist}
+Version:        1.6.4
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -13,10 +13,9 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.3.1
-Requires:       python-djblets >= 0.6.14
+Requires:       python-djblets >= 0.6.16
 Requires:       python-imaging
 Requires:       httpd
-Requires:       python-sqlite
 Requires:       patchutils
 Requires:       pysvn
 Requires:       python-flup
@@ -28,6 +27,11 @@ Requires:       python-recaptcha-client
 Requires:       python-paramiko >= 1.7.6
 Requires:       python-memcached
 Requires:       python-dateutil
+
+# Pull in the client libraries for all of the supported databases
+Requires:       python-sqlite
+Requires:       MySQL-python
+Requires:       python-psycopg2
 
 Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
@@ -87,6 +91,43 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Feb 27 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4-1
+- New upstream release 1.6.4
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4/
+- New Features
+-   Added support for Codebase HQ as a hosting service
+-   Toggles for issue tracking now appear in the review dialog
+-   Added database dump/load management commands for rb-site
+-   Objective-C++ '.mm' files now show function/class headers in the diff
+    viewer, just like '.m' files
+- Web API Changes
+-   The web API now identifies resource payloads by resource-specific
+    mimetypes. These are JSON and XML-compatible, but contain specific
+    information that can be used by a consumer to identify the resource
+    without inspecting the path
+-   API requests that take a boolean parameter now accept true as a valid
+    value
+- Bug Fixes
+-   Fix problems with Git when changes are made to previously empty files
+-   Fix Basic HTTP auth issues when accessing remote Git or Mercurial
+    repositories
+-   Fix SPF compliance for e-mails
+-   Fixed potential KeyErrors when creating a repository without a path
+-   Prevent HTTP 500 errors if we receive badly encoded text during repository
+    validation
+-   Added validation for the cache backend setting
+-   Fixed global default reviewers on Local Sites
+-   Fixed encoding errors in the user infobox for users with unicode names
+-   Made the “Expand All” icon work in the review request page
+-   Fixed the help text for Git paths in the administration UI
+-   Improved the help text for the LDAP user mask field
+-   Show the correct review request ID in the "Review ID" column for Local
+    Sites
+-   The "Posted" date now shows up in the review request
+-   Duplicate CC headers on e-mails have been removed
+-   Fixed links to screenshots in e-mails
+-   Fixed a potential crash when using LDAP without fullName set
+
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
