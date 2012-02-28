@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.4
-Release:        1%{?dist}
+Version:        1.6.4.1
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -91,6 +91,16 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Feb 28 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4.1-2
+- New upstream minor release 1.6.4.1
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4.1/
+- Bug Fixes
+-   Fixed a crash with the Review ID column in the Dashboard when sorting by
+    ID
+-   Fixed validation of the cache backend when saving settings
+-   Increased the buffer size for memcached stats in order to accomodate
+    larger amounts of data
+
 * Mon Feb 27 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4-1
 - New upstream release 1.6.4
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4/
