@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.4.1
-Release:        2%{?dist}
+Version:        1.6.5
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -13,6 +13,8 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Requires:       Django >= 1.3.1
+# ReviewBoard 1.6 is not yet compatible with Django 1.4
+Conflicts:      Django >= 1.4
 Requires:       python-djblets >= 0.6.16
 Requires:       python-imaging
 Requires:       httpd
@@ -91,6 +93,21 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.5-1
+- New upstream release 1.6.5
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.5/
+- Important Updates
+-   ReviewBoard is not compatible with Django 1.4. I have specifically added
+    a conflict to the RPM to ensure that an appropriate version of Django is
+    installed
+- Web API Changes
+-   Fixed a breakage when querying for diff comments as an anonymous user
+- Bug Fixes
+-   Support parsing Git diffs with moved file information
+-   Fixed rendering issues on Internet Explorer 8, 9, and 10
+-   The source tarball now contains the documentation database, needed to
+    generate docs
+
 * Tue Feb 28 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4.1-2
 - New upstream minor release 1.6.4.1
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4.1/
