@@ -1,22 +1,23 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.5.7
+Version:        1.6.5
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.review-board.org/releases/%{name}/1.5/%{name}-%{version}.tar.gz
+Source0:        http://downloads.review-board.org/releases/%{name}/1.6/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-Requires:       Django >= 1.1.3
-Requires:       python-djblets >= 0.6.10
+Requires:       Django >= 1.3.1
+# ReviewBoard 1.6 is not yet compatible with Django 1.4
+Conflicts:      Django >= 1.4
+Requires:       python-djblets >= 0.6.16
 Requires:       python-imaging
 Requires:       httpd
-Requires:       python-sqlite
 Requires:       patchutils
 Requires:       pysvn
 Requires:       python-flup
@@ -28,6 +29,11 @@ Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
 Requires:       python-dateutil
+
+# Pull in the client libraries for all of the supported databases
+Requires:       python-sqlite
+Requires:       MySQL-python
+Requires:       python-psycopg2
 
 Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
@@ -87,6 +93,302 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.5-1
+- New upstream release 1.6.5
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.5/
+- Important Updates
+-   ReviewBoard is not compatible with Django 1.4. I have specifically added
+    a conflict to the RPM to ensure that an appropriate version of Django is
+    installed
+- Web API Changes
+-   Fixed a breakage when querying for diff comments as an anonymous user
+- Bug Fixes
+-   Support parsing Git diffs with moved file information
+-   Fixed rendering issues on Internet Explorer 8, 9, and 10
+-   The source tarball now contains the documentation database, needed to
+    generate docs
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4.1-2
+- New upstream minor release 1.6.4.1
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4.1/
+- Bug Fixes
+-   Fixed a crash with the Review ID column in the Dashboard when sorting by
+    ID
+-   Fixed validation of the cache backend when saving settings
+-   Increased the buffer size for memcached stats in order to accomodate
+    larger amounts of data
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.4-1
+- New upstream release 1.6.4
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.4/
+- New Features
+-   Added support for Codebase HQ as a hosting service
+-   Toggles for issue tracking now appear in the review dialog
+-   Added database dump/load management commands for rb-site
+-   Objective-C++ '.mm' files now show function/class headers in the diff
+    viewer, just like '.m' files
+- Web API Changes
+-   The web API now identifies resource payloads by resource-specific
+    mimetypes. These are JSON and XML-compatible, but contain specific
+    information that can be used by a consumer to identify the resource
+    without inspecting the path
+-   API requests that take a boolean parameter now accept true as a valid
+    value
+- Bug Fixes
+-   Fix problems with Git when changes are made to previously empty files
+-   Fix Basic HTTP auth issues when accessing remote Git or Mercurial
+    repositories
+-   Fix SPF compliance for e-mails
+-   Fixed potential KeyErrors when creating a repository without a path
+-   Prevent HTTP 500 errors if we receive badly encoded text during repository
+    validation
+-   Added validation for the cache backend setting
+-   Fixed global default reviewers on Local Sites
+-   Fixed encoding errors in the user infobox for users with unicode names
+-   Made the “Expand All” icon work in the review request page
+-   Fixed the help text for Git paths in the administration UI
+-   Improved the help text for the LDAP user mask field
+-   Show the correct review request ID in the "Review ID" column for Local
+    Sites
+-   The "Posted" date now shows up in the review request
+-   Duplicate CC headers on e-mails have been removed
+-   Fixed links to screenshots in e-mails
+-   Fixed a potential crash when using LDAP without fullName set
+
+* Fri Mar 30 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.3-1
+- New upstream security release 1.6.3
+- Security Fixes:
+    A script injection vulnerability was discovered in the commenting system.
+    This affected the diff viewer and screenshot pages, and allowed a
+    commenter to break the page and execute JavaScript
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.2-1
+- New upstream release
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.2/
+- New Features:
+-     Staff members can now access all Local Sites
+-     Auto-generated e-mails are now marked as "auto-generated" to avoid auto
+      replies
+- API Changes:
+-     Added API for deleting review groups
+-     Allow for archiving repositories
+- Bug Fixes:
+-     Fixed the default Apache WSGI configuration for subdirectory installs
+-     Added explicit permisisions in the default Apache configurations
+-     The favicon for the page is now properly switching to the "New Updates"
+      favicon on all browsers when there are review request updates
+-     Specifying bug numbers on review requests without a repository no longer
+      fails
+-     Fixed saving captions for newly added screenshots and files
+-     Fixed using special characters in SVN URLs
+-     Fixed Bazaar when pointing to a repository root that exists on the local
+      filesystem
+-     Clicking Cancel on an "Add comment" box now fully removes the box,
+      instead of leaving a bit of it behind
+-     Fixed dashboard counters for brand new review requests on Local Sites
+-     Group names in the dashboard are now ordered by name in the sidebar
+-     Fixed a hard-coded media URL for the "Expand All" button
+-     Fixed a problem with IE8 where the "Publish" button on comment dialogs
+      weren’t being shown
+-     Fixed API authentication failures when : was in the password
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.1-1
+- Security Updates:
+  * Review Board 1.6.1 now requires Django 1.3.1. Django 1.3.1 contains a
+    number of important security fixes.
+- Bug Fixes:
+  * Fixed the Dashboard counters showing up as 0 or negative numbers
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6-5.rc2
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-rc-2/
+- New Features
+-   File attachment comments
+-   File attachment drag-and-drop
+-   Added close descriptions to review requests
+-   Added alerts whenever leaving a page would cause data loss
+-   Added confirmation when canceling a field with new changes
+-   Added a Control-S shortcut to save the field you’re editing
+-   Added support for HTTP Basic Auth for Git repositories when using the
+-   web-based raw file URL method
+-   Added stunnel support for Perforce
+-   Provide better instructions when manual updates to the server are required
+-   Added Gitorious as a hosting service for repositories
+-   Added People and Groups columns to the dashboard
+-   Added additional LDAP configuration for name attributes
+- Web API Changes
+-   Added a ?ship-it= parameter to the review requests list resource
+-   Added support for HTTP caching headers for resources
+-   Fixed accessing diff resources for closed review requests
+-   Errors accessing Perforce repositories are now reported in the web API
+- Bug Fixes
+-   Review request counts in the dashboard's sidebar should now be correct
+-   if they were broken in older releases
+-   LDAP referrals are now turned off
+-   Fixed JavaScript errors on Internet Explorer
+-   Fixed a JavaScript error when canceling a newly created, empty reply to a
+-   comment
+-   Fixed the star/unstar issue counts for review requests
+-   Fixed screenshot comment location problems on Chrome and Firefox
+-   Closing issues no longer changes the review timestamp
+-   The dashboard should no longer generate errors about id_list not being set
+-   Invalid bug tracker URLs (those with extra "%%s" or other format strings)
+-   no longer break review requests
+-   Trailing ) characters on links are no longer included in the link
+-   The proper screenshot caption is now shown after uploading a screenshot
+-   through the Add Screenshot button
+-   The issue tracker buttons ("Fixed" and "Discard") are no longer shown to
+-   all users, just to the owner of the review request
+-   Removed the unwanted "Uploaded files" label on review requests without
+-   file attachments
+-   The Expand Reviews button is no longer shown if there aren’t any reviews
+-   Fixed the name of the "recaptcha-client" dependency. This didn’t affect
+-   most users, but it was causing problems for some packagers
+- Feature Polish
+-   The user page now has a bit of polish, and looks closer to how the user
+-   hover bubble looks
+-   Updated the styles for the issue bars. The icons and color scheme have
+-   been tweaked a bit
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6-4.rc1
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-rc-1/
+- New Features
+-   Added generic file attachment
+-   Added support for private profiles
+-   Added support for private GitHub Organizations
+-   New review request notifications are now reflected in the page icon
+-   The "Discarded" and "Submitted" labels in the dashboard views now have
+-   their own distinct colors
+-   The Review Request Updated e-mails now clearly show when the summary,
+-   rather than the description, was changed
+- Performance Enhancements
+-   Sped up the rendering of the New Review Request page
+-   The rendering of syntax highlighting in diffs is now faster
+-   Reduced queries when looking up SCMTools in the database
+- Bug Fixes
+-   Fixed an error when attempting to show a changeset-related error during
+-   the creation of a review request
+-   Fixed a page breakage where a user profile was incorrectly assumed to
+-   exist when viewing a review request
+-   Clear Case wasn’t properly recognizing brand new files
+-   Fixed a Python 2.4 compatibility problem in Clear Case
+-   Fixed a breakage with Internet Explorer that was introduced in 1.6 beta 2
+-   Fixed a rare crash in rb-site on the memcached server location page
+-   Fixed an inconsistent recommendation in rb-site
+-   Fixed possible problems if a .ssh/authorized_keys file contained a bad
+-   line
+-   The new Quick Search results list no longer appears off-screen
+-   The log file no longer spews file locations on every new web server worker
+-   thread/process unless the log level is set to DEBUG
+-   Public servers not running in DEBUG mode would cause any HTTP 400 errors
+-   to e-mail the administrator
+- Internal Changes
+-   Review Board now depends on Django 1.3
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6-3.beta2.1
+- Fix serious upgrade bug from 1.6beta1
+- Resolves: rhbz#598463 - rb-site suggests that I use an unsafe temporary
+-                         directory
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6-2.beta2
+- This release contains all bug fixes and features found in Review Board
+- version 1.5.5.
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.5.5/
+- Important Upgrade Notes
+-   * The generated settings_local.py file for new sites in 1.6 beta 1 had a
+-     shortened version of the database engine path (stored in ENGINE). This
+-     is deprecated. We now generate the full path.
+-   * Sites created in 1.6 beta 1 may need adjustment to be compatible with
+-     future versions of Django. Locate the line with 'ENGINE:' '<name>' and
+-     prefix django.db.backends. before <name>
+- New Features
+-   * Added basic issue tracking support for comments and reviews
+-   * Added a quick search field
+-   * Review draft banners now stay on screen while the review is shown
+-   * Added support for e-mailing administrators when new users register
+-   * Aded move/rename information in the diff viewer
+-   * Added support for copy/rename information in git-style diffs on
+-     Mercurial
+-   * Added X-ReviewGroup headers for e-mails, improving e-mail filtering
+-   * Added a brand new Clear Case implementation
+-   * SSH keys can now be defined per-Local Site.
+-     * This means if a server has a Review Board instance partitioned into
+-       two Local Sites, each can have their own SSH keys configured
+- Removed Features
+-   * Removed RSS/Atom feed support (never referenced)
+- API Changes
+-   * Added API for getting change descriptions
+-   * Added a quick search API for retrieving basic searchable information
+-   * Draft resources weren’t always being fetched correctly, returning 404s
+-   * Links in resources on Local Sites are no longer broken
+- Bug Fixes
+-   * Fixed compatibility with Django 1.3
+-   * The groups box in the user preferences page is no longer displayed if
+-     there are no groups to join
+-   * Increased the size of the text field son the New Review Request page.
+-     They’re now the width of the page
+-   * Git patches containing new or deleted files would not have all the
+-     information preserved in the downloaded diff
+-   * Saving a review request in the admin UI no longer fails due to a blank
+-     Local ID field
+-   * Table captions in the admin dashboard were scrambled on Google Chrome
+-   * Review Board no longer breaks when set up with mod_wsgi without
+-     mod_python installed
+-   * The starred reviews counts weren't incremented properly. This would
+-     cause removing a star to show a negative count in the dashboard
+-   * The incoming group counts on the dashboard weren’t always updated
+-     properly
+-   * Both the groups and people reviewer auto-complete lists now have a
+-     “Press Tab to auto-complete” footer at the bottom of the list.
+-     Previously, only one of the lists had this.
+-   * Fixed a breakage when reporting errors on failed diffs
+-   * The proper user information on the user page wasn't correct. The logged
+-     in user was being shown instead of the user represented by the URL
+-   * Newly uploaded screenshots are no longer shown on the review request
+-     until the draft is published. Since 1.0, we’ve always shown whether or
+-     not they were intended to be public
+-   * Draft captions for screenshots are now properly displayed on the review
+-     request page. Previously, we’d show the original caption
+-   * Editing a caption for a screenshot properly saves it again
+-   * The order of values in the change descriptions were seemingly random.
+-     This affected such fields as bug numbers and reviewers. Now they
+-     maintain the order shown in the actual fields
+-   * Fixed a usability problem with the user infobox
+-   * Fixed visual issues in the user infobox on Google Chrome
+-   * Fixed several problems with commenting and saving reviews
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-beta-2/
+
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6-1.beta1
+- New upstream beta release
+- Site divisions within Review Board
+- Invite-only groups
+- Hidden groups
+- Access control on repositories
+- Collapsible reviews
+- One-click Ship It!
+- Delete detection for Git and Perforce
+- The review request ID is now displayed under the summary on the review
+- request
+- Added error messages when typing an invalid reviewer (user or group). Prior
+- to this, the invalid reviewer would just disappear from the list, leaving no
+- indication that it was wrong
+- Plastic SCM support
+- Better custom authentication backends
+- Improved user page
+- User info bubble
+- Better DKIM support for e-mails
+- Searching by change numbers now works. This may require a full reindex
+- The dashboard is now much faster
+- Reduced the number of round trips to the database when loading the diff
+- viewer
+- The old 1.0 API has been removed
+- The old iPhone interface has been removed
+- Review Board now depends on Django 1.2
+- The entire web UI has been updated to use the new API
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6-beta-1/
+
 * Tue Nov 15 2011 Stephen Gallagher <sgallagh@redhat.com> - 1.5.7-1
 - New upstream security release 1.5.7
 - Security Fixes:
