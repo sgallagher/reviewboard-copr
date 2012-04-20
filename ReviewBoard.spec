@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.6.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -18,6 +18,8 @@ Conflicts:      Django >= 1.4
 Requires:       python-djblets >= 0.6.16
 Requires:       python-imaging
 Requires:       httpd
+Requires:       mod_wsgi
+Requires:       patch
 Requires:       patchutils
 Requires:       pysvn
 Requires:       python-flup
@@ -34,6 +36,11 @@ Requires:       python-dateutil
 Requires:       python-sqlite
 Requires:       MySQL-python
 Requires:       python-psycopg2
+
+# Pull in the tools for working with common repositories
+Requires:       git
+Requires:       subversion
+Requires:       mercurial
 
 Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
@@ -93,6 +100,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.5-2
+- Always pull in mod_wsgi
+- Pull in the tools for working with repositories
+
 * Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.5-1
 - New upstream release 1.6.5
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.5/
