@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.5
-Release:        2%{?dist}
+Version:        1.6.6
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -15,7 +15,7 @@ BuildRequires:  python-setuptools
 Requires:       Django >= 1.3.1
 # ReviewBoard 1.6 is not yet compatible with Django 1.4
 Conflicts:      Django >= 1.4
-Requires:       python-djblets >= 0.6.16
+Requires:       python-djblets >= 0.6.17
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -26,7 +26,7 @@ Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments >= 1.4
-Requires:       django-evolution >= 0.6.5
+Requires:       django-evolution >= 0.6.7
 Requires:       python-recaptcha-client
 Requires:       python-paramiko >= 1.7.6
 Requires:       python-memcached
@@ -100,6 +100,19 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Apr 25 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.6-1
+- New upstream release 1.6.6
+- New Features:
+-     Added a button for fetching GitHub API tokens
+-     Improved update bubbles
+-     Diffs larger than 1MB can no longer be uploaded
+-     Added a RB_EXTRA_APPS setting for settings.py
+- Web API Changes:
+-     Fixed the links in the FileDiff resource
+-     Added an error for diff uploading (code 219) when the diff is empty
+-     Added an error for diff uploading (code 220) when the diff is over 1MB
+      in size
+
 * Fri Mar 30 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.5-2
 - Always pull in mod_wsgi
 - Pull in the tools for working with repositories
