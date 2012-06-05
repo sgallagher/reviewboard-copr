@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.6
-Release:        2%{?dist}
+Version:        1.6.7
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -15,15 +15,16 @@ BuildRequires:  python-setuptools
 
 %if 0%{?fedora} > 17
 Requires:       python-django >= 1.3.1
-# ReviewBoard 1.6 is not yet compatible with Django 1.4
-Conflicts:      python-django >= 1.4
 %else
 Requires:       Django >= 1.3.1
-# ReviewBoard 1.6 is not yet compatible with Django 1.4
-Conflicts:      Django >= 1.4
 %endif
 
-Requires:       python-djblets >= 0.6.17
+# ReviewBoard 1.6 is not yet compatible with Django 1.4
+Conflicts:      Django >= 1.4
+Conflicts:      python-django >= 1.4
+
+
+Requires:       python-djblets >= 0.6.18
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -111,6 +112,24 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Jun 05 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.7-1
+- New upstream release 1.6.7
+- Important Updates:
+-     support the new method for authentication that we need in order to fetch
+      data from GitHub
+- New Features:
+-     Introduced a new model for hosting service integration
+-     Made the maximum diff size customizable
+-     Added Plastic SCM 4.0 compatibility
+- Web API Changes:
+-     Added a /api/hosting-service-accounts/ resource for querying existing
+      hosting service accounts and for linking new ones
+- Bug Fixes:
+-     Review Board no longer continues to show the Manual Updates page if the
+      problem is resolved
+-     Subversion now understands the $Header$ keyword
+-     Setting the issue status on deleted screenshots no longer fails
+
 * Wed Apr 25 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.6-2
 - Fix conflict with Django 1.4
 - Guarantee rebuild of .egg-info
