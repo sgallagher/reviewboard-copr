@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.7
-Release:        1%{?dist}
+Version:        1.6.7.1
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -112,6 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Jun 08 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.7.1-2
+- New upstream release 1.6.7.1
+- Fixed a database migration compatibility issue with certain versions of MySQL
+
 * Tue Jun 05 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.7-1
 - New upstream release 1.6.7
 - Important Updates:
