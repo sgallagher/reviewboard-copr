@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.7.1
-Release:        2%{?dist}
+Version:        1.6.8
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -112,6 +112,19 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jun 11 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.8-1
+- New upstream release 1.6.8
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.8/
+- Bug Fixes:
+-    The Account field for a hosting service for a repository now properly
+     loads the existing account when re-editing a repository or when showing
+     validation errors
+-    Fixed problems when using the "Use hosting service's bug tracker" setting
+-    Fixed a file fetching error with GitHub when using the New Review Request
+     form
+-    Improved the help text of some of the hosting service fields
+-    Fixed improper text in the File Not Found error when using GitHub
+
 * Fri Jun 08 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.7.1-2
 - New upstream release 1.6.7.1
 - Fixed a database migration compatibility issue with certain versions of MySQL
