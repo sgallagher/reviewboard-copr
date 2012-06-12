@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.8
+Version:        1.6.9
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -112,6 +112,18 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Jun 12 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.9-1
+- New upstream release 1.6.9
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.9/
+- New Features:
+-    When using a GitHub repository and there's only 100 API calls or less
+     available on GitHub for the hour, a warning with the number of API calls
+     left is logged
+- Bug Fixes:
+-    Fixed typing in entry fields in the diff viewer
+-    Fixed some issues with private repositories on GitHub
+-    Fixed creating review requests that aren't tied to repositories
+
 * Mon Jun 11 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.8-1
 - New upstream release 1.6.8
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.8/
