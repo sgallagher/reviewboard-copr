@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.6.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue Jun 12 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.9-1
 - New upstream release 1.6.9
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.9/
