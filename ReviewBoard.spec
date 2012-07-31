@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.9
-Release:        2%{?dist}
+Version:        1.6.11
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -14,9 +14,9 @@ BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 
 %if 0%{?fedora} > 17
-Requires:       python-django >= 1.3.1
+Requires:       python-django >= 1.3.2
 %else
-Requires:       Django >= 1.3.1
+Requires:       Django >= 1.3.2
 %endif
 
 # ReviewBoard 1.6 is not yet compatible with Django 1.4
@@ -24,7 +24,7 @@ Conflicts:      Django >= 1.4
 Conflicts:      python-django >= 1.4
 
 
-Requires:       python-djblets >= 0.6.18
+Requires:       python-djblets >= 0.6.22
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -51,7 +51,6 @@ Requires:       git
 Requires:       subversion
 Requires:       mercurial
 
-Patch1001: FED01-Disable-ez_setup-when-installing-by-RPM.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
 Patch1003: FED03-Change-default-cache-file-path.patch
 
@@ -63,7 +62,6 @@ of the stress and time out of the code review process.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1001 -p1
 %patch1002 -p1
 %patch1003 -p1
 
@@ -112,6 +110,42 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Jul 31 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.11-1
+- New upstream release 1.6.11
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.10/
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.11/
+- Drop upstreamed patch for disabling ez_setup
+- New Features:
+-     The "x minutes ago" timestamps now update live on the page
+-     Added a RB_EXTRA_MIDDLEWARE_CLASSES setting for settings_local.py
+- Performance Enhancements:
+-     Greatly tuned our database queries, session handling, and other bits of
+      logic, and this makes a noticeable impact on performance. All pages load
+      faster, particularly review requests, diffs, and the dashboard
+-     Reduced the number of queries for review requests with file attachments,
+      comments referencing inactive screenshots and file attachments, the
+      screenshot page, and review requests without a repository
+-     Reduced the number of queries on review requests with file attachments
+-     Reduced the number of queries when comments were referencing previously
+      removed screenshots or file attachments
+- API Changes:
+-     The new Hosting Service Account resource payload key has been changed
+      from hosting-service-account to hosting_service_account
+- Bug Fixes:
+-     Very large lines no longer slow Review Board to a crawl
+-     All errors that occur when verifying a repository should now be shown,
+      instead of causing an HTTP 500 error
+-     Closing or reopening an issue no longer causes excessive checks for
+      update notification bubbles
+-     Fixed compatibility issues with newer versions of Mercurial with version
+      numbers containing a + in them
+-     Mercurial no longer forces an HTTP URL for downloading files from a
+      repository when an HTTPS URL is specified
+-     Mercurial support on Google Code now works properly
+-     Fixed files in CVS that had v as the last character in the filename
+-     Fixed the order of displayed replies on a review
+-     SSH-backed repositories no longer break on some setups
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
