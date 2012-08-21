@@ -1,0 +1,31 @@
+From c58cada464dbb23473b71cb7ea5be118111bc179 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Tue, 21 Aug 2012 08:04:47 -0400
+Subject: [PATCH] Convert FedoraHosted hosting provider to cgit
+
+FedoraHosted has switched from GitWeb to CGit for performance
+---
+ reviewboard/hostingsvcs/fedorahosted.py | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/reviewboard/hostingsvcs/fedorahosted.py b/reviewboard/hostingsvcs/fedorahosted.py
+index 5c0ad2b21635b1dd313ec1731b00adc597adeea1..00c2825cc472922b5c1aa2a08b07e7f4e61b0739 100644
+--- a/reviewboard/hostingsvcs/fedorahosted.py
++++ b/reviewboard/hostingsvcs/fedorahosted.py
+@@ -23,10 +23,9 @@ class FedoraHosted(HostingService):
+         'Git': {
+             'path': 'git://git.fedorahosted.org/git/'
+                     '%(fedorahosted_repo_name)s.git',
+-            'raw_file_url': 'http://git.fedorahosted.org/git/?p='
+-                            '%(fedorahosted_repo_name)s.git;'
+-                            'a=blob_plain;'
+-                            'f=<filename>;h=<revision>'
++            'raw_file_url': 'http://git.fedorahosted.org/cgit/'
++                            '%(fedorahosted_repo_name)s.git/tree/'
++                            '<filename>?id2=<revision>'
+         },
+         'Mercurial': {
+             'path': 'http://hg.fedorahosted.org/hg/'
+-- 
+1.7.11.4
+

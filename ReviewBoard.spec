@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.6.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -51,6 +51,7 @@ Requires:       git
 Requires:       subversion
 Requires:       mercurial
 
+Patch1001: FED01-Convert-FedoraHosted-hosting-provider-to-cgit.patch
 Patch1002: FED02-Notify-WSGI-users-that-config-changes-are-needed.patch
 Patch1003: FED03-Change-default-cache-file-path.patch
 
@@ -62,6 +63,7 @@ of the stress and time out of the code review process.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1001 -p1
 %patch1002 -p1
 %patch1003 -p1
 
@@ -110,6 +112,11 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Aug 21 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.11-2
+- Support Fedora Hosted cgit web interface
+- Resolves: rhbz#849979 - FedoraHosted integration is still pointing at
+                          GitWeb, but fhosted has switched to cgit
+
 * Tue Jul 31 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.11-1
 - New upstream release 1.6.11
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.10/
@@ -138,7 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 -     Closing or reopening an issue no longer causes excessive checks for
       update notification bubbles
 -     Fixed compatibility issues with newer versions of Mercurial with version
-      numbers containing a + in them
+      numbers containing a +http://www.reviewboard.org/docs/manual/dev/admin/
+ in them
 -     Mercurial no longer forces an HTTP URL for downloading files from a
       repository when an HTTPS URL is specified
 -     Mercurial support on Google Code now works properly
