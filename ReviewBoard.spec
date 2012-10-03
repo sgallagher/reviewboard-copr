@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7
-Release:        3.beta2%{?dist}
+Release:        4.beta2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -85,7 +85,6 @@ rm -rf ReviewBoard*.egg-info
 
 
 %build
-make -C docs/manual SPHINXOPTS=-N html
 %{__python} setup.py build
 
 %install
@@ -126,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Oct 03 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7-4.beta2
+- Disable building documentation
+
 * Wed Oct 03 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7-3.beta2
 - Disable JavaScript minification until python-slimit is available
 
