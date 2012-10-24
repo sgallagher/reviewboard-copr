@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.11
+Version:        1.6.13
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -14,9 +14,9 @@ BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 
 %if 0%{?fedora} > 17
-Requires:       python-django >= 1.3.2
+Requires:       python-django >= 1.3.4
 %else
-Requires:       Django >= 1.3.2
+Requires:       Django >= 1.3.4
 %endif
 
 # ReviewBoard 1.6 is not yet compatible with Django 1.4
@@ -24,7 +24,7 @@ Conflicts:      Django >= 1.4
 Conflicts:      python-django >= 1.4
 
 
-Requires:       python-djblets >= 0.6.22
+Requires:       python-djblets >= 0.6.24
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -110,6 +110,57 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Oct 24 2012 Stephen Gallagher <sgallagh@redhat.com> - 0.6.13-1
+- New upstream release 1.6.13
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.13/
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.12/
+- New Features:
+      * Added support for incremental diff expansion
+      * Replaced our old Report Bug and Bugs links in the top-right with
+        Support
+      * Added support for Clear Case snapshot views
+- Performance Improvements:
+      * We no longer perform syntax highlighting for very large files
+- Hosting Service Changes
+      * Fedora Hosted has been switched to use cgit instead of GitWeb
+- Web API Changes:
+      * The FileDiffComment resource was showing all comments for all files in
+        a diffset. Now it’s taking into account the requested FileDiff
+      * Passing ?shipit=0 to the ReviewRequests resource now returns all
+        review requests that do not have a Ship It
+- Bug Fixes:
+      * General:
+          * Fixed a regression where users could see other users' unpublished
+            replies
+          * Diff upload API errors now serialize the revision correctly
+          * Fixed linking to bug numbers when they contain a #
+          * The headers shown on the diffs in e-mails are no longer broken
+          * The diff viewer no longer allows expansion to a function/class
+            unless that function/class is defined within the collapsed region
+          * Fixed validation of bug tracker URLs
+          * Linked URLs with parenthesis in the URL no longer generate broken
+            links
+          * Fixed problems with collapsing SVN keywords
+          * Changes to new files in parent diffs are no longer styled wrong
+          * Fix JavaScript errors when publishing reviews with screenshot
+            comments
+          * The alt text for images in the dashboard now show the expected text
+            and not Python representations of objects
+      * Clear Case:
+          * Filenames on Clear Case are now displayed in a more readable format
+          * Fixed some issues with handling paths on Clear Case on Windows
+      * Git:
+          * Fixed Git diffs with deleted binary files
+          * Extended data in Git diffs (such as the author, description, etc.)
+            is no longer lost when uploading a diff
+          * The Binary files have changed parts in a Git diff are no longer
+            lost when uploading a diff
+      * Mercurial:
+          * Fixed support for hg git diffs with spaces in the path
+      * Subversion:
+          * Fixed parsing of SVN diffs with property changes
+          * Fixed display of SVN diffs with changes in $Keyword$ formatting
+
 * Tue Jul 31 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.11-1
 - New upstream release 1.6.11
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.10/
