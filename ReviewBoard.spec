@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
-* Wed Oct 24 2012 Stephen Gallagher <sgallagh@redhat.com> - 0.6.13-1
+* Wed Oct 24 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.13-1
 - New upstream release 1.6.13
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.13/
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.12/
