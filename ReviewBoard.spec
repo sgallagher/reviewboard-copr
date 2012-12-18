@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.13
+Version:        1.6.15
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -24,7 +24,7 @@ Conflicts:      Django >= 1.4
 Conflicts:      python-django >= 1.4
 
 
-Requires:       python-djblets >= 0.6.24
+Requires:       python-djblets >= 0.6.27
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -110,6 +110,57 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Tue Dec 18 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.15-1
+- New upstream release 1.6.15
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.14/
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.15/
+- New Features:
+    * Accepted Subversion certificates are now stored in the database
+    * SH key handling has internally been made more flexible and extensible
+    * Added support for p4api 12.2
+- Performance Enhancements:
+    * The diff viewer now handle very large files
+    * The number of database queries for the review request page has been
+      further reduced
+- Usability Improvements:
+    * The Create/Update Repository forms now have more meaningful content for
+      the Path field’s help text
+    * The Create/Update Repository form's default hosting account is now the
+      first actual account listed for that hosting service, and not "<Link a
+      new account>", making it quicker to configure a repository
+- Web API Changes:
+    * Review groups can now be added, modified or deleted using the API
+    * Review requests not backed by a repository can now be created by simply
+      not providing a repository argument
+    * The Diff Comments resource now returns a 404 if the resource IDs in the
+      path were invalid
+    * The User list resources now include an avatar_url field in the resulting
+      payload that provides the Gravatar URL for the user
+- Bug Fixes:
+    * The "Add Comment" link is no longer missing after canceling the edit
+      field
+    * The "Server" field in the General Settings page in the Administration UI
+      now reflects the proper server value, rather than being blank
+    * Added a better fallback for diff content encoding
+    * Mercurial version parsing no longer fails when including "rc" or other
+      identifiers in the version
+    * Fixed some edge cases with data entered into the New Review Request page
+    * The starred groups list in the dashboard didn't always show the right
+      list of groups
+    * The "Comment Saved" bubble in the diff viewer had a broken style
+    * Fixed stale caching of issue statuses in review requests
+    * Fixed a bug that caused counts in the dashboard to be incorrect
+    * The "Raw file URL mask" field for Git repositories wasn’t displaying
+      anymore
+    * Fixed the URLs for settings pages on the sidebar in the administration UI
+      when on a subdirectory install
+    * Fixed the display of extra whitespace in the diff viewer
+    * Fixed default raw paths for Gitorious repositories to accomodate their
+      latest URLs
+    * Some settings in the administration UI weren't showing the correct
+      values, due to a load order issue
+    * Fixed a broken link in the site installer
+
 * Wed Oct 24 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.13-1
 - New upstream release 1.6.13
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.13/
