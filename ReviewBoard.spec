@@ -1,18 +1,18 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7
-Release:        5.rc1%{?dist}
+Version:        1.7.1
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}rc1.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.6
+BuildRequires:  python-djblets >= 0.7.7
 BuildRequires:  python-django-pipeline >= 1.2.16
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -78,7 +78,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}rc1
+%setup -q -n %{name}-%{version}
 %patch1003 -p1
 %patch1004 -p1
 
@@ -127,6 +127,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Dec 19 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.1-1
+- New upstream release 1.7.1
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7/
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.0.1/
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.1/
+
 * Thu Dec 13 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7-5.rc1
 - Update to upstream release candidate 1.7rc1
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7-rc-1/
