@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -56,7 +56,8 @@ Requires:       python-dateutil
 Requires:       python-mimeparse
 Requires:       python-django-pipeline >= 1.2.16
 Requires:       python-slimit
-BuildRequires:  python-markdown >= 2.2.1
+Requires:       python-docutils
+Requires:       python-markdown >= 2.2.1
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -127,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Fri Dec 21 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.1-2
+- Add missing runtime dependencies
+
 * Wed Dec 19 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.1-1
 - New upstream release 1.7.1
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7/
