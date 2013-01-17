@@ -1,4 +1,4 @@
-From b1ac9075f564cc29cacaf18ed8bb072902d94e98 Mon Sep 17 00:00:00 2001
+From 88ef528692f68f5b1ae2bba0b3dd5b9d6bb5bb50 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Wed, 3 Oct 2012 14:26:54 -0400
 Subject: [PATCH 2/2] Compress JavaScript with SlimIt
@@ -8,10 +8,10 @@ Subject: [PATCH 2/2] Compress JavaScript with SlimIt
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/reviewboard/settings.py b/reviewboard/settings.py
-index e304500e46ccd3321902c7b44e59429aab1bd980..cfa95a7f3602b110754c8a3ea32007b810b9ca9c 100644
+index e6f56f07ceac648b869c83efa45d301dfd2969e1..5ccd103379f5b8fda64e69eaa452ce7cea1d5af4 100644
 --- a/reviewboard/settings.py
 +++ b/reviewboard/settings.py
-@@ -320,7 +320,7 @@ PIPELINE_CSS = {
+@@ -376,7 +376,7 @@ PIPELINE_CSS = {
  
  BLESS_IMPORT_PATHS = ('rb/css/',)
  PIPELINE_CSS_COMPRESSOR = None
@@ -21,5 +21,5 @@ index e304500e46ccd3321902c7b44e59429aab1bd980..cfa95a7f3602b110754c8a3ea32007b8
  # On production (site-installed) builds, we always want to use the pre-compiled
  # versions. We want this regardless of the DEBUG setting (since they may
 -- 
-1.7.12.1
+1.8.0.2
 

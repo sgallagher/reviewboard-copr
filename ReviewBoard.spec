@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.1
-Release:        2%{?dist}
+Version:        1.7.2
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.7
+BuildRequires:  python-djblets >= 0.7.8
 BuildRequires:  python-django-pipeline >= 1.2.16
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -128,6 +128,29 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Jan 17 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.2-1
+- New upstream release 1.7.2
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.2/
+- New Features:
+-   Added bug tracker support for VersionOne
+-   Added support for ssl:-prefixed P4PORTs for Perforce 2012.1+
+-   Added support for moved file handling for Perforce
+- Bug Fixes:
+-   Fixed an HTML escaping issue when listing filenames in the diff viewer
+-   Fixed the display of the static media instructions in rb-site
+-   Attempting to install on Python 2.4 will now display a helpful error before
+    failing, instead of a cryptic error
+-   Fixed the display of file attachment names in review request change
+    descriptions that don’t have captions
+-   Fixed the default file-based cache path used when creating a new site
+-   The Review Board Activity widget in the administration UI will now clear
+    the data shown when the datasets are unselected
+-   Fixed capitalization of the navigation bar entries to be consistent
+-   Fixed the link to the PyLucene documentation in the General Settings page
+-   Fixed default Apache configuration files to be explicit in enabling
+    FollowSymLinks
+-   Fixed timezone warnings when running the search index command
+
 * Fri Dec 21 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.1-2
 - Add missing runtime dependencies
 
