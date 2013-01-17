@@ -128,7 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
-* Thu Jan 17 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.7.2-1
+* Thu Jan 17 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.2-1
 - New upstream release 1.7.2
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.2/
 - New Features:
