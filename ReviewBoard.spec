@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.2
+Version:        1.7.3
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -12,8 +12,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.8
-BuildRequires:  python-django-pipeline >= 1.2.16
+BuildRequires:  python-djblets >= 0.7.9
+BuildRequires:  python-django-pipeline >= 1.2.22
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
@@ -29,16 +29,16 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 
 %if 0%{?fedora} > 17
-Requires:       python-django >= 1.4.2
+Requires:       python-django >= 1.4.3
 BuildRequires:  python-django-evolution >= 0.6.7
 Requires:       python-django-evolution >= 0.6.7
 %else
-Requires:       Django >= 1.4.2
+Requires:       Django >= 1.4.3
 BuildRequires:  django-evolution >= 0.6.7
 Requires:       django-evolution >= 0.6.7
 %endif
 
-Requires:       python-djblets >= 0.7.1
+Requires:       python-djblets >= 0.7.9
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -54,7 +54,7 @@ Requires:       python-paramiko >= 1.7.6
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
-Requires:       python-django-pipeline >= 1.2.16
+Requires:       python-django-pipeline >= 1.2.22
 Requires:       python-slimit
 Requires:       python-docutils
 Requires:       python-markdown >= 2.2.1
@@ -128,6 +128,41 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jan 28 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.3-1
+- New upstream release 1.7.3
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.3/
+- New Features:
+    * Add optional support for sending e-mails when closing review requests
+- Compatibility Updates:
+    * The new support for Perforce moved files has changed
+      RBTools 0.4.3 will now require Review Board 1.7.3 at a minimum.
+    * Review Board now works with SVN diffs generated in many non-C locales
+- Web API Changes:
+    * Added a scmtools.perforce.moved_files capability to indicate moved file
+      support for Perforce
+- Bug Fixes:
+    * SMTP servers saved with additional whitespace will now have that
+      whitespace stripped, in order to prevent lookup failures.
+    * Fixed a crash when running a search index
+    * The listed creation time for a review request now reflects when it was
+      first published, not when the initial draft was first created
+    * The "Add Comment" button on file attachment thumbnails is no longer shown
+      if not logged in
+    * Fixed a bug allowing for publishing blank review requests after filling
+      in the field and then deleting them
+    * Fixed an occasional crash when viewing a diff when displaying a function
+      or class header on the left-hand side but when there was none on the
+      right-hand side
+    * Fixed a breakage on some systems when checking the Mercurial version
+    * The Summary field no longer overlaps text when wrapping
+    * Fixed the review ID column when using Local Sites
+    * Using a custom SITE_ROOT with a development server setup no longer breaks
+      all static media
+    * Fixed the capitalization of the "VersionOne" bug tracker entry
+    * Using ClearCase on Windows 7 should no longer cause console windows to
+      pop up
+    * Fixed loading blank comments in the diff viewer
+
 * Thu Jan 17 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.2-1
 - New upstream release 1.7.2
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.2/
