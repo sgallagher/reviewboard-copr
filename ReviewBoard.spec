@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.3
+Version:        1.7.4
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -128,6 +128,15 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Jan 31 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.4-1
+- New upstream release 1.7.4
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.4/
+- Bug Fixes:
+    * Fixed a JavaScript error in Internet Explorer and Firefox 3.x involving
+      the console object being undefined
+    * Fixed the diff viewer’s changed file listings when using Windows file
+      paths
+
 * Mon Jan 28 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.3-1
 - New upstream release 1.7.3
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.3/
