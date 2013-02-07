@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.4
+Version:        1.7.5
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -13,7 +13,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-djblets >= 0.7.9
-BuildRequires:  python-django-pipeline >= 1.2.22
+BuildRequires:  python-django-pipeline >= 1.2.24
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
@@ -54,7 +54,8 @@ Requires:       python-paramiko >= 1.7.6
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
-Requires:       python-django-pipeline >= 1.2.22
+Requires:       python-django-pipeline >= 1.2.24
+Conflicts:      python-django-pipeline >= 1.3.0
 Requires:       python-slimit
 Requires:       python-docutils
 Requires:       python-markdown >= 2.2.1
@@ -128,6 +129,32 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Feb 07 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.5-1
+- New upstream release 1.7.5
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.5/
+- New Features:
+    * Added a nicer, human-readable view of diffs in the FileDiff tables in the
+      administration UI
+    * The repository name is now included in review request e-mails
+- Compatibility Fixes:
+    * We now require django-pipeline 1.2.24, which restores our compatibility
+      with Python 2.5 and fixes some errors when loading pages
+    * Our list of supported timezones should now be consistent across all
+      installs, since we now require a specific, modern version of pytz
+      (Packager's note: this is an upstream change only. In Fedora we have
+      always relied on the system pytz)
+- Bug Fixes:
+    * The entire thumbnail for file attachments are now clickable, making it
+      easier to download the file or reach the review page
+    * Users are no longer locked out of their review requests when assigned to
+      private groups they don’t have access to
+    * The Hide whitespace changes toggle was broken on many browsers, causing a
+      JavaScript error
+    * Searching for a user in the quick search field and then clicking the user
+      once again navigates to the user’s page
+    * The review request counts in the dashboard no longer show “None” for new
+      users when using Local Sites
+
 * Thu Jan 31 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.4-1
 - New upstream release 1.7.4
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.4/
