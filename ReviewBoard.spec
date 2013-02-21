@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.5
+Version:        1.7.6
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -33,7 +33,7 @@ Requires:       python-django >= 1.4.3
 BuildRequires:  python-django-evolution >= 0.6.7
 Requires:       python-django-evolution >= 0.6.7
 %else
-Requires:       Django >= 1.4.3
+Requires:       Django >= 1.4.5
 BuildRequires:  django-evolution >= 0.6.7
 Requires:       django-evolution >= 0.6.7
 %endif
@@ -50,7 +50,7 @@ Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments >= 1.4
 Requires:       python-recaptcha-client
-Requires:       python-paramiko >= 1.7.6
+Requires:       python-paramiko
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
@@ -129,6 +129,34 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Feb 21 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-1
+- New upstream release 1.7.6
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.6/
+- Fedora-specific: removed versioning requirement on paramiko; it's no longer
+  needed
+- Security Updates:
+    * We now require Django 1.4.5, which fixes a few security vulnerabilities
+- New Features:
+    * Added Perforce ticket-based authentication
+    * Added a setting for choosing Review Board log levels
+- Web API Changes:
+    * Added API support for querying and manipulating default reviewers
+    * Repositories deleted through the Web API are now only archived if they
+      have any associated review requests
+- Bug Fixes:
+    * Fixed fetching files with FedoraHosted
+    * Fixed some cases where URLs to user pages were incorrect, especially on
+      subdirectory installs and local sites
+    * We try harder now to set the PYTHONPATH for subprocesses, which should
+      fix some issues fetching files over Subversion
+    * The Administration UI dashboard widgets no longer cache their data too
+      aggressively
+    * Fixed showing the error box when entering an invalid reviewer
+    * Fixed config/ and db/ links for extensions, when in a subdirectory
+      install
+    * The Manual Updates page for the media upload directory no longer points
+      to a non-existant wiki page
+
 * Thu Feb 07 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.5-1
 - New upstream release 1.7.5
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.7.5/
