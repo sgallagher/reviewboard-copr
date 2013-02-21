@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.6.15
+Version:        1.6.16
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -14,9 +14,9 @@ BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 
 %if 0%{?fedora} > 17
-Requires:       python-django >= 1.3.4
+Requires:       python-django >= 1.3.7
 %else
-Requires:       Django >= 1.3.4
+Requires:       Django >= 1.3.7
 %endif
 
 # ReviewBoard 1.6 is not yet compatible with Django 1.4
@@ -24,7 +24,7 @@ Conflicts:      Django >= 1.4
 Conflicts:      python-django >= 1.4
 
 
-Requires:       python-djblets >= 0.6.27
+Requires:       python-djblets >= 0.6.28
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -110,6 +110,32 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Feb 21 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.6.16-1
+- New upstream release 1.6.16
+- http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.16/
+- Security Updates:
+    * We now require Django 1.3.7, which fixes a few security vulnerabilities
+- Web API Changes:
+    * Added API support for querying and manipulating default reviewers
+    * Repositories deleted through the Web API are now only archived if they
+      have any associated review requests
+- Bug Fixes:
+    * Fixed an HTML escaping issue when listing filenames in the diff viewer
+    * Fixed an occasional crash when viewing a diff when displaying a function
+      or class header on the left-hand side but when there was none on the
+      right-hand side
+    * We try harder now to set the PYTHONPATH for subprocesses, which should
+      fix some issues fetching files over Subversion
+    * Fixed default Apache configuration files to be explicit in enabling
+      FollowSymLinks
+    * Fixed fetching files with FedoraHosted
+    * SMTP servers saved with additional whitespace will now have that
+      whitespace stripped, in order to prevent lookup failures
+    * Fixed the link to the PyLucene documentation in the General Settings page
+    * Fixed the review ID column when using Local Sites
+    * Fixed the starred public review count for new users when using
+      Local Sites
+
 * Tue Dec 18 2012 Stephen Gallagher <sgallagh@redhat.com> - 1.6.15-1
 - New upstream release 1.6.15
 - http://www.reviewboard.org/docs/releasenotes/dev/reviewboard/1.6.14/
