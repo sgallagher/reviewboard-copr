@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.9
+BuildRequires:  python-djblets >= 0.7.11
 BuildRequires:  python-django-pipeline >= 1.2.24
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -38,7 +38,7 @@ BuildRequires:  django-evolution >= 0.6.7
 Requires:       django-evolution >= 0.6.7
 %endif
 
-Requires:       python-djblets >= 0.7.9
+Requires:       python-djblets >= 0.7.11
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
