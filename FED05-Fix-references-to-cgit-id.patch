@@ -1,0 +1,73 @@
+From b349c683a4454440d69506c37299dfd34499edf3 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Tue, 5 Mar 2013 08:03:48 -0500
+Subject: [PATCH] Fix references to cgit id=
+
+id2= is used only for diffs.
+
+See https://fedorahosted.org/fedora-infrastructure/ticket/3687 for
+additional details.
+---
+ docs/manual/admin/configuration/repositories.txt | 6 +++---
+ reviewboard/hostingsvcs/fedorahosted.py          | 4 ++--
+ reviewboard/hostingsvcs/tests.py                 | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/docs/manual/admin/configuration/repositories.txt b/docs/manual/admin/configuration/repositories.txt
+index f6d361ec037b23a641e7fc9acd20ba54572a612f..0e643333aa627d18739b24b3ae37707cac24d77a 100644
+--- a/docs/manual/admin/configuration/repositories.txt
++++ b/docs/manual/admin/configuration/repositories.txt
+@@ -144,7 +144,7 @@ listed will depend on the requirements of the hosting service.
+     For example:
+ 
+     * **cgit**:
+-      ``http://git.gnome.org/browse/gtk+/blob/<filename>?id2=<revision>``
++      ``http://git.gnome.org/browse/gtk+/blob/<filename>?id=<revision>``
+     * **Gitweb**:
+       ``http://git.kernel.org/?p=bluetooth/bluez-gnome.git;a=blob_plain;f=<filename>;hb=<revision>``
+ 
+@@ -476,11 +476,11 @@ cgit
+ 
+ For cgit, this path should be in the form of:
+ 
+-:samp:`http://{servername}/browse/repo/blob/<filename>?id2=<revision>`
++:samp:`http://{servername}/browse/repo/blob/<filename>?id=<revision>`
+ 
+ For example:
+ 
+-:samp:`http://git.gnome.org/browse/gtk+/blob/<filename>?id2=<revision>`
++:samp:`http://git.gnome.org/browse/gtk+/blob/<filename>?id=<revision>`
+ 
+ 
+ Gitweb
+diff --git a/reviewboard/hostingsvcs/fedorahosted.py b/reviewboard/hostingsvcs/fedorahosted.py
+index ca0c1ccd7acb936c78df0041a404fd5b14fca94f..267fbfe0643427a759ec1862b3df4adb8fd79ddc 100644
+--- a/reviewboard/hostingsvcs/fedorahosted.py
++++ b/reviewboard/hostingsvcs/fedorahosted.py
+@@ -24,8 +24,8 @@ class FedoraHosted(HostingService):
+             'path': 'git://git.fedorahosted.org/git/'
+                     '%(fedorahosted_repo_name)s.git',
+             'raw_file_url': 'http://git.fedorahosted.org/cgit/'
+-                            '%(fedorahosted_repo_name)s.git/plain/'
+-                            '<filename>?id2=<revision>'
++                            '%(fedorahosted_repo_name)s.git/blob/'
++                            '<filename>?id=<revision>'
+         },
+         'Mercurial': {
+             'path': 'http://hg.fedorahosted.org/hg/'
+diff --git a/reviewboard/hostingsvcs/tests.py b/reviewboard/hostingsvcs/tests.py
+index 271a01015948322115baa81eb682596549c85ed4..8fbdffa8f19e5a07d8ae45fd1253f15dfeadb2d1 100644
+--- a/reviewboard/hostingsvcs/tests.py
++++ b/reviewboard/hostingsvcs/tests.py
+@@ -161,7 +161,7 @@ class FedoraHosted(ServiceTests):
+                         'git://git.fedorahosted.org/git/myrepo.git')
+         self.assertEqual(fields['raw_file_url'],
+                          'http://git.fedorahosted.org/cgit/myrepo.git/'
+-                         'plain/<filename>?id2=<revision>')
++                         'blob/<filename>?id=<revision>')
+ 
+     def test_repo_field_values_mercurial(self):
+         """Testing the Fedora Hosted repository field values for Mercurial"""
+-- 
+1.8.1.4
+
