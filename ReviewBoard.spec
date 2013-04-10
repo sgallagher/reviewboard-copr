@@ -29,11 +29,13 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 
 %if 0%{?fedora} > 17
-Requires:       python-django14 >= 1.4.3
+Requires:       python-django >= 1.4.3
+Conflicts:      python-django >= 1.5
 BuildRequires:  python-django-evolution >= 0.6.7
 Requires:       python-django-evolution >= 0.6.7
 %else
-Requires:       Django14 >= 1.4.5
+Requires:       Django >= 1.4.5
+Conflicts:      Django >= 1.5
 BuildRequires:  django-evolution >= 0.6.7
 Requires:       django-evolution >= 0.6.7
 %endif
