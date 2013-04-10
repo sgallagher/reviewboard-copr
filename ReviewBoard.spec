@@ -133,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-3
 - Change to explicit requirement on python-django14
+- Resolves: rhbz#950411 - Change requires to python-django14
 
 * Thu Mar 21 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-2
 - Replace references of id2= with id= for cgit
