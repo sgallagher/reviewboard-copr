@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -29,11 +29,13 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 
 %if 0%{?fedora} > 17
+BuildRequires:  python-django14
 Requires:       python-django >= 1.4.3
 Conflicts:      python-django >= 1.5
 BuildRequires:  python-django-evolution >= 0.6.7
 Requires:       python-django-evolution >= 0.6.7
 %else
+BuildRequires:  Django14
 Requires:       Django >= 1.4.5
 Conflicts:      Django >= 1.5
 BuildRequires:  django-evolution >= 0.6.7
@@ -133,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4
+- Add explicit BuildRequires: python-django14
+
 * Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-3
 - Change to explicit requirement on python-django14
 - Resolves: rhbz#950411 - Change requires to python-django14
