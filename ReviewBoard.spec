@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -29,11 +29,11 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 
 %if 0%{?fedora} > 17
-Requires:       python-django >= 1.4.3
+Requires:       python-django14 >= 1.4.3
 BuildRequires:  python-django-evolution >= 0.6.7
 Requires:       python-django-evolution >= 0.6.7
 %else
-Requires:       Django >= 1.4.5
+Requires:       Django14 >= 1.4.5
 BuildRequires:  django-evolution >= 0.6.7
 Requires:       django-evolution >= 0.6.7
 %endif
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-3
+- Change to explicit requirement on python-django14
+
 * Thu Mar 21 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-2
 - Replace references of id2= with id= for cgit
 - Use file blobs rather than plaintext representation with Fedora
