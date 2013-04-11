@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.6
-Release:        4%{?dist}.1
+Release:        4%{?dist}.2
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -21,7 +21,7 @@ BuildRequires:  pysvn
 BuildRequires:  python-pygments >= 1.1.1
 BuildRequires:  python-nose
 BuildRequires:  pytz
-BuildRequires:  python-paramiko >= 1.7.6
+BuildRequires:  python-paramiko
 BuildRequires:  python-dateutil
 BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
@@ -136,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Apr 11 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4.2
+- Fixes for building on EPEL 6
+
 * Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4
 - Add explicit BuildRequires: python-django14
 - Change to explicit requirement on python-django14
