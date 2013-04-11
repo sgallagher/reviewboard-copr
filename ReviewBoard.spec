@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.6
-Release:        4%{?dist}.2
+Release:        4%{?dist}.3
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -24,7 +24,7 @@ BuildRequires:  pytz
 BuildRequires:  python-paramiko
 BuildRequires:  python-dateutil
 BuildRequires:  python-mimeparse
-BuildRequires:  python-markdown >= 2.2.1
+BuildRequires:  python-markdown
 BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 BuildRequires:  nodejs-less
@@ -63,7 +63,7 @@ Requires:       python-django-pipeline >= 1.2.24
 Conflicts:      python-django-pipeline >= 1.3.0
 Requires:       python-slimit
 Requires:       python-docutils
-Requires:       python-markdown >= 2.2.1
+Requires:       python-markdown
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -136,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
-* Thu Apr 11 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4.2
+* Thu Apr 11 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4.3
 - Fixes for building on EPEL 6
 
 * Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4
