@@ -2,7 +2,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.6
-Release:        4%{?dist}
+Release:        4%{?dist}.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -18,7 +18,7 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
 BuildRequires:  pysvn
-BuildRequires:  python-pygments >= 1.4
+BuildRequires:  python-pygments >= 1.1.1
 BuildRequires:  python-nose
 BuildRequires:  pytz
 BuildRequires:  python-paramiko >= 1.7.6
@@ -27,6 +27,7 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  python-slimit
+BuildRequires:  nodejs-less
 
 %if 0%{?fedora} > 17
 BuildRequires:  python-django14
