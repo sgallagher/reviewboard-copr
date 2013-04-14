@@ -33,14 +33,14 @@ BuildRequires:  nodejs-less
 BuildRequires:  python-django14
 Requires:       python-django >= 1.4.3
 Conflicts:      python-django >= 1.5
-BuildRequires:  python-django-evolution >= 0.6.7
-Requires:       python-django-evolution >= 0.6.7
+BuildRequires:  python-django-evolution >= 0.6.9
+Requires:       python-django-evolution >= 0.6.9
 %else
 BuildRequires:  Django14
 Requires:       Django >= 1.4.5
 Conflicts:      Django >= 1.5
-BuildRequires:  django-evolution >= 0.6.7
-Requires:       django-evolution >= 0.6.7
+BuildRequires:  django-evolution >= 0.6.9
+Requires:       django-evolution >= 0.6.9
 %endif
 
 Requires:       python-djblets >= 0.7.11
