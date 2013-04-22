@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.6
-Release:        4%{?dist}
+Version:        1.7.7.1
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.11
+BuildRequires:  python-djblets >= 0.7.12
 BuildRequires:  python-django-pipeline >= 1.2.24
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -28,21 +28,7 @@ BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 
-%if 0%{?fedora} > 17
-BuildRequires:  python-django14
-Requires:       python-django >= 1.4.3
-Conflicts:      python-django >= 1.5
-BuildRequires:  python-django-evolution >= 0.6.7
-Requires:       python-django-evolution >= 0.6.7
-%else
-BuildRequires:  Django14
-Requires:       Django >= 1.4.5
-Conflicts:      Django >= 1.5
-BuildRequires:  django-evolution >= 0.6.7
-Requires:       django-evolution >= 0.6.7
-%endif
-
-Requires:       python-djblets >= 0.7.11
+Requires:       python-djblets >= 0.7.12
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -73,6 +59,14 @@ Requires:       python-psycopg2
 Requires:       git
 Requires:       subversion
 Requires:       mercurial
+
+# Distro-release-specific
+# Change this for each branch
+BuildRequires:  python-django >= 1.4
+Requires:       python-django >= 1.4
+Conflicts:      python-django >= 1.5
+BuildRequires:  python-django-evolution >= 0.6.9
+Requires:       python-django-evolution >= 0.6.9
 
 Patch1003: FED03-Change-default-cache-file-path.patch
 Patch1004: FED04-Compress-JavaScript-with-SlimIt.patch
@@ -135,6 +129,41 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Apr 22 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.7.1-1
+- New upstream release 1.7.7.1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.7.1/
+- Bug Fixes:
+    * Fixed a problem with generating config files when creating a new site
+      installations
+- New upstream release 1.7.7
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.7/
+- New Features:
+    * The configured SSH key can now be deleted
+    * Added support for working against a GitHub OAuth application
+- Performance Improvements:
+    * Uploading a diff with a parent diff will no longer attempt to process any
+      files in the parent diff that aren't in the main diff
+    * Sped up rendering times for the Dashboard, All Review Requests page, and
+      the user/groups pages
+- Web API Improvements:
+    * Fixed a breakage with updating comments when the issue_status field
+      wasn't provided
+    * Improved caching logic to not claim a cached payload is valid when the
+      client reports a matching Last Modified timestamp but not a matching
+      ETag
+- Bug Fixes:
+    * Specifying a port in a SSH URL for a repository will now connect on that
+      port
+    * Fixed broken links to file attachments when using Local Sites
+    * Review request e-mails now show the right ID in the subject for Local
+      Sites
+    * Fixed Python path issues when spawning processes
+    * Fixed a rare breakage when saving repositories
+    * Fixed the cookie path when using site directories
+    * When installing a site, database hosts now accept a port in the format of
+      hostname:port
+    * Fixed visual glitches with some rounded corners in the UI
+
 * Wed Apr 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.6-4
 - Add explicit BuildRequires: python-django14
 
