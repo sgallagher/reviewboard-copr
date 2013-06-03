@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.7.1
+Version:        1.7.8.1
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -12,7 +12,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.12
+BuildRequires:  python-djblets >= 0.7.15
 BuildRequires:  python-django-pipeline >= 1.2.24
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -29,7 +29,7 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 BuildRequires:  nodejs-less
 
-Requires:       python-djblets >= 0.7.12
+Requires:       python-djblets >= 0.7.15
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -129,6 +129,65 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jun 03 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.8.1-1
+- New upstream release 1.7.8.1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.8.1/
+- Bug Fixes:
+    * Fixed a regression with saving repositories that don't use hosting
+      services
+- Misc. Changes:
+    * Compatibility changes for the upcoming PDF review plugin
+- New upstream release 1.7.8
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.8/
+- New Features:
+    * Added Depends On and Blocks fields to review requests
+    * Added an improved support page
+    * Added the ability to set where Get Support takes users
+    * Added improved logging for many operations
+- Performance Improvements:
+    * Reduced the upload time for many new diffs
+    * The templates used for rendering the various pages are now cached after
+      the first render, speeding up the rendering for any future renders. We've
+      seen speedups of ~100-120ms for review request pages
+- Usability Improvements:
+    * The review request actions are now larger, making them more visible and
+      easier to hit, particularly on touch screens
+    * Clicking Fixed, Drop or Re-open now keeps the page in the same scroll
+      position
+    * The dashboard now reloads dynamically, without reloading the entire page
+    * The comment dialog now tells you when you can't make a comment (due to
+      being logged out or reviewing something that's part of a draft
+- API Changes
+    * Fixed deleting pending replies to comments
+    * Fixed some issues returning certain lists of data
+- Extensibility Improvements:
+    * Extensions can now customize their metadata directly in the Extension
+      class
+    * TemplateHooks can now render their own content by overriding
+      render_to_string()
+    * NavigationBarHook can now take a url_name parameter specifying the URL
+      name to link to
+    * Review UIs can now specify the link and link text for any comments on a
+      review by overriding get_comment_link_url() and get_comment_link_text()
+    * Custom hosting services can now be registered/unregistered by extensions
+      by using register_hosting_service() and unregister_hosting_service()
+      (from reviewboard.hostingsvcs.service)
+    * Added the ability to more easily write hosting services support that
+      works for self-installable services
+- Bug Fixes:
+    * Added missing repository validation for Mercurial repositories
+    * Fixed replying to comments on file attachments that have since been
+      removed
+    * Fixed the display of the upload dialogs when viewing a file attachment
+    * Comments on file attachments in e-mails now link to the correct review UI
+      handling the file
+    * Worked around rare issues where a reset of the Open An Issue default for
+      a user would cause pages to break
+- Misc Changes:
+    * E-mails now show the user’s full name instead of just their first name
+    * The New Review Request page now mentions RBTools instead of just
+      post-review
+
 * Mon Apr 22 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.7.1-1
 - New upstream release 1.7.7.1
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.7.1/
@@ -1126,10 +1185,10 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jul 09 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-14.rc1
 - Add missing Requires: python-dateutil
 
-* Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-13.rc1
+* Tue Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-13.rc1
 - Specfile change: more specific %%files section
 
-* Mon Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-12.rc1
+* Tue Jul 06 2010 Stephen Gallagher <sgallagh@redhat.com> - 1.5-12.rc1
 - Added support for the iPhone and iPad
 - Improved move detection in diff viewer
 - Support for WSGI installations
