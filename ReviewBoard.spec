@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.9
+Version:        1.7.10
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -126,6 +126,42 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jun 24 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.10-1
+- New upstream release 1.7.10
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.10/
+- Security Updates:
+    * Fixed an XSS vulnerability where users could trigger script errors under
+      certain conditions in auto-complete widgets
+- Web API Changes:
+    * Added n ?order-by=<fieldname> query parameter for comment resources,
+      allowing ordering by fields such as line numbers (for diff comments)
+    * Added a filename field to screenshot resources, which provides the base
+      filename (without path) of the screenshot
+    * Added a review_url field to screenshot resources, which provides the URL
+      to the screenshot review page
+    * Added a thumbnail_url field to screenshot comment resources, which
+      provides the URL to the snippet of the screenshot being commented on
+    * Added a link_text field to file attachment comment resources, which shows
+      the text for any link pointing to the file. This may differ depending on
+      the comment
+    * Added a review_url field to file attachment comment resources, which
+      provides the URL to the review page for the file
+    * Added a thumbnail_html field to file attachment comment resources, which
+      provides HTML for rendering the thumbnail of the portion of the file
+      being rendered, if any
+- UI Changes:
+    * Improved the look and feel of the issue summary table. It’s cleaner and
+      no longer looks odd with long comment text
+- Bug Fixes:
+    * Fixed periodic but harmless JavaScript errors when removing elements with
+      relative timestamps
+    * Editing or reordering dashboard columns no longer breaks after the
+      dashboard reloads
+    * Relative timestamps in the dashboard no longer break after the dashboard
+      reloads
+    * The maximum size of the timezone has increased, allowing for longer
+      timezone strings
+
 * Mon Jun 03 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.9-1
 - New upstream release 1.7.9
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.9/
