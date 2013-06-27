@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           ReviewBoard
-Version:        1.7.10
+Version:        1.7.11
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -126,6 +126,14 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Thu Jun 27 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.11-1
+- New upstream release 1.7.11
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.11/
+- Bug Fixes:
+    * Fixed compatibility with Python 2.5
+    * Fixed the drop-down arrow by Support and the account name on older
+      versions of Internet Explorer
+
 * Mon Jun 24 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.10-1
 - New upstream release 1.7.10
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.10/
