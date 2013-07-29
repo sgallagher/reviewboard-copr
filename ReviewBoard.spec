@@ -1,7 +1,9 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
+%global djblets_version 0.7.16
+
 Name:           ReviewBoard
-Version:        1.7.11
+Version:        1.7.12
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -12,7 +14,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
-BuildRequires:  python-djblets >= 0.7.15
+BuildRequires:  python-djblets >= %{djblets_version}
 BuildRequires:  python-django-pipeline >= 1.2.24
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
@@ -29,7 +31,7 @@ BuildRequires:  python-docutils
 BuildRequires:  python-slimit
 BuildRequires:  nodejs-less
 
-Requires:       python-djblets >= 0.7.15
+Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
 Requires:       httpd
 Requires:       mod_wsgi
@@ -127,6 +129,38 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Jul 29 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.12-1
+- New upstream release 1.7.12
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.12/
+- Security Fixes:
+    * Function names in diff headers are no longer rendered as HTML.
+    * If a user’s full name contained HTML, the Submitters list would render it
+      as HTML, without escaping it. This was an XSS vulnerability.
+    * The default Apache configuration is now more strict with how it serves up
+      file attachments. This does not apply to existing installations. See
+      http://support.beanbaginc.com/support/solutions/articles/110173-securing-file-attachments
+      for details.
+    * Uploaded files are now renamed to include a hash, preventing users from
+      uploading malicious filenames, and making filenames unguessable.
+    * Recaptcha support has been updated to use the new URLs provided by
+      Google.
+- New Features:
+    * Added a X-ReviewRequest-Repository header for e-mails.
+- Extension Improvements:
+    * Extensions can now specify their list of app directories.
+    * Extensions can now specify the author’s URL.
+    * Improved the look and feel for extension configuration.
+    * Improved the functionality for extension configuration.
+    * Improved the list of available extensions.
+- Bug Fixes:
+    * Fixed the “Show Whitespace Changes” toggle.
+    * Fixed compatibility with modern versions of django-storages.
+    * Draft comments on file attachments are no longer shown to all users.
+    * Fixed issues with console windows appearing when invoking Clear Case
+      requests on Python 2.7.x and Windows 7.
+    * Review requests on Local Sites are now guaranteed to have the proper ID.
+    * Fixed starring review requests on Local Sites.
+
 * Thu Jun 27 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.11-1
 - New upstream release 1.7.11
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.11/
