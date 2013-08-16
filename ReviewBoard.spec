@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.16
+%global djblets_version 0.7.17
 
 Name:           ReviewBoard
-Version:        1.7.12
-Release:        1%{?dist}
+Version:        1.7.13
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -123,11 +123,27 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
 %{_bindir}/rbssh
+%ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
 %{python_sitelib}/webtests/*.py*
 
+%post
+if [ $1 -eq 2 ] ; then
+    # When upgrading the package, run the upgrade script
+    # automatically to ensure that existing sites are
+    # up-to-date
+    %{_bindir}/rb-site upgrade --all-sites || :
+fi
+
 %changelog
+* Thu Aug 15 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.13-2
+- New upstream release 1.7.13
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.13/
+- Starting with this release, sites will automatically be upgraded if they are
+  listed in the text file /etc/reviewboard/sites by the path to their site,
+  one per line.
+
 * Mon Jul 29 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.12-1
 - New upstream release 1.7.12
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.12/
