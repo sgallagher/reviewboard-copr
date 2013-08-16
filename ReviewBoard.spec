@@ -112,6 +112,9 @@ rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
 rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
        $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/scmtools/testdata
 
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard
+touch $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
