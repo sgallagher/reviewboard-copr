@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.17
+%global djblets_version 0.7.18
 
 Name:           ReviewBoard
-Version:        1.7.13
-Release:        2%{?dist}
+Version:        1.7.14
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -111,6 +111,10 @@ rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
 rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
        $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/scmtools/testdata
 
+# Make sure the sites file exists in the buildroot for file tests
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/
+touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -137,6 +141,13 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Mon Sep 23 2013  Stephen Gallagher <sgallagh@redhat.com> - 1.7.14-1
+- New upstream security release 1.7.14
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.14/
+- Some API resources were accessible even if their parent resources were not,
+  due to a missing check. In most cases, this was harmless, but it can affect
+  those using access control on groups or review requests.
+
 * Thu Aug 15 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.13-2
 - New upstream release 1.7.13
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.13/
