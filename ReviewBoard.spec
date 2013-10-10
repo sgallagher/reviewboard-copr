@@ -1,6 +1,6 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.18
+%global djblets_version 0.7.19
 
 Name:           ReviewBoard
 Version:        1.7.15
