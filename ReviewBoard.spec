@@ -3,7 +3,7 @@
 %global djblets_version 0.7.18
 
 Name:           ReviewBoard
-Version:        1.7.14
+Version:        1.7.15
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -142,6 +142,14 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Thu Oct 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.15-1
+- New upstream security release 1.7.15
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.15/
+- Resolves: CVE-2013-4410
+- Fixes access-control problems with REST API
+- Resolves: CVE-2013-4411
+- Fixes URL processing allowing unauthorized users to view review lists
+
 * Mon Sep 23 2013  Stephen Gallagher <sgallagh@redhat.com> - 1.7.14-1
 - New upstream security release 1.7.14
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.14/
