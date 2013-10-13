@@ -3,7 +3,7 @@
 %global djblets_version 0.7.19
 
 Name:           ReviewBoard
-Version:        1.7.15
+Version:        1.7.16
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -142,6 +142,11 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Sun Oct 13 2013 Patrick Uiterwijk <puiterwijk@redhat.com> - 1.7.15-2
+- New upstream bugfix release 1.7.16
+- Fixes a breakage when accessing the Review Group Users resource
+- Fixes pagination in dashboard and similar pages
+
 * Thu Oct 10 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.15-1
 - New upstream security release 1.7.15
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.15/
