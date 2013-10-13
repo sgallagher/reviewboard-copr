@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.19
+%global djblets_version 0.7.21
 
 Name:           ReviewBoard
 Version:        1.7.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -142,6 +142,9 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Sun Oct 13 2013 Patrick Uiterwijk <puiterwijk@gmail.com> - 1.7.16-2
+- Update Djblets version
+
 * Sun Oct 13 2013 Patrick Uiterwijk <puiterwijk@redhat.com> - 1.7.15-2
 - New upstream bugfix release 1.7.16
 - Fixes a breakage when accessing the Review Group Users resource
