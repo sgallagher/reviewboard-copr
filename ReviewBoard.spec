@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.16
-Release:        1%{?dist}.1
+Release:        2%{?dist}.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
