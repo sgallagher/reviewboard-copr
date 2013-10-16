@@ -1,0 +1,28 @@
+From 07224ebfe57df98abf875e562ea0dd28453fce5a Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Wed, 16 Oct 2013 07:49:16 -0400
+Subject: [PATCH] Remove strict version requirement on pytz
+
+The pytz package in RHEL 6 has been patched to use the timezones
+provided by the tzdata package, rather than maintaining its own
+list. As a result, this version requirement is not necessary.
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 1b1dfac4bc0e3f27ff74c6f17bfaec07920c3412..c0d2e44173991bc84a076febb37cbd7dd37a2edf 100755
+--- a/setup.py
++++ b/setup.py
+@@ -180,7 +180,7 @@ setup(name=PACKAGE_NAME,
+           'Pygments>=1.5',
+           'python-dateutil==1.5',
+           'python-memcached',
+-          'pytz>=2012h',
++          'pytz',
+           'recaptcha-client',
+       ],
+       dependency_links = [
+-- 
+1.8.3.1
+
