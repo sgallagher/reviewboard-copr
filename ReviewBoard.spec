@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.21
+%global djblets_version 0.7.23
 
 Name:           ReviewBoard
-Version:        1.7.16
-Release:        2%{?dist}
+Version:        1.7.17
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -142,6 +142,51 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Tue Nov 05 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.17-1
+- New upstream security release 1.7.17
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.17/
+- Resolves: CVE-2013-4519
+- Security Fixes:
+  * Fixed XSS vulnerabilities for the 'Branch' field and uploaded file
+    captions.
+  * Added a 'X-Frame-Options' header to prevent clickjacking.
+- New Features:
+  * Remove the need for SSH keys for GitHub repositories.
+  * Improved validation for GitHub repositories.
+  * Added support for permissions on Local Sites.
+- Performance Improvements:
+  * Reduced query counts on all pages.
+  * Reduced query counts in the web API when returning empty lists.
+- Extensibility:
+  * Extensions using the ``configure_extension`` view an now pass in a custom
+    ``template_name`` pointing to a template for the configuration page, if it
+    needs additional customization.
+  * Enabling, disabling or reconfiguring extensions will now invalidate the
+    caches for pages, ensuring that hooks will take affect.
+  * Extension configuration now works properly on subdirectory installs.
+- Bug Fixes:
+  * Fixed showing private review requests on a submitter page.
+  * The description for submitted or discarded review requests is now shown on
+    the diff viewer.
+  * Discarding, reopening and then closing a review request no longer makes the
+    review request private.
+  * Fixed a naming conflict with older PyCrypto packages, such as the default
+    package on CentOS 6.4.
+  * Users with the 'can_change_status' permission no longer need the
+    'can_edit_reviewrequest' permission in order to close or reopen review
+    requests.
+  * Switching a repository from using a hosting service to Custom no longer
+    reverts back to the hosting service.
+  * Fixed editing a repository if its associated hosting service can't be
+    loaded (such as if an extension providing that hosting service is
+    disabled).
+  * Many diff validation errors weren't being shown on the New Review Request
+    page, generating 500 errors instead.
+  * Fixed caching issues with the Blocks field on review requests.
+  * Editing JSON text fields in the administration UI now works, validates, and
+    won't result in warnings in the log.
+  * Fixed breakages with looking up URLs internally with Local Sites.
+
 * Sun Oct 13 2013 Patrick Uiterwijk <puiterwijk@gmail.com> - 1.7.16-2
 - Update Djblets version
 
