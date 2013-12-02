@@ -1,9 +1,9 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.23
+%global djblets_version 0.7.24
 
 Name:           ReviewBoard
-Version:        1.7.18
+Version:        1.7.19
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -140,6 +140,23 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Wed Nov 27 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.19-1
+- New upstream bugfix release 1.7.19
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.19/
+- New Features:
+  * Added support for two-factor authentication for GitHub.
+- Performance Improvements:
+  * Re-introduced browser caching on the review request page.
+- Web API Changes:
+  * Added the mirror_path field to Repository Resource.
+- Bug Fixes:
+  * Fixed the default focus on the Review dialog. The top-most field now always
+    has default focus.
+  * Fixed displaying review requests for groups on a Local Site.
+  * Prevented rare crashes with Local Sites using the new permissions support
+    without any granted permissions.
+  * Fixed HTTP basic authentication with the web API when using fastcgi.
+
 * Wed Nov 13 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.18-1
 - New upstream bugfix release 1.7.18
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.18/
