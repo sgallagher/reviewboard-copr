@@ -140,7 +140,7 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
-- Thu Dec 12 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.20-1
+* Thu Dec 12 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.20-1
 - New upstream bugfix release 1.7.20
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.20/
 - Web API Changes:
