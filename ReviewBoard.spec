@@ -1,9 +1,9 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.24
+%global djblets_version 0.7.27
 
 Name:           ReviewBoard
-Version:        1.7.19
+Version:        1.7.20
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -139,6 +139,22 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+- Thu Dec 12 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.20-1
+- New upstream bugfix release 1.7.20
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.20/
+- Web API Changes:
+  * When posting a review request and using submit-as, the given username will
+    now be looked up in the auth backend (LDAP, Active Directory, etc.),
+    instead of just the local database.
+- Bug Fixes:
+  * Accessing file attachments without review UIs through the API no longer
+    causes an HTTP 500 error.
+  * Fields in the administration UI containing JSON will no longer cause errors
+    during save. Furthermore, the JSON is now valid and properly editable.
+  * Usernames with plus signs are now allowed.
+- Internal Changes
+  * Rewrote the Mercurial support to use the command line tool.
+
 * Wed Nov 27 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.19-1
 - New upstream bugfix release 1.7.19
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.19/
