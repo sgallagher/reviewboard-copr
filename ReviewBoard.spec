@@ -1,9 +1,9 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.27
+%global djblets_version 0.7.28
 
 Name:           ReviewBoard
-Version:        1.7.20
+Version:        1.7.21
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -138,6 +138,33 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Wed Jan 15 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-1
+- New upstream enhancement release 1.7.21
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.21/
+- New Features:
+  * Added support for GitLab servers.
+  * Added support for the Unfuddle service.
+  * Added support for publicly accessible Local Sites.
+- Performance Improvements:
+  * Massively improved render time of large diffs.
+- API Changes:
+  * Added new query parameters for filtering lists of repositories.
+- Bug Fixes:
+  * Fixed issues verifying and accessing files for Subversion repositories on
+    Beanstalk.
+  * Fixed issues accessing properties on Subversion repositories on some
+    hosting providers that require authentication.
+  * The activity widget in the administration UI now shows data for the current
+    day.
+  * Fixed issues where the activity widget could break, depending on the date
+    range.
+  * Fixed a regression in error messages provided when setting up a GitHub
+    repository.
+  * Fixed links in e-mails to file attachments stored on CDNs.
+  * Removed an unnecessary external image included in e-mails.
+  * Users no longer on a LocalSite will be excluded from any e-mails on review
+    requests or reviews they were previously involved in.
+
 * Thu Dec 12 2013 Stephen Gallagher <sgallagh@redhat.com> - 1.7.20-1
 - New upstream bugfix release 1.7.20
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.20/
