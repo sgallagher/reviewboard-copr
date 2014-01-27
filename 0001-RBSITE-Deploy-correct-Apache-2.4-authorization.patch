@@ -1,0 +1,114 @@
+From 5fd872d4a35d538e5c9dd279496b0d2650ba4f66 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Mon, 27 Jan 2014 09:09:18 -0500
+Subject: [PATCH] RBSITE: Deploy correct Apache 2.4 authorization
+
+---
+ reviewboard/cmdline/conf/apache-fastcgi.conf.in   |  2 +-
+ reviewboard/cmdline/conf/apache-modpython.conf.in |  2 +-
+ reviewboard/cmdline/conf/apache-wsgi.conf.in      |  2 +-
+ reviewboard/cmdline/rbsite.py                     | 28 +++++++++++++++++++++++
+ 4 files changed, 31 insertions(+), 3 deletions(-)
+
+diff --git a/reviewboard/cmdline/conf/apache-fastcgi.conf.in b/reviewboard/cmdline/conf/apache-fastcgi.conf.in
+index e1aebe25b46b7a855818bd96f3b4f0a658025d4a..e86a385cb5737215e71746aa3b9e4c134a44b154 100644
+--- a/reviewboard/cmdline/conf/apache-fastcgi.conf.in
++++ b/reviewboard/cmdline/conf/apache-fastcgi.conf.in
+@@ -23,7 +23,7 @@
+ 	<Directory "@sitedir@/htdocs">
+ 		AllowOverride All
+ 		Options -Indexes +FollowSymLinks
+-		Allow from all
++		@apache_auth@
+ 	</Directory>
+ 
+ 	# Prevent the server from processing or allowing the rendering of
+diff --git a/reviewboard/cmdline/conf/apache-modpython.conf.in b/reviewboard/cmdline/conf/apache-modpython.conf.in
+index b5d5874ebb0a13de93a1d02d3ae2f08168b7968b..a48f799423b9f7d753b9fd0d80856db2f8b348c1 100644
+--- a/reviewboard/cmdline/conf/apache-modpython.conf.in
++++ b/reviewboard/cmdline/conf/apache-modpython.conf.in
+@@ -48,7 +48,7 @@
+ 	<Directory "@sitedir@/htdocs">
+ 		AllowOverride All
+ 		Options -Indexes +FollowSymLinks
+-		Allow from all
++		@apache_auth@
+ 	</Directory>
+ 
+ 	# Alias static media requests to filesystem
+diff --git a/reviewboard/cmdline/conf/apache-wsgi.conf.in b/reviewboard/cmdline/conf/apache-wsgi.conf.in
+index c71888cb6c530cb8aca2860a2d28d12a8b718e3b..a2a21e96f043b786de27b981e23f3c1a891a7d1e 100644
+--- a/reviewboard/cmdline/conf/apache-wsgi.conf.in
++++ b/reviewboard/cmdline/conf/apache-wsgi.conf.in
+@@ -11,7 +11,7 @@
+ 	<Directory "@sitedir@/htdocs">
+ 		AllowOverride All
+ 		Options -Indexes +FollowSymLinks
+-		Allow from all
++		@apache_auth@
+ 	</Directory>
+ 
+ 	# Prevent the server from processing or allowing the rendering of
+diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
+index 2aab1571180994c6c4413e6f7e2b339b0efdb838..15c54ec4c0bea0aed1576adf85ef7a3170bc60f3 100755
+--- a/reviewboard/cmdline/rbsite.py
++++ b/reviewboard/cmdline/rbsite.py
+@@ -10,6 +10,7 @@ import shutil
+ import sys
+ import textwrap
+ import warnings
++import subprocess
+ from optparse import OptionGroup, OptionParser
+ from random import choice
+ 
+@@ -261,6 +262,23 @@ class Site(object):
+         sys.path.insert(0, os.path.join(self.abs_install_dir, "conf"))
+         os.environ['DJANGO_SETTINGS_MODULE'] = 'reviewboard.settings'
+ 
++    def get_apache_version(self):
++        try:
++            apache_version = subprocess.check_output(['httpd', '-v'])
++            # Extract the major and minor version from the string
++            m = re.search('Apache\/(\d+).(\d+)', apache_version)
++            if m:
++                return m.group(1, 2)
++            else:
++                # Raise a generic regex error so we go to the
++                # exception handler to pick a default
++                raise re.error
++        except:
++            # Version check returned an error or the regular
++            # expression did not match. Guess 2.2 for historic
++            # compatibility
++            return (2, 2)
++
+     def generate_config_files(self):
+         web_conf_filename = ""
+         enable_fastcgi = False
+@@ -278,6 +296,15 @@ class Site(object):
+             else:
+                 # Should never be reached.
+                 assert False
++
++            # Get the Apache version so we know which
++            # authorization directive to use
++            apache_version = self.get_apache_version()
++            if apache_version[0] >= 2 and apache_version[1] >= 4:
++                self.apache_auth = "Require all granted"
++            else:
++                self.apache_auth = "Allow from all"
++
+         elif self.web_server_type == "lighttpd":
+             web_conf_filename = "lighttpd.conf"
+             enable_fastcgi = True
+@@ -622,6 +649,7 @@ class Site(object):
+             'siteid': self.site_id,
+             'siteroot': self.site_root,
+             'siteroot_noslash': self.site_root[1:-1],
++            'apache_auth': self.apache_auth,
+         }
+ 
+         template = re.sub("@([a-z_]+)@", lambda m: data.get(m.group(1)),
+-- 
+1.8.5.3
+
