@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.21
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -149,6 +149,9 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-4
+- Fix mimeparse requirement
+
 * Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-3
 - Support parallel-installable python-django14 package
 
