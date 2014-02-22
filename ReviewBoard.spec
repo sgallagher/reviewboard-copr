@@ -1,10 +1,11 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.28
+# Need the -2 release because of a bug in the requires.txt generation in -1
+%global djblets_version 0.7.28-2
 
 Name:           ReviewBoard
 Version:        1.7.21
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -149,6 +150,9 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-5
+- Require patched version of Djblets to handle requires.txt
+
 * Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-4
 - Fix mimeparse requirement
 
