@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0
-Release:        6%{?dist}.beta3
+Release:        7%{?dist}.beta3
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -31,6 +31,7 @@ BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  uglify-js
 BuildRequires:  gettext
+BuildRequires:  systemd
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -151,6 +152,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/ReviewBoard*.egg-info/
 
 %changelog
+* Fri Feb 28 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-7.beta3
+- Add BuildRequires on systemd for the RPM macro
+
 * Fri Feb 28 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-6.beta3
 - Fix dependency version requirements
 - Add gettext to build requirements
