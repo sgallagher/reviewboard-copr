@@ -1,35 +1,36 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.7.29
+%global djblets_version 0.8-6
 
 Name:           ReviewBoard
-Version:        1.7.25
-Release:        1%{?dist}
+Version:        2.0
+Release:        11%{?dist}.rc3
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}rc3.tar.gz
 Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-djblets >= %{djblets_version}
-BuildRequires:  python-django-pipeline >= 1.2.24
+BuildRequires:  python-django-pipeline >= 1.3.15
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
 BuildRequires:  pysvn
-BuildRequires:  python-pygments >= 1.4
+BuildRequires:  python-pygments >= 1.6
 BuildRequires:  python-nose
 BuildRequires:  pytz
-BuildRequires:  python-paramiko >= 1.7.6
+BuildRequires:  python-paramiko >= 1.12
 BuildRequires:  python-dateutil
 BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  uglify-js
+BuildRequires:  gettext
 BuildRequires:  systemd
 
 Requires:       python-djblets >= %{djblets_version}
@@ -41,16 +42,15 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.4
+Requires:       python-pygments >= 1.6
 Requires:       python-recaptcha-client
-Requires:       python-paramiko
+Requires:       python-paramiko >= 1.12
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
-Requires:       python-django-pipeline >= 1.2.24
-Conflicts:      python-django-pipeline >= 1.3.0
+Requires:       python-django-pipeline >= 1.3.15
 Requires:       python-docutils
-Requires:       python-markdown >= 2.2.1
+Requires:       python-markdown >= 2.3.1
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -64,17 +64,20 @@ Requires:       mercurial
 
 # Distro-release-specific
 # Change this for each branch
-BuildRequires:  python-django14
-Requires:       python-django14
-BuildRequires:  python-django-evolution >= 0.6.9
-Requires:       python-django-evolution >= 0.6.9
+BuildRequires:  python-django >= 1.6
+Requires:       python-django >= 1.6
+BuildRequires:  python-django-evolution >= 0.7
+Requires:       python-django-evolution >= 0.7
+BuildRequires:  python-whoosh
+Requires:       python-whoosh
+BuildRequires:  python-django-haystack
+Requires:       python-django-haystack
 
 # Requires httpd 2.4.7-3 or later in order to support systemd snippets
 # Note: this differs on F20 and F21
-Requires:       httpd >= 2.4.7-3
+Requires:       httpd >= 2.4.7-5
 
 # Upstream patches awaiting the next release
-Patch0001: 0001-Support-building-with-parallel-installed-Django.patch
 
 # Fedora-specific patches
 
@@ -92,10 +95,9 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}rc3
 
 # Upstream patches
-%patch0001 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -126,7 +128,7 @@ rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/
 touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
 
-# Create the systemd snippet directory
+# Create directory for systemd snippet
 mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 
@@ -142,15 +144,35 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
 %{_bindir}/rbssh
+%{_unitdir}/httpd.service.d/reviewboard-sites.conf
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
 %attr(755,root,root) %dir %{_unitdir}/httpd.service.d
 %config(noreplace) %{_unitdir}/httpd.service.d/reviewboard-sites.conf
 
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
-%{python_sitelib}/webtests/*.py*
+
+%postun
+# Update the systemd unit files
+%{systemd_postun}
 
 %changelog
+* Fri May 09 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-11.rc3
+- Update to ReviewBoard 2.0rc3
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-rc-3/
+- Update to 2.0rc2
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-rc-2/
+- Update to 2.0rc1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-rc-1/
+- Update runtime requires for paramiko and pygments
+- Add BuildRequires on systemd for the RPM macro
+- Fix dependency version requirements
+- Add gettext to build requirements
+- Add Whoosh to build requirements to be safe
+- New upstream major release beta
+- Add new systemd snippet to replace %%post script
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-beta-3/
+
 * Thu Apr 24 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.25-1
 - New upstream security release 1.7.25
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.25

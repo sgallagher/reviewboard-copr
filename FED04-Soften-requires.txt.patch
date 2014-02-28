@@ -1,33 +1,38 @@
-From f5fbdfa77b5ba6d1e2875d26ca05c86c80d3cb01 Mon Sep 17 00:00:00 2001
+From 369fca81ae376af4a725bf1dbce6adb1518e6c35 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
-Date: Fri, 21 Feb 2014 16:10:31 -0500
-Subject: [PATCH 1/3] FEDORA: Soften requires.txt
+Date: Fri, 28 Feb 2014 16:20:03 -0500
+Subject: [PATCH] Soften dependencies
 
-We don't need hard requirements on the Django version or dateutil
-because RPM handles these gracefully.
 ---
- setup.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ reviewboard/__init__.py | 2 +-
+ setup.py                | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
+index d269a1de027598367b0aeb45f478d2a05e5d8d60..b2ed67e89c7633cb7691a594238a33af1ca1195a 100644
+--- a/reviewboard/__init__.py
++++ b/reviewboard/__init__.py
+@@ -10,7 +10,7 @@ from __future__ import unicode_literals
+ VERSION = (2, 0, 0, 0, 'rc', 3, True)
+ 
+ # Required version of Django
+-django_version = 'Django>=1.6.4,<1.7',
++django_version = 'Django>=1.6,<1.7',
+ 
+ def get_version_string():
+     version = '%s.%s' % (VERSION[0], VERSION[1])
 diff --git a/setup.py b/setup.py
-index 121e42976619231d92432962590f4910bbfb6c5d..35c50920d90a49ac3050460738f416101825895e 100755
+index da75c44c436419873aa65a5f300f9abb398a2d3e..4150d8322548c4e316c0d8a4c2704de84dcd4d77 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -171,16 +171,16 @@ setup(name=PACKAGE_NAME,
-       },
-       cmdclass=cmdclasses,
-       install_requires=[
--          'Django>=1.4.11,<1.5',
-+          'Django>=1.4,<1.5',
-           'django_evolution>=0.6.9,<0.7',
-           'Djblets>=0.7.29,<0.8',
-           'django-pipeline>=1.2.24,<1.3',
+@@ -198,10 +198,10 @@ setup(name=PACKAGE_NAME,
+           'django-haystack',
            'docutils',
-           markdown_requirement,
+           'markdown>=2.3.1',
 -          'mimeparse>=0.1.3',
 +          'python_mimeparse>=0.1.3',
-           'paramiko>=1.9.0',
-           'Pygments>=1.5',
+           'paramiko>=1.12',
+           'Pygments>=1.6',
 -          'python-dateutil==1.5',
 +          'python-dateutil<2.0',
            'python-memcached',
