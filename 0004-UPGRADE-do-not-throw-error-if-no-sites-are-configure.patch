@@ -1,0 +1,35 @@
+From f724fdbb99312132f6e32d6ecf8b8fcea42483ab Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Wed, 26 Feb 2014 15:28:01 -0500
+Subject: [PATCH] UPGRADE: do not throw error if no sites are configured
+
+Previously, if 'rb-site upgrade --all-sites' was called and the
+site file either did not exist or contained no valid entries (such
+as all sites having been removed but the sitelist being missed),
+it would return with error code 1.
+
+This breaks scripts such as that on an upcoming Fedora release of
+Review Board that will be running the --all-sites upgrade as part
+of the Apache start-up. In order for it to be possible for Review
+Board to be installed on the system, unconfigured and not break
+Apache, we need to treat this exit code as success.
+---
+ reviewboard/cmdline/rbsite.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
+index d31b7dce58c248827e8a08c2d88a8ffcfe0a0a87..3e75cc1d31484d03aebf92cc2af7fc7054297227 100755
+--- a/reviewboard/cmdline/rbsite.py
++++ b/reviewboard/cmdline/rbsite.py
+@@ -2078,7 +2078,7 @@ def parse_options(args):
+ 
+         if len(site_paths) == 0:
+             print("No Review Board sites listed in %s" % sitelist.path)
+-            sys.exit(1)
++            sys.exit(0)
+     elif len(args) >= 2 and command in COMMANDS:
+         site_paths = [args[1]]
+     else:
+-- 
+1.8.5.3
+

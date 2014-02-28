@@ -1,22 +1,22 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-# Need the -2 release because of a bug in the requires.txt generation in -1
-%global djblets_version 0.7.28-2
+%global djblets_version 0.8
 
 Name:           ReviewBoard
-Version:        1.7.21
-Release:        5%{?dist}
+Version:        2.0
+Release:        6%{?dist}.beta3
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}beta3.tar.gz
+Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-djblets >= %{djblets_version}
-BuildRequires:  python-django-pipeline >= 1.2.24
+BuildRequires:  python-django-pipeline >= 1.3.15
 BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
@@ -30,6 +30,7 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  uglify-js
+BuildRequires:  gettext
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -41,16 +42,15 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.4
+Requires:       python-pygments >= 1.6
 Requires:       python-recaptcha-client
 Requires:       python-paramiko
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
-Requires:       python-django-pipeline >= 1.2.24
-Conflicts:      python-django-pipeline >= 1.3.0
+Requires:       python-django-pipeline >= 1.3.15
 Requires:       python-docutils
-Requires:       python-markdown >= 2.2.1
+Requires:       python-markdown >= 2.3.1
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -64,14 +64,19 @@ Requires:       mercurial
 
 # Distro-release-specific
 # Change this for each branch
-BuildRequires:  python-django14
-Requires:       python-django14
-BuildRequires:  python-django-evolution >= 0.6.9
-Requires:       python-django-evolution >= 0.6.9
+BuildRequires:  python-django >= 1.5.4
+Requires:       python-django >= 1.5.4
+BuildRequires:  python-django-evolution >= 0.7
+Requires:       python-django-evolution >= 0.7
+BuildRequires:  python-whoosh
+Requires:       python-whoosh
+BuildRequires:  python-django-haystack
+Requires:       python-django-haystack
 
 # Upstream patches awaiting the next release
-Patch0001: 0001-RBSITE-Deploy-correct-Apache-2.4-authorization.patch
+
 Patch0002: 0002-Support-parallel-installed-Django-eggs.patch
+Patch0004: 0004-UPGRADE-do-not-throw-error-if-no-sites-are-configure.patch
 
 # Fedora-specific patches
 
@@ -89,11 +94,11 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}beta3
 
 # Upstream patches
-%patch0001 -p1
 %patch0002 -p1
+%patch0004 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -124,6 +129,10 @@ rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/
 touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
 
+# Create directory for systemd snippet
+mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
+cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -136,20 +145,20 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
 %{_bindir}/rbssh
+%{_unitdir}/httpd.service.d/reviewboard-sites.conf
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
-%{python_sitelib}/webtests/*.py*
-
-%post
-if [ $1 -eq 2 ] ; then
-    # When upgrading the package, run the upgrade script
-    # automatically to ensure that existing sites are
-    # up-to-date
-    %{_bindir}/rb-site upgrade --all-sites || :
-fi
 
 %changelog
+* Fri Feb 28 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-6.beta3
+- Fix dependency version requirements
+- Add gettext to build requirements
+- Add Whoosh to build requirements to be safe
+- New upstream major release beta
+- Add new systemd snippet to replace %%post script
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-beta-3/
+
 * Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-5
 - Require patched version of Djblets to handle requires.txt
 
