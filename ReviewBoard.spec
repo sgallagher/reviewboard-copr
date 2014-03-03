@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0
-Release:        7%{?dist}.beta3
+Release:        8%{?dist}.beta3
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -21,10 +21,10 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
 BuildRequires:  pysvn
-BuildRequires:  python-pygments >= 1.4
+BuildRequires:  python-pygments >= 1.6
 BuildRequires:  python-nose
 BuildRequires:  pytz
-BuildRequires:  python-paramiko >= 1.7.6
+BuildRequires:  python-paramiko >= 1.12
 BuildRequires:  python-dateutil
 BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
@@ -45,7 +45,7 @@ Requires:       python-nose
 Requires:       pytz
 Requires:       python-pygments >= 1.6
 Requires:       python-recaptcha-client
-Requires:       python-paramiko
+Requires:       python-paramiko >= 1.12
 Requires:       python-memcached
 Requires:       python-dateutil
 Requires:       python-mimeparse
@@ -152,6 +152,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/ReviewBoard*.egg-info/
 
 %changelog
+* Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-8.beta3
+- Update runtime requires for paramiko and pygments
+
 * Fri Feb 28 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-7.beta3
 - Add BuildRequires on systemd for the RPM macro
 
