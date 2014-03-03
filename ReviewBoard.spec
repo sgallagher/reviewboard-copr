@@ -65,8 +65,8 @@ Requires:       mercurial
 
 # Distro-release-specific
 # Change this for each branch
-BuildRequires:  Django14
-Requires:       Django14
+BuildRequires:  python-django14
+Requires:       python-django14
 BuildRequires:  python-django-evolution >= 0.6.9
 Requires:       python-django-evolution >= 0.6.9
 
