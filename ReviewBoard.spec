@@ -4,13 +4,14 @@
 %global djblets_version 0.7.28-2
 
 Name:           ReviewBoard
-Version:        1.7.21
-Release:        5%{?dist}
+Version:        1.7.22
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
 Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}.tar.gz
+Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -33,7 +34,6 @@ BuildRequires:  uglify-js
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
-Requires:       httpd
 Requires:       mod_wsgi
 Requires:       patch
 Requires:       patchutils
@@ -69,9 +69,10 @@ Requires:       python-django14
 BuildRequires:  python-django-evolution >= 0.6.9
 Requires:       python-django-evolution >= 0.6.9
 
+# Requires httpd 2.4.7-5 or later in order to support systemd snippets
+Requires:       httpd >= 2.4.7-5
+
 # Upstream patches awaiting the next release
-Patch0001: 0001-RBSITE-Deploy-correct-Apache-2.4-authorization.patch
-Patch0002: 0002-Support-parallel-installed-Django-eggs.patch
 
 # Fedora-specific patches
 
@@ -92,8 +93,6 @@ of the stress and time out of the code review process.
 %setup -q -n %{name}-%{version}
 
 # Upstream patches
-%patch0001 -p1
-%patch0002 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -124,6 +123,10 @@ rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/
 touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
 
+# Create the systemd snippet directory
+mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
+cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -137,19 +140,62 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/rb-site
 %{_bindir}/rbssh
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
+%attr(755,root,root) %dir %{_unitdir}/httpd.service.d
+%config(noreplace) %{_unitdir}/httpd.service.d/reviewboard-sites.conf
+
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
 %{python_sitelib}/webtests/*.py*
 
-%post
-if [ $1 -eq 2 ] ; then
-    # When upgrading the package, run the upgrade script
-    # automatically to ensure that existing sites are
-    # up-to-date
-    %{_bindir}/rb-site upgrade --all-sites || :
-fi
-
 %changelog
+* Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-1
+- New upstream security release 1.7.22
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.22/
+- Security Fixes:
+  * An XSS vulnerability was found in the Search field's auto-complete.
+- New Features:
+  * Added support for anonymous access to public Local Sites.
+  * Added support for parallel-installed versions of Django.
+- API Changes:
+  * The documentation for Review Group Resource no longer says that review
+    groups cannot be created through the API.
+- Bug Fixes:
+  * Install/Upgrade:
+    * Fixed compatibility with Apache 2.4's method for authorization in newly
+      generated config files.
+    * Fixed an issue on some configurations where loading in initial schema
+      data for the database would fail
+    * rb-site upgrade --all-sites no longer throws an error if there are no
+      valid sites configured.
+  * Administration:
+    * Administrators now have access to all repositories, instead of just
+      public ones or ones they're a member of.
+    * Repositories backed by paths that no longer exist can now be hidden.
+    * Fixed creating groups and repositories that had conflicting "unique"
+      fields.
+    * Password fields no longer appear blank when they have a value in forms.
+    * Setting https in the server URL now properly marks the server as using
+      HTTPS. All URLs generated for the API and e-mails will include https
+      instead of http.
+    * Fixed incorrect labelling for the review request status graph in the
+      Admin dashboard.
+  * LDAP:
+    * Usernames, passwords, and other information are properly encoded to UTF-8
+      before authenticating.
+    * Users without e-mail addresses in LDAP no longer break when first
+      authenticating.
+  * Dashboard:
+    * Fixed support for accessing watched groups through the Dashboard.
+  * Repositories:
+    * Copied files in Git diffs no longer results in File Not Found errors, and
+      properly handles showing the state much like moved files.
+    * Added better compatibility with Mercurial repository when accessing
+      hg-history URLs, when the server name didn't contain a trailing slash.
+    * Added better CVS compatibility for repositories that don’t contain
+      CVSROOT/modules.
+    * Fixed issues with Clear Case in multi-site mode when OIDs weren’t yet
+      available on the server.
+
 * Fri Feb 21 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.21-5
 - Require patched version of Djblets to handle requires.txt
 
