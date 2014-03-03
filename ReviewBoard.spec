@@ -69,8 +69,9 @@ Requires:       python-django14
 BuildRequires:  python-django-evolution >= 0.6.9
 Requires:       python-django-evolution >= 0.6.9
 
-# Requires httpd 2.4.7-5 or later in order to support systemd snippets
-Requires:       httpd >= 2.4.7-5
+# Requires httpd 2.4.7-3 or later in order to support systemd snippets
+# Note: this differs on F20 and F21
+Requires:       httpd >= 2.4.7-3
 
 # Upstream patches awaiting the next release
 
