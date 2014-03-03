@@ -5,7 +5,7 @@
 
 Name:           ReviewBoard
 Version:        1.7.22
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -31,6 +31,7 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-markdown >= 2.2.1
 BuildRequires:  python-docutils
 BuildRequires:  uglify-js
+BuildRequires:  systemd
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -148,6 +149,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-2
+- Add BuildRequires: systemd for the %%{_unitdir}} macro
+
 * Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-1
 - New upstream security release 1.7.22
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.22/
