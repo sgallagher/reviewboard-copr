@@ -1,0 +1,188 @@
+From 8ef32849fd94fc0ecd2dfe4acbc987a77de5a254 Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Mon, 6 Jan 2014 20:47:52 -0500
+Subject: [PATCH] Improve LDAP user lookups
+
+This patch simplifies configuration of user lookups in LDAP and
+also provides better help text to aid the administrator setting it
+up.
+
+The email thread below has more details:
+https://groups.google.com/forum/#!topic/reviewboard-dev/J6W1o9Eb2IY
+
+Conflicts:
+	reviewboard/accounts/backends.py
+	reviewboard/accounts/forms.py
+---
+ reviewboard/accounts/backends.py | 33 ++++++++++++++++++++-------------
+ reviewboard/accounts/forms.py    | 35 +++++++++++++++++++++++------------
+ reviewboard/admin/siteconfig.py  |  2 ++
+ 3 files changed, 45 insertions(+), 25 deletions(-)
+
+diff --git a/reviewboard/accounts/backends.py b/reviewboard/accounts/backends.py
+index 9cb284dd58368a426386b7c7b58d2531912d353f..392d04c4fbb5a4927401e5c8aa2317a0f303e1cc 100644
+--- a/reviewboard/accounts/backends.py
++++ b/reviewboard/accounts/backends.py
+@@ -277,14 +277,21 @@ class LDAPBackend(AuthBackend):
+ 
+     def authenticate(self, username, password):
+         username = username.strip()
+-        uid = settings.LDAP_UID_MASK % username
++
++        uidattr = "%(userattr)s=%(username)s" % {
++                    'userattr': settings.LDAP_UID,
++                    'username': username}
++        uidfilter = "(%(uidattr)s)" % (uidattr);
++
++        if settings.LDAP_UID_MASK:
++            uidfilter = settings.LDAP_UID_MASK % username
+ 
+         if len(password) == 0:
+             # Don't try to bind using an empty password; the server will
+             # return success, which doesn't mean we have authenticated.
+             # http://tools.ietf.org/html/rfc4513#section-5.1.2
+             # http://tools.ietf.org/html/rfc4513#section-6.3.1
+-            logging.warning("Empty password for: %s" % uid)
++            logging.warning("Empty password for: %s" % username)
+             return None
+ 
+         try:
+@@ -299,13 +306,13 @@ class LDAPBackend(AuthBackend):
+                 # Log in as the anonymous user before searching.
+                 ldapo.simple_bind_s(settings.LDAP_ANON_BIND_UID,
+                                     settings.LDAP_ANON_BIND_PASSWD)
+-                search = ldapo.search_s(settings.LDAP_BASE_DN, ldap.SCOPE_SUBTREE,
+-                                        uid)
++                search = ldapo.search_s(settings.LDAP_BASE_DN,
++                                        ldap.SCOPE_SUBTREE,
++                                        uidfilter)
+                 if not search:
+                     # No such a user, return early, no need for bind attempts
+-                    logging.warning("LDAP error: The specified object does not "
+-                                    "exist in the Directory: %s" %
+-                                    uid)
++                    logging.warning("LDAP error: The specified object does "
++                                    "not exist in the Directory: %s" % username)
+                     return None
+                 else:
+                     # Having found the user anonymously, attempt bind with the password
+@@ -319,11 +326,11 @@ class LDAPBackend(AuthBackend):
+                 ldapo.simple_bind_s()
+                 search = ldapo.search_s(settings.LDAP_BASE_DN,
+                                         ldap.SCOPE_SUBTREE,
+-                                        uid)
++                                        uidfilter)
+                 if (len(search) > 0):
+                     userbinding = search[0][0]
+                 else:
+-                    userbinding = ','.join([uid,settings.LDAP_BASE_DN])
++                    userbinding = ','.join([uidattr, settings.LDAP_BASE_DN])
+                 ldapo.bind_s(userbinding, password)
+ 
+             return self.get_or_create_user(username, None, ldapo)
+@@ -331,10 +338,10 @@ class LDAPBackend(AuthBackend):
+         except ImportError:
+             pass
+         except ldap.INVALID_CREDENTIALS:
+-            logging.warning("LDAP error: The specified object does not "
+-                            "exist in the Directory or provided invalid credentials: %s" %
+-                            uid)
+-        except ldap.LDAPError, e:
++            logging.warning("LDAP error: The specified object does not exist "
++                            "in the Directory or provided invalid "
++                            "credentials: %s" % username)
++        except ldap.LDAPError as e:
+             logging.warning("LDAP error: %s" % e)
+         except:
+             # Fallback exception catch because
+diff --git a/reviewboard/accounts/forms.py b/reviewboard/accounts/forms.py
+index 9d6c9a5349e2c6e0fc123337adf50a398b0f3c10..1478e4f2b6442a89ee512038d78d0bba765d9005 100644
+--- a/reviewboard/accounts/forms.py
++++ b/reviewboard/accounts/forms.py
+@@ -307,6 +307,12 @@ class LDAPSettingsForm(SiteSettingsForm):
+         required=True,
+         widget=forms.TextInput(attrs={'size': '40'}))
+ 
++    auth_ldap_uid = forms.CharField(
++        label=_("Username Attribute"),
++        help_text=_("The attribute in the LDAP server that stores a user's "
++                    "login name"),
++        required=True)
++
+     auth_ldap_given_name_attribute = forms.CharField(
+         label=_("Given Name Attribute"),
+         initial="givenName",
+@@ -347,26 +353,30 @@ class LDAPSettingsForm(SiteSettingsForm):
+         required=False)
+ 
+     auth_ldap_uid_mask = forms.CharField(
+-        label=_("User Mask"),
+-        initial="uid=%s,ou=users,dc=example,dc=com",
+-        help_text=_("The string representing the user. Use \"%(varname)s\" "
+-                    "where the username would normally go. For example: "
+-                    "(uid=%(varname)s) or (sAMAccountName=%(varname)s) "
+-                    "[for active directory LDAP]") %
+-                  {'varname': '%s'},
++        label=_("Custom LDAP User Search Filter"),
++        help_text=_("A custom LDAP search filter, corresponding to RFC 2254. "
++                    "If left unset, this option is equivalent to "
++                    "(usernameattribute=%(varname)s). Use \"%(varname)s\" "
++                    "wherever the username would normally go. "
++                    "Specify this value only if the default cannot locate "
++                    "all users.") % {'varname': '%s'},
++        required=False,
+         widget=forms.TextInput(attrs={'size': '40'}))
+ 
+     auth_ldap_anon_bind_uid = forms.CharField(
+-        label=_("Anonymous User Mask"),
+-        help_text=_("The user mask string for anonymous users. If specified, "
+-                    "this should be in the same format as User Mask."),
++        label=_("Review Board LDAP Bind Account"),
++        help_text=_("The full distinguished name of a user account with "
++                    "sufficient access to perform lookups of users and "
++                    "groups in the LDAP server. If the LDAP server permits "
++                    "such lookups via anonymous bind, you may leave this "
++                    "field blank."),
+         required=False,
+         widget=forms.TextInput(attrs={'size': '40'}))
+ 
+     auth_ldap_anon_bind_passwd = forms.CharField(
+-        label=_("Anonymous User Password"),
++        label=_("Review Board LDAP Bind Password"),
+         widget=forms.PasswordInput(attrs={'size': '30'}),
+-        help_text=_("The optional password for the anonymous user."),
++        help_text=_("The password for the Review Board LDAP Bind Account."),
+         required=False)
+ 
+     def load(self):
+@@ -381,6 +391,7 @@ class LDAPSettingsForm(SiteSettingsForm):
+             self.disabled_fields['auth_ldap_email_attribute'] = True
+             self.disabled_fields['auth_ldap_tls'] = True
+             self.disabled_fields['auth_ldap_base_dn'] = True
++            self.disabled_fields['auth_ldap_uid'] = True
+             self.disabled_fields['auth_ldap_uid_mask'] = True
+             self.disabled_fields['auth_ldap_anon_bind_uid'] = True
+             self.disabled_fields['auth_ldap_anon_bind_password'] = True
+diff --git a/reviewboard/admin/siteconfig.py b/reviewboard/admin/siteconfig.py
+index 0ae5a64d3e05e224055fea80605dbefc28d590ed..cc32032eaa74f07e7c0fd05d47bacb2e8d64540c 100644
+--- a/reviewboard/admin/siteconfig.py
++++ b/reviewboard/admin/siteconfig.py
+@@ -64,6 +64,7 @@ settings_map = {
+     'auth_ldap_email_attribute':      'LDAP_EMAIL_ATTRIBUTE',
+     'auth_ldap_tls':                  'LDAP_TLS',
+     'auth_ldap_base_dn':              'LDAP_BASE_DN',
++    'auth_ldap_uid':                  'LDAP_UID',
+     'auth_ldap_uid_mask':             'LDAP_UID_MASK',
+     'auth_ldap_uri':                  'LDAP_URI',
+     'auth_ad_domain_name':            'AD_DOMAIN_NAME',
+@@ -108,6 +109,7 @@ defaults.update({
+     'auth_ldap_anon_bind_passwd':          '',
+     'auth_ldap_email_domain':              '',
+     'auth_ldap_tls':                       False,
++    'auth_ldap_uid':                       'uid',
+     'auth_ldap_uid_mask':                  '',
+     'auth_ldap_uri':                       '',
+     'auth_nis_email_domain':               '',
+-- 
+1.8.4.2
+
