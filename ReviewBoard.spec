@@ -1,7 +1,6 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-# Need the -2 release because of a bug in the requires.txt generation in -1
-%global djblets_version 0.7.28-2
+%global djblets_version 0.7.28
 
 Name:           ReviewBoard
 Version:        1.7.22
@@ -11,7 +10,6 @@ Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
 Source0:        http://downloads.reviewboard.org/releases/%{name}/1.7/%{name}-%{version}.tar.gz
-Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -35,6 +33,7 @@ BuildRequires:  nodejs-less
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
+Requires:       httpd
 Requires:       mod_wsgi
 Requires:       patch
 Requires:       patchutils
@@ -70,9 +69,6 @@ BuildRequires:  Django14
 Requires:       Django14
 BuildRequires:  python-django-evolution >= 0.6.9
 Requires:       python-django-evolution >= 0.6.9
-
-# Requires httpd 2.4.7-5 or later in order to support systemd snippets
-Requires:       httpd >= 2.4.7-5
 
 # Upstream patches awaiting the next release
 
@@ -117,6 +113,13 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/manage.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbssh.py
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/cmdline/rbsite.py
 
+# The requires.txt file isn't needed, because RPM will guarantee the
+# dependency itself. Furthermore, upstream's requires.txt has workarounds
+# to handle easy_install that cause problems with RPM (notably, an exact
+# version requirement on python-dateutil==1.5 to prevent auto-updating to
+# the python3-only python-dateutil 2.0)
+rm -f $RPM_BUILD_ROOT/%{python_sitelib}/%{name}*.egg-info/requires.txt
+
 # Remove test data from the installed packages
 rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
        $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/scmtools/testdata
@@ -124,10 +127,6 @@ rm -Rf $RPM_BUILD_ROOT/%{python_sitelib}/reviewboard/diffviewer/testdata \
 # Make sure the sites file exists in the buildroot for file tests
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/
 touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
-
-# Create the systemd snippet directory
-mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
-cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -142,12 +141,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/rb-site
 %{_bindir}/rbssh
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
-%attr(755,root,root) %dir %{_unitdir}/httpd.service.d
-%config(noreplace) %{_unitdir}/httpd.service.d/reviewboard-sites.conf
 
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
 %{python_sitelib}/webtests/*.py*
+
+%post
+if [ $1 -eq 2 ] ; then
+    # When upgrading the package, run the upgrade script
+    # automatically to ensure that existing sites are
+    # up-to-date
+    %{_bindir}/rb-site upgrade --all-sites || :
+fi
 
 %changelog
 * Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-1
