@@ -1,15 +1,15 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8
+%global djblets_version 0.8-4
 
 Name:           ReviewBoard
 Version:        2.0
-Release:        8%{?dist}.beta3
+Release:        9%{?dist}.rc1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}beta3.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}rc1.tar.gz
 Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -76,8 +76,8 @@ Requires:       python-django-haystack
 
 # Upstream patches awaiting the next release
 
-Patch0002: 0002-Support-parallel-installed-Django-eggs.patch
-Patch0004: 0004-UPGRADE-do-not-throw-error-if-no-sites-are-configure.patch
+#Patch0002: 0002-Support-parallel-installed-Django-eggs.patch
+#Patch0004: 0004-UPGRADE-do-not-throw-error-if-no-sites-are-configure.patch
 
 # Fedora-specific patches
 
@@ -95,11 +95,11 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}beta3
+%setup -q -n %{name}-%{version}rc1
 
 # Upstream patches
-%patch0002 -p1
-%patch0004 -p1
+#%patch0002 -p1
+#%patch0004 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -152,6 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/ReviewBoard*.egg-info/
 
 %changelog
+* Thu Mar 06 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-9.rc1
+- Update to 2.0rc1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-rc-1/
+
 * Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-8.beta3
 - Update runtime requires for paramiko and pygments
 
