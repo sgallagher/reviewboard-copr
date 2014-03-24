@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0
-Release:        9%{?dist}.rc1
+Release:        9%{?dist}.rc1.6
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -79,6 +79,8 @@ Requires:       python-django-haystack
 #Patch0002: 0002-Support-parallel-installed-Django-eggs.patch
 #Patch0004: 0004-UPGRADE-do-not-throw-error-if-no-sites-are-configure.patch
 
+Patch0005: 0001-LDAP-Handle-upgrades-from-1.7.x.patch
+
 # Fedora-specific patches
 
 # The cache file belongs in /var/cache according to guidelines
@@ -100,6 +102,7 @@ of the stress and time out of the code review process.
 # Upstream patches
 #%patch0002 -p1
 #%patch0004 -p1
+%patch0005 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -150,6 +153,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
 %{python_sitelib}/reviewboard/
 %{python_sitelib}/ReviewBoard*.egg-info/
+
+%postun
+# Update the systemd unit files
+%{systemd_postun}
 
 %changelog
 * Thu Mar 06 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-9.rc1
