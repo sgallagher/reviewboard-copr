@@ -1,26 +1,25 @@
-From 94e489d3e2b3b1bc0357f02683d55705bd8acacd Mon Sep 17 00:00:00 2001
+From 6bfc60ad72e8d8986491c2f1e2ca7321d7a9a470 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
-Subject: [PATCH] Soften dependencies
+Subject: [PATCH 2/2] Soften dependencies
 
 ---
  setup.py | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index e04b871441561cd2b369a43ae391d4c2c907e7fd..5eb5311dfebb5cbd1780f235e66d89d8776bdcbe 100755
+index 70ed080ee89ba9504442a38ba43571365619bebd..f02eb0b5cb9d78084ba824394d7784605a7a2856 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -192,17 +192,17 @@ setup(name=PACKAGE_NAME,
+@@ -192,16 +192,16 @@ setup(name=PACKAGE_NAME,
        },
        cmdclass=cmdclasses,
        install_requires=[
 -          'Django>=1.6.2,<1.7',
 +          'Django>=1.6,<1.7',
            'django_evolution>=0.7,<0.8',
-           'Djblets>=0.8beta3,<0.9',
+           'Djblets>=0.8rc1,<0.9',
            'django-haystack',
-           'django-pipeline>=1.3.15',
            'docutils',
            'markdown>=2.3.1',
 -          'mimeparse>=0.1.3',
@@ -33,5 +32,5 @@ index e04b871441561cd2b369a43ae391d4c2c907e7fd..5eb5311dfebb5cbd1780f235e66d89d8
            'pytz',
            'recaptcha-client',
 -- 
-1.8.5.3
+1.9.0
 
