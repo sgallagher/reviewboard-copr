@@ -1,32 +1,18 @@
-From 6dee48c4e95875ceb6357c3fd93b56dc7ebbc1e0 Mon Sep 17 00:00:00 2001
+From d8b7243f24771b296b87cd838d5218e45b841f72 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 17 Jun 2011 15:50:05 -0400
-Subject: [PATCH 1/2] Change default cache file path
+Subject: [PATCH 2/2] Change default cache file path
 
 FHS requirement
 ---
- contrib/conf/settings_local.py.tmpl | 2 +-
- reviewboard/cmdline/rbsite.py       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ reviewboard/cmdline/rbsite.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/conf/settings_local.py.tmpl b/contrib/conf/settings_local.py.tmpl
-index 3807b6f69a7bad307bd07216175e677a85042759..33b43308ffd30753fd422e226720218f2b22a6e0 100644
---- a/contrib/conf/settings_local.py.tmpl
-+++ b/contrib/conf/settings_local.py.tmpl
-@@ -31,7 +31,7 @@ SECRET_KEY = '***********************************************'
- # In most Installations, memcached is the best option. Development
- # installations can get away with a file-based or local memory cache.
- #
--# CACHE_BACKEND = 'file:///tmp/reviewboard_cache?max_entries=5000'
-+# CACHE_BACKEND = 'file:///var/cache/reviewboard/cache?max_entries=5000'
- # CACHE_BACKEND = 'memcached://localhost:11211//'
- CACHE_BACKEND = 'locmem:///'
- 
 diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
-index c30982a6479248ae1f6f0c366ba2cf332224cedf..32c6c6bbe28eb29b77ae4c1144379a8668a45e55 100755
+index 957eadb8ad6bd5ceebb962760406ae3279da3553..5b148d08e430b9475197c858153b7f79aacbd575 100755
 --- a/reviewboard/cmdline/rbsite.py
 +++ b/reviewboard/cmdline/rbsite.py
-@@ -1627,7 +1627,7 @@ class InstallCommand(Command):
+@@ -1719,7 +1719,7 @@ class InstallCommand(Command):
                         is_visible_func=lambda: site.cache_type == "file")
  
          ui.prompt_input(page, "Cache Directory",
@@ -36,5 +22,5 @@ index c30982a6479248ae1f6f0c366ba2cf332224cedf..32c6c6bbe28eb29b77ae4c1144379a86
  
      def ask_web_server_type(self):
 -- 
-1.8.0.2
+1.9.0
 
