@@ -3,7 +3,7 @@
 %global djblets_version 0.7.29
 
 Name:           ReviewBoard
-Version:        1.7.23
+Version:        1.7.24
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -151,8 +151,12 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Apr 09 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.24-1
+- - New upstream bugfix release 1.7.24
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.24
+
 * Wed Apr 09 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.23-1
-- New upstream security release 1.7.23
+- New upstream bugfix release 1.7.23
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.23
 
 * Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-2
