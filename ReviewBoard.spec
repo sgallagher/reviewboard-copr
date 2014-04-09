@@ -1,11 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-# Need the -2 release because of a bug in the requires.txt generation in -1
-%global djblets_version 0.7.28-2
+%global djblets_version 0.7.29
 
 Name:           ReviewBoard
-Version:        1.7.22
-Release:        2%{?dist}
+Version:        1.7.23
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -75,6 +74,7 @@ Requires:       python-django-evolution >= 0.6.9
 Requires:       httpd >= 2.4.7-3
 
 # Upstream patches awaiting the next release
+Patch0001: 0001-Support-building-with-parallel-installed-Django.patch
 
 # Fedora-specific patches
 
@@ -95,6 +95,7 @@ of the stress and time out of the code review process.
 %setup -q -n %{name}-%{version}
 
 # Upstream patches
+%patch0001 -p1
 
 # Fedora patches
 %patch1003 -p1
@@ -150,6 +151,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Apr 09 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.23-1
+- New upstream security release 1.7.23
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.23
+
 * Mon Mar 03 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.22-2
 - Add BuildRequires: systemd for the %%{_unitdir}} macro
 
