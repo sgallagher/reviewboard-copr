@@ -3,7 +3,7 @@
 %global djblets_version 0.7.29
 
 Name:           ReviewBoard
-Version:        1.7.24
+Version:        1.7.25
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -157,8 +157,12 @@ if [ $1 -eq 2 ] ; then
 fi
 
 %changelog
+* Thu Apr 24 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.25-1
+- New upstream security release 1.7.25
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.25
+
 * Wed Apr 09 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.24-1
-- - New upstream bugfix release 1.7.24
+- New upstream bugfix release 1.7.24
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.24
 
 * Wed Apr 09 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.23-1
