@@ -4,12 +4,12 @@
 
 Name:           ReviewBoard
 Version:        2.0
-Release:        11%{?dist}.rc3
+Release:        12%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}rc3.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}.tar.gz
 Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -86,7 +86,7 @@ Patch1003: FED03-Change-default-cache-file-path.patch
 
 # There are several workarounds for easy_install in the requires.txt
 # that are not needed for (and interfere with) RPM packaging.
-Patch1004: FED04-Soften-requires.txt.patch
+Patch1004: FED04-Soften-dependencies.patch
 
 %description
 Review Board is a powerful web-based code review tool that offers
@@ -95,7 +95,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}rc3
+%setup -q -n %{name}-%{version}
 
 # Upstream patches
 
@@ -157,6 +157,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue May 20 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-12
+- Update to Review Board 2.0 final
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0/
+
 * Fri May 09 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-11.rc3
 - Update to ReviewBoard 2.0rc3
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0-rc-3/
