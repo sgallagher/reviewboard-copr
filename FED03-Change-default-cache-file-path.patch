@@ -1,7 +1,7 @@
-From 5224194b5c5e5fada6a6ea161c91d80f30b58bf5 Mon Sep 17 00:00:00 2001
+From 0e3de64a799bfb9d9d5f687c7c6c9cf4ef88cae5 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 17 Jun 2011 15:50:05 -0400
-Subject: [PATCH 2/2] Change default cache file path
+Subject: [PATCH 1/2] Change default cache file path
 
 FHS requirement
 ---
@@ -9,10 +9,10 @@ FHS requirement
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
-index c2ed25253845010790dde2a9a931541677ab5aab..0d15bfdabc17ea8d78d18bc2f04fb1a3a4850099 100755
+index e6ae1803794bf323cc47d97138d79c6bd7081372..94e776f9ae5db5a3a0dc2213996a1a26c8e55633 100755
 --- a/reviewboard/cmdline/rbsite.py
 +++ b/reviewboard/cmdline/rbsite.py
-@@ -1382,7 +1382,7 @@ class InstallCommand(Command):
+@@ -1386,7 +1386,7 @@ class InstallCommand(Command):
                         is_visible_func=lambda: site.cache_type == "file")
  
          ui.prompt_input(page, "Cache Directory",

@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8-7
+%global djblets_version 0.8.1
 
 Name:           ReviewBoard
-Version:        2.0
-Release:        13%{?dist}
+Version:        2.0.1
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -66,8 +66,8 @@ Requires:       mercurial
 # Change this for each branch
 BuildRequires:  python-django >= 1.6
 Requires:       python-django >= 1.6
-BuildRequires:  python-django-evolution >= 0.7
-Requires:       python-django-evolution >= 0.7
+BuildRequires:  python-django-evolution >= 0.7.1
+Requires:       python-django-evolution >= 0.7.1
 BuildRequires:  python-whoosh
 Requires:       python-whoosh
 BuildRequires:  python-django-haystack
@@ -157,6 +157,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue May 27 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.1-1
+- Update to Review Board bugfix release 2.0.1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.1/
+
 * Tue May 20 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0-13
 - Fix version requirement for Djblets
 

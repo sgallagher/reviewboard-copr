@@ -1,4 +1,4 @@
-From 36caac27ce78c8cde77964613205384ac9e6bf36 Mon Sep 17 00:00:00 2001
+From 5839896c0fa2f2ed98c3ad36ccd71b193c26743f Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
 Subject: [PATCH 2/2] Soften dependencies
@@ -9,11 +9,11 @@ Subject: [PATCH 2/2] Soften dependencies
  2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
-index d32fcca31992aebb61f7c84598cac12a3e8918ee..90105fd908e1a4f628a4c166952ace29811c5061 100644
+index c4bc22b2ebeed6971b282d3363659a5141fabc91..32677bf012f19559c764c515d0672a7207bfd6f5 100644
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
-@@ -10,8 +10,7 @@ from __future__ import unicode_literals
- VERSION = (2, 0, 0, 0, 'final', 0, True)
+@@ -11,8 +11,7 @@ VERSION = (2, 0, 2, 0, 'final', 0, False)
+ 
  
  # Required version of Django
 -django_version = 'Django>=1.6.5,<1.7'
@@ -23,7 +23,7 @@ index d32fcca31992aebb61f7c84598cac12a3e8918ee..90105fd908e1a4f628a4c166952ace29
  def get_version_string():
      version = '%s.%s' % (VERSION[0], VERSION[1])
 diff --git a/setup.py b/setup.py
-index bf5016125df7641c067dd205736fd0497cf31d94..7addec40c65a8efce84b166205afcc9383c18c41 100755
+index 508739158b985725eea2fb507a92c57bd9210901..c13a3ea84205b2873c6acba08b78c685026b89ff 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -198,10 +198,10 @@ setup(name=PACKAGE_NAME,
