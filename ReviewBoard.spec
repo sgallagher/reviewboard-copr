@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.1
+%global djblets_version 0.8.2
 
 Name:           ReviewBoard
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -157,6 +157,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Mon Jun 02 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.1-2
+- Fix issue with display of static media files
+
 * Tue May 27 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.1-1
 - Update to Review Board bugfix release 2.0.1
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.1/
