@@ -1,4 +1,4 @@
-From d8b7243f24771b296b87cd838d5218e45b841f72 Mon Sep 17 00:00:00 2001
+From 7a9b5de8c2376df6396049f64e3cef606ece3c92 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 17 Jun 2011 15:50:05 -0400
 Subject: [PATCH 2/2] Change default cache file path
@@ -22,5 +22,5 @@ index 957eadb8ad6bd5ceebb962760406ae3279da3553..5b148d08e430b9475197c858153b7f79
  
      def ask_web_server_type(self):
 -- 
-1.9.0
+1.9.3
 
