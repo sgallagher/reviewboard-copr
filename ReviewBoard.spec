@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.2
+%global djblets_version 0.8.4
 
 Name:           ReviewBoard
-Version:        2.0.1
-Release:        3%{?dist}
+Version:        2.0.2
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -136,15 +136,10 @@ cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 rm -rf $RPM_BUILD_ROOT
 
 %files
-# The rb-site executable has a PyGTK GUI, so would normally
-# require us to ship a .desktop file.  However it can only be run when supplied
-# a directory as a command-line argument, hence it wouldn't be meaningful to
-# create a .desktop file for it.
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING INSTALL NEWS README
 %{_bindir}/rb-site
 %{_bindir}/rbssh
-%{_unitdir}/httpd.service.d/reviewboard-sites.conf
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
 %attr(755,root,root) %dir %{_unitdir}/httpd.service.d
 %config(noreplace) %{_unitdir}/httpd.service.d/reviewboard-sites.conf
@@ -157,6 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Fri Jun 13 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.2-1
+- Update to Review Board bugfix release 2.0.2
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.2/
+
 * Fri Jun 06 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
