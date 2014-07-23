@@ -15,7 +15,7 @@ index 36a648d1b8d2dd18afcce277a985acad7f405c68..545e4baeaeba90a63a6b1fd2a3779f80
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
 @@ -7,7 +7,7 @@
- VERSION = (1, 7, 26, 0, 'final', 0, True)
+ VERSION = (1, 7, 27, 0, 'final', 0, True)
  
  # Required version of Django
 -django_version = 'Django>=1.4.13,<1.5'

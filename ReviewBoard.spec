@@ -3,8 +3,8 @@
 %global djblets_version 0.7.30
 
 Name:           ReviewBoard
-Version:        1.7.26
-Release:        2%{?dist}
+Version:        1.7.27
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -149,6 +149,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/webtests/*.py*
 
 %changelog
+* Wed Jul 23 2014 Patrick Uiterwijk <puiterwijk@redhat.com> - 1.7.27-1
+- New upstream security release 1.7.27
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.27
+
 * Wed Jun 11 2014 Stephen Gallagher <sgallagh@redhat.com> 1.7.26-1
 - New upstream security release 1.7.26
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/1.7.26
