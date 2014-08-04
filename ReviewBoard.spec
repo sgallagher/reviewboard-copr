@@ -3,7 +3,7 @@
 %global djblets_version 0.8.4
 
 Name:           ReviewBoard
-Version:        2.0.4
+Version:        2.0.5
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -152,6 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Wed Jul 30 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1
+- Update to Review Board bugfix release 2.0.5
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.5/
+
 * Wed Jul 23 2014 Patrick Uiterwijk <puiterwijk@redhat.com> - 2.0.4-1
 - Update to Review Board security release 2.0.4
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.4/
