@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0.5
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -21,7 +21,7 @@ BuildRequires:  python-mimeparse
 BuildRequires:  python-sphinx
 BuildRequires:  python-recaptcha-client
 BuildRequires:  pysvn
-BuildRequires:  python-pygments >= 1.6
+BuildRequires:  python-pygments >= 1.4
 BuildRequires:  python-nose
 BuildRequires:  pytz
 BuildRequires:  python-paramiko >= 1.12
@@ -152,6 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Fri Aug 08 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1.1
+- Release ReviewBoard on EPEL7
+- Lower dependency on Pygments to the version shipping in RHEL
+
 * Wed Jul 30 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1
 - Update to Review Board bugfix release 2.0.5
 - http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.5/
