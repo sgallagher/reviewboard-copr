@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0.5
-Release:        1%{?dist}.1
+Release:        1%{?dist}.2
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -42,7 +42,7 @@ Requires:       pysvn
 Requires:       python-flup
 Requires:       python-nose
 Requires:       pytz
-Requires:       python-pygments >= 1.6
+Requires:       python-pygments >= 1.4
 Requires:       python-recaptcha-client
 Requires:       python-paramiko >= 1.12
 Requires:       python-memcached
@@ -73,9 +73,8 @@ Requires:       python-whoosh
 BuildRequires:  python-django-haystack
 Requires:       python-django-haystack
 
-# Requires httpd 2.4.7-3 or later in order to support systemd snippets
-# Note: this differs on F20 and F21
-Requires:       httpd >= 2.4.7-5
+# Note: this differs on F20, F21 and RHEL 7
+Requires:       httpd
 
 # Upstream patches awaiting the next release
 
@@ -152,6 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Mon Aug 18 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1.2
+- Fix runtime dependencies
+
 * Fri Aug 08 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1.1
 - Release ReviewBoard on EPEL7
 - Lower dependency on Pygments to the version shipping in RHEL
