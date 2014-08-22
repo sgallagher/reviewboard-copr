@@ -1,7 +1,7 @@
-From 14c45318fb6a1ca8a2811a2a5e8646c7669e7df1 Mon Sep 17 00:00:00 2001
+From b5e0f1c7940786b3dd94b7f734089b63a691e074 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
-Subject: [PATCH 2/2] Soften dependencies
+Subject: [PATCH] Soften dependencies
 
 ---
  reviewboard/__init__.py | 3 +--
@@ -9,21 +9,21 @@ Subject: [PATCH 2/2] Soften dependencies
  2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
-index 2c6aeded29e0981bfc31d2153cd360c28822ee8b..3fadebae1538ef7a179aae3006fcb5b5d4f1d094 100644
+index 7c188edc57203df4236e34cfb00b3076f653e7e7..131e12c090e9b24c73be761cc64e895855f812e2 100644
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
-@@ -11,8 +11,7 @@ VERSION = (2, 0, 2, 0, 'final', 0, True)
+@@ -11,8 +11,7 @@ VERSION = (2, 0, 6, 0, 'final', 0, True)
  
  
  # Required version of Django
--django_version = 'Django>=1.6.5,<1.7'
+-django_version = 'Django>=1.6.6,<1.7'
 -
 +django_version = 'Django>=1.6,<1.7',
  
  def get_version_string():
      version = '%s.%s' % (VERSION[0], VERSION[1])
 diff --git a/setup.py b/setup.py
-index 72f8e87334083c634e844f294b8797cfc715ab12..11b7e1a422c27a3c0b17105b41a2381afae5710c 100755
+index eca5a65daebd43c2014dcd3e172397e6b6987536..289a394c59a871b9131e4a8ffde00ecfafaea4d3 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -198,10 +198,10 @@ setup(name=PACKAGE_NAME,
@@ -40,5 +40,5 @@ index 72f8e87334083c634e844f294b8797cfc715ab12..11b7e1a422c27a3c0b17105b41a2381a
            'pytz',
            'recaptcha-client',
 -- 
-1.9.3
+2.1.0
 
