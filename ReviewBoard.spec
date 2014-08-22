@@ -3,8 +3,8 @@
 %global djblets_version 0.8.4
 
 Name:           ReviewBoard
-Version:        2.0.5
-Release:        1%{?dist}.2
+Version:        2.0.6
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -151,6 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Fri Aug 22 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.6-1
+- http://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.6/
+
 * Mon Aug 18 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.5-1.2
 - Fix runtime dependencies
 
