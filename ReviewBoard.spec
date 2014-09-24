@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.10
+%global djblets_version 0.8.11
 
 Name:           ReviewBoard
-Version:        2.0.7
-Release:        1%{?dist}
+Version:        2.0.8
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -32,6 +32,8 @@ BuildRequires:  python-docutils
 BuildRequires:  uglify-js
 BuildRequires:  gettext
 BuildRequires:  systemd
+BuildRequires:  python-kgb
+BuildRequires:  python-memcached
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -131,6 +133,9 @@ touch  $RPM_BUILD_ROOT/%{_sysconfdir}/reviewboard/sites
 mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 cp %{SOURCE1} $RPM_BUILD_ROOT/%{_unitdir}/httpd.service.d/
 
+%check
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -151,6 +156,13 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Wed Sep 24 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.8-2
+- Fix bug in systemd service file
+
+* Wed Sep 24 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.8-1
+- Update to Review Board bugfix release 2.0.8
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.8/
+
 * Tue Sep 16 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.7-1
 - Update to Review Board bugfix release 2.0.7
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.7/
