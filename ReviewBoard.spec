@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -157,6 +157,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Wed Sep 24 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.8-2
+- Fix bug in systemd service file
+
 * Wed Sep 24 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.8-1
 - Update to Review Board bugfix release 2.0.8
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.8/
