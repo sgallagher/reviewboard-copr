@@ -32,7 +32,6 @@ BuildRequires:  python-docutils
 BuildRequires:  uglify-js
 BuildRequires:  gettext
 BuildRequires:  systemd
-BuildRequires:  python-kgb
 BuildRequires:  python-memcached
 
 Requires:       python-djblets >= %{djblets_version}
