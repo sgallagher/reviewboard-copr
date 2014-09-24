@@ -1,18 +1,18 @@
-From 8a571f392fbdadd30103058cbcd69efd9c9527bd Mon Sep 17 00:00:00 2001
+From c5750b289f0234563a83c4c76f781e362d7906fc Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
-Subject: [PATCH] Soften dependencies
+Subject: [PATCH 2/2] Soften dependencies
 
 ---
- reviewboard/__init__.py | 3 +--
- setup.py                | 4 ++--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ reviewboard/__init__.py |  3 +--
+ setup.py                | 10 +++++-----
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
-index 45731500f06b21c4960240871f28c423507f4875..53835fd814094a61f6c14f4eb4efda6ccd3d56c2 100644
+index 48c17087f0e3af9aa51544bd45612e858184cf45..2c65399948575457da5fab8e6024a7488463b532 100644
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
-@@ -11,8 +11,7 @@ VERSION = (2, 0, 7, 0, 'final', 0, True)
+@@ -11,8 +11,7 @@ VERSION = (2, 0, 8, 0, 'final', 0, True)
  
  
  # Required version of Django
@@ -23,14 +23,21 @@ index 45731500f06b21c4960240871f28c423507f4875..53835fd814094a61f6c14f4eb4efda6c
  def get_version_string():
      version = '%s.%s' % (VERSION[0], VERSION[1])
 diff --git a/setup.py b/setup.py
-index dd188bb9f584614eda270a8f8522be65068b6046..32f50a29acfbae4e650e1828f2c6f31c9d979fda 100755
+index e8e33c76832c35f2f56e88afc0564daed8d732c4..a4b4102d2b2499fec9992246482705991084311f 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -198,10 +198,10 @@ setup(name=PACKAGE_NAME,
-           'django-haystack',
+@@ -193,19 +193,19 @@ setup(name=PACKAGE_NAME,
+       cmdclass=cmdclasses,
+       install_requires=[
+           django_version,
+-          'django_evolution>=0.7.4,<=0.7.999',
++          'django_evolution>=0.7.3,<=0.7.999',
+           'Djblets>=0.8.11,<=0.8.999',
+           'django-haystack>=2.1',
            'docutils',
-           'markdown>=2.3.1',
+-          'markdown==2.4.1',
 -          'mimeparse>=0.1.3',
++          'markdown>=2.4.1',
 +          'python_mimeparse>=0.1.3',
            'paramiko>=1.12',
            'Pygments>=1.6',
@@ -39,6 +46,11 @@ index dd188bb9f584614eda270a8f8522be65068b6046..32f50a29acfbae4e650e1828f2c6f31c
            'python-memcached',
            'pytz',
            'recaptcha-client',
+-          'Whoosh>=2.6',
++          'Whoosh',
+       ],
+       dependency_links = [
+           'http://downloads.reviewboard.org/mirror/',
 -- 
 2.1.0
 
