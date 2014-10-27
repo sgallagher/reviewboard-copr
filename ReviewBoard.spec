@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.11
+%global djblets_version 0.8.12
 
 Name:           ReviewBoard
-Version:        2.0.8
-Release:        2%{?dist}
+Version:        2.0.10
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -156,6 +156,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Mon Oct 27 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.10-1
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.10/
+
 * Wed Sep 24 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.8-2
 - Fix bug in systemd service file
 
