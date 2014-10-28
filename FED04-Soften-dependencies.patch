@@ -1,31 +1,30 @@
-From 82f03f99cd50bd3ad7426d7956842c11b4ba4c09 Mon Sep 17 00:00:00 2001
+From 981d26e3a97488ec9fdfc1aad25ca33a08766265 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
 Subject: [PATCH 2/2] Soften dependencies
 
 ---
- reviewboard/__init__.py | 3 +--
+ reviewboard/__init__.py | 2 +-
  setup.py                | 6 +++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
-index ed279cbe717440e013be0293cf81d711bacf0f27..307d892d01e9c13258f0c59d71d512f360a69858 100644
+index bd22c72fd223f7de84bbe25e431239551d6701b9..57b2f20dd29d8c6231682246379cd442d250de7d 100644
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
-@@ -9,12 +9,11 @@ from __future__ import unicode_literals
+@@ -9,11 +9,11 @@ from __future__ import unicode_literals
  #
- VERSION = (2, 0, 10, 0, 'final', 0, True)
+ VERSION = (2, 0, 11, 0, 'final', 0, True)
  
  
  # Required version of Django
 -django_version = 'Django>=1.6.7,<1.7'
--
-+django_version = 'Django>=1.6,<1.7',
++django_version = 'Django>=1.6,<1.7'
+ 
  
  def get_version_string():
      version = '%s.%s' % (VERSION[0], VERSION[1])
  
-     if VERSION[2] or VERSION[3]:
 diff --git a/setup.py b/setup.py
 index 6f20ec482c770323d94375c5a6c7cac0c4019bd5..659ee8e978739036d1220520beea00ea0706a851 100755
 --- a/setup.py
