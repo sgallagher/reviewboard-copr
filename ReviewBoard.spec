@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -155,6 +155,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Fri Oct 31 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.11-3
+- Guarantee that Review Board starts after memcached (if it's
+  running on the local system).
+
 * Wed Oct 29 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.11-2
 - Guarantee that Review Board starts after the database (if it's
   running on the local system).
