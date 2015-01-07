@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.12
+%global djblets_version 0.8.14
 
 Name:           ReviewBoard
-Version:        2.0.11
-Release:        3%{?dist}
+Version:        2.0.12
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -156,6 +156,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Wed Jan 07 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.12-1
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.12/
+
 * Fri Oct 31 2014 Stephen Gallagher <sgallagh@redhat.com> 2.0.11-3
 - Guarantee that Review Board starts after memcached (if it's
   running on the local system).
