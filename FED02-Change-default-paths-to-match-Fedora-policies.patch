@@ -1,0 +1,34 @@
+From 6db0e45dd9c85ac0fa9c51c43a36fee76dbf7a0c Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Fri, 9 Jan 2015 08:53:37 -0500
+Subject: [PATCH 3/3] Change default paths to match Fedora policies
+
+The cache directory is a FHS requirement.
+The default install path is changed to simplify the creation of
+SELinux rules.
+---
+ reviewboard/platform.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/reviewboard/platform.py b/reviewboard/platform.py
+index e7ac73a60886645bf47ed3ee09ad2d69e07cafbc..a3495c8e77a75be25ea9016e4f52540e37bc51f2 100644
+--- a/reviewboard/platform.py
++++ b/reviewboard/platform.py
+@@ -15,12 +15,12 @@ SITELIST_FILE_UNIX = "/etc/reviewboard/sites"
+ 
+ 
+ # Default location of the cache directory. This path
+ # is used in 'rb-site install' if using a file-based
+ # cache instead of a memcached-based cache.
+-DEFAULT_FS_CACHE_PATH = "/tmp/reviewboard_cache"
++DEFAULT_FS_CACHE_PATH = "/var/cache/reviewboard/cache"
+ 
+ 
+ # Preferred location of the reviewboard sites.
+ # If the rb-site tool is passed a site name instead of
+ # a full path, it will be prepended with this path.
+-INSTALLED_SITE_PATH = "/var/www"
++INSTALLED_SITE_PATH = "/var/lib/reviewboard/sites"
+-- 
+2.1.0
+

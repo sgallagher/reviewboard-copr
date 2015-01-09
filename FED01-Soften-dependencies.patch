@@ -1,7 +1,7 @@
-From 5af4c2a619e6b5e6bc52f109a3bcfa8b74ef8e64 Mon Sep 17 00:00:00 2001
+From cc39ff02896f2c1359db2ca257a3f2dfa819b18d Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
-Subject: [PATCH] Soften dependencies
+Subject: [PATCH 2/3] Soften dependencies
 
 ---
  reviewboard/__init__.py | 2 +-
