@@ -1,19 +1,19 @@
-From 6db0e45dd9c85ac0fa9c51c43a36fee76dbf7a0c Mon Sep 17 00:00:00 2001
+From 4e33ee22faae6958ebe5d27c1c6df85c8021d99d Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 9 Jan 2015 08:53:37 -0500
-Subject: [PATCH 3/3] Change default paths to match Fedora policies
+Subject: [PATCH 4/4] Change default paths to match Fedora policies
 
 The cache directory is a FHS requirement.
 The default install path is changed to simplify the creation of
 SELinux rules.
 ---
- reviewboard/platform.py | 4 ++--
+ reviewboard/rb_platform.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/reviewboard/platform.py b/reviewboard/platform.py
+diff --git a/reviewboard/rb_platform.py b/reviewboard/rb_platform.py
 index e7ac73a60886645bf47ed3ee09ad2d69e07cafbc..a3495c8e77a75be25ea9016e4f52540e37bc51f2 100644
---- a/reviewboard/platform.py
-+++ b/reviewboard/platform.py
+--- a/reviewboard/rb_platform.py
++++ b/reviewboard/rb_platform.py
 @@ -15,12 +15,12 @@ SITELIST_FILE_UNIX = "/etc/reviewboard/sites"
  
  

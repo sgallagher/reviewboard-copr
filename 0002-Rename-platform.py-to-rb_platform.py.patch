@@ -1,0 +1,41 @@
+From 0b2e3152363b217c7cdfd0f0adf7733a9ef0638d Mon Sep 17 00:00:00 2001
+From: Stephen Gallagher <sgallagh@redhat.com>
+Date: Fri, 9 Jan 2015 11:40:19 -0500
+Subject: [PATCH 2/4] Rename platform.py to rb_platform.py
+
+Python on OSX has an internal platform.py package and attempts to
+incorrectly import the one from Review Board instead.
+---
+ reviewboard/cmdline/rbsite.py               | 6 +++---
+ reviewboard/{platform.py => rb_platform.py} | 0
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename reviewboard/{platform.py => rb_platform.py} (100%)
+
+diff --git a/reviewboard/cmdline/rbsite.py b/reviewboard/cmdline/rbsite.py
+index 559fc5bcef4bc930197bfe789bac7293c0727a1d..d9a6d0c39694a3fb78d4d6175a430855baf681b5 100755
+--- a/reviewboard/cmdline/rbsite.py
++++ b/reviewboard/cmdline/rbsite.py
+@@ -20,13 +20,13 @@ from django.db.utils import OperationalError
+ from django.utils import six
+ from django.utils.six.moves import input
+ from django.utils.six.moves.urllib.request import urlopen
+ 
+ from reviewboard import get_manual_url, get_version_string
+-from reviewboard.platform import (SITELIST_FILE_UNIX,
+-                                  DEFAULT_FS_CACHE_PATH,
+-                                  INSTALLED_SITE_PATH)
++from reviewboard.rb_platform import (SITELIST_FILE_UNIX,
++                                     DEFAULT_FS_CACHE_PATH,
++                                     INSTALLED_SITE_PATH)
+ 
+ 
+ # Ignore the PendingDeprecationWarnings that we'll get from Django.
+ # See bug 1683.
+ warnings.filterwarnings("ignore", category=PendingDeprecationWarning)
+diff --git a/reviewboard/platform.py b/reviewboard/rb_platform.py
+similarity index 100%
+rename from reviewboard/platform.py
+rename to reviewboard/rb_platform.py
+-- 
+2.1.0
+
