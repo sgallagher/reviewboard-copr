@@ -3,8 +3,8 @@
 %global djblets_version 0.8.14
 
 Name:           ReviewBoard
-Version:        2.0.12
-Release:        3%{?dist}
+Version:        2.0.13
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -79,8 +79,6 @@ Requires:       python-django-haystack
 Requires:       httpd >= 2.4.7-5
 
 # Upstream patches awaiting the next release
-Patch0001: 0001-Create-new-sites-in-a-default-path.patch
-Patch0002: 0002-Rename-platform.py-to-rb_platform.py.patch
 
 # Fedora-specific patches
 
@@ -102,8 +100,6 @@ of the stress and time out of the code review process.
 %setup -q -n %{name}-%{version}
 
 # Upstream patches
-%patch0001 -p1
-%patch0002 -p1
 
 # Fedora patches
 %patch1001 -p1
@@ -166,6 +162,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue Feb 17 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.13-1
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.13/
+- Drop upstreamed patches for default site installation
+
 * Fri Jan 09 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.12-3
 - Include upstream patch to rename platform.py to rb_platform.py
 
