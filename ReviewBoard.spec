@@ -1,10 +1,10 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.15
+%global djblets_version 0.8.16
 
 Name:           ReviewBoard
-Version:        2.0.13
-Release:        2%{?dist}
+Version:        2.0.14
+Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -161,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue Mar 10 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.14-1
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.14/
+
 * Fri Feb 20 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.13-2
 - Fix Djblets requirement
 
