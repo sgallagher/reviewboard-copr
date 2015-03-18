@@ -3,7 +3,7 @@
 %global djblets_version 0.8.16
 
 Name:           ReviewBoard
-Version:        2.0.14
+Version:        2.0.15
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -161,6 +161,9 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Wed Mar 18 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.15-1
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.15/
+
 * Tue Mar 10 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.14-1
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.14/
 
