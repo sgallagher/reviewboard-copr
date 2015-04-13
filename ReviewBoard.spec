@@ -4,7 +4,7 @@
 
 Name:           ReviewBoard
 Version:        2.0.17
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -68,8 +68,9 @@ Requires:       mercurial
 
 # Distro-release-specific
 # Change this for each branch
-BuildRequires:  python-django >= 1.6
+BuildRequires:  python-django < 1.7
 Requires:       python-django >= 1.6
+Conflicts:      python-django >= 1.7
 BuildRequires:  python-django-evolution >= 0.7.1
 Requires:       python-django-evolution >= 0.7.1
 BuildRequires:  python-whoosh
