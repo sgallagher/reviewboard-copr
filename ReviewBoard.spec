@@ -3,7 +3,7 @@
 %global djblets_version 0.8.16
 
 Name:           ReviewBoard
-Version:        2.0.15
+Version:        2.0.16
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -13,6 +13,7 @@ Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{
 Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-djblets >= %{djblets_version}
@@ -33,6 +34,7 @@ BuildRequires:  uglify-js
 BuildRequires:  gettext
 BuildRequires:  systemd
 BuildRequires:  python-memcached
+BuildRequires:  python-crypto
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -52,6 +54,7 @@ Requires:       python-mimeparse
 Requires:       python-django-pipeline >= 1.3.15
 Requires:       python-docutils
 Requires:       python-markdown >= 2.3.1
+Requires:       python-crypto
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -78,6 +81,7 @@ Requires:       python-django-haystack
 Requires:       httpd
 
 # Upstream patches awaiting the next release
+Patch0001: 0001-Add-pycrypto-to-setup.py.patch
 
 # Fedora-specific patches
 
@@ -144,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS COPYING INSTALL NEWS README
+%doc AUTHORS COPYING INSTALL NEWS
 %{_bindir}/rb-site
 %{_bindir}/rbssh
 %ghost %config(noreplace) %{_sysconfdir}/reviewboard/sites
@@ -161,6 +165,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Fri Jun 12 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.16-1
+- New upstream release 2.0.16
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.16/
+
 * Wed Mar 18 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.15-1
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.15/
 
