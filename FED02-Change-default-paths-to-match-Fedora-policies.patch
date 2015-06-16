@@ -1,7 +1,7 @@
-From 3fe232a43a3c97ffa3d2f6cb2da8c1f00951767c Mon Sep 17 00:00:00 2001
+From 3d53fcc5f4d12ae401f8b259e6dbcbe4c21ab0d1 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 9 Jan 2015 08:53:37 -0500
-Subject: [PATCH 3/3] Change default paths to match Fedora policies
+Subject: [PATCH 2/2] Change default paths to match Fedora policies
 
 The cache directory is a FHS requirement.
 The default install path is changed to simplify the creation of

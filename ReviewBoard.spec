@@ -1,9 +1,9 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
-%global djblets_version 0.8.16
+%global djblets_version 0.8.20
 
 Name:           ReviewBoard
-Version:        2.0.16
+Version:        2.0.17
 Release:        1%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
@@ -74,8 +74,8 @@ BuildRequires:  python-django-evolution >= 0.7.1
 Requires:       python-django-evolution >= 0.7.1
 BuildRequires:  python-whoosh
 Requires:       python-whoosh
-BuildRequires:  python-django-haystack
-Requires:       python-django-haystack
+BuildRequires:  python-django-haystack >= 2.3.1
+Requires:       python-django-haystack >= 2.3.1
 
 # Note: this differs on F20, F21 and RHEL 7
 Requires:       httpd
@@ -165,6 +165,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue Jun 16 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.17-1
+- New upstream release 2.0.17
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.17/
+
 * Fri Jun 12 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.16-1
 - New upstream release 2.0.16
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.16/
