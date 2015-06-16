@@ -74,8 +74,8 @@ BuildRequires:  python-django-evolution >= 0.7.1
 Requires:       python-django-evolution >= 0.7.1
 BuildRequires:  python-whoosh
 Requires:       python-whoosh
-BuildRequires:  python-django-haystack
-Requires:       python-django-haystack
+BuildRequires:  python-django-haystack >= 2.3.1
+Requires:       python-django-haystack >= 2.3.1
 
 # Requires httpd 2.4.7-3 or later in order to support systemd snippets
 # Note: this differs on F20 and F21
