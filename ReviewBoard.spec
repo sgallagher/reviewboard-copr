@@ -81,7 +81,6 @@ Requires:       python-django-haystack >= 2.3.1
 Requires:       httpd
 
 # Upstream patches awaiting the next release
-Patch0001: 0001-Add-pycrypto-to-setup.py.patch
 
 # Fedora-specific patches
 
