@@ -1,4 +1,4 @@
-From 3d53fcc5f4d12ae401f8b259e6dbcbe4c21ab0d1 Mon Sep 17 00:00:00 2001
+From 0691c789b5f0a38b0bba5e993d8fafbf6bbbd902 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 9 Jan 2015 08:53:37 -0500
 Subject: [PATCH 2/2] Change default paths to match Fedora policies
