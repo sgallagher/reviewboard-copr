@@ -1,4 +1,4 @@
-From 0691c789b5f0a38b0bba5e993d8fafbf6bbbd902 Mon Sep 17 00:00:00 2001
+From c142f40dafe75588e7f5b34a1dbd1dc2aa02e3b3 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 9 Jan 2015 08:53:37 -0500
 Subject: [PATCH 2/2] Change default paths to match Fedora policies
@@ -11,22 +11,22 @@ SELinux rules.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/reviewboard/rb_platform.py b/reviewboard/rb_platform.py
-index e7ac73a60886645bf47ed3ee09ad2d69e07cafbc..a3495c8e77a75be25ea9016e4f52540e37bc51f2 100644
+index 9d48472e3b70418a56323220b8f5ae5aafc2526e..46097b7fe89b326541e8ef3a9c900231ddbd45c5 100644
 --- a/reviewboard/rb_platform.py
 +++ b/reviewboard/rb_platform.py
-@@ -15,12 +15,12 @@ SITELIST_FILE_UNIX = "/etc/reviewboard/sites"
+@@ -16,12 +16,12 @@ SITELIST_FILE_UNIX = "/etc/reviewboard/sites"
  
  
- # Default location of the cache directory. This path
- # is used in 'rb-site install' if using a file-based
- # cache instead of a memcached-based cache.
+ #: Default location of the cache directory. This path is used in
+ #: :command:`rb-site install` if using a file-based cache instead of a
+ #: memcached-based cache.
 -DEFAULT_FS_CACHE_PATH = "/tmp/reviewboard_cache"
 +DEFAULT_FS_CACHE_PATH = "/var/cache/reviewboard/cache"
  
  
- # Preferred location of the reviewboard sites.
- # If the rb-site tool is passed a site name instead of
- # a full path, it will be prepended with this path.
+ #: Preferred location of the Review Board sites. If the :program:`rb-site`
+ #: tool is passed a site name instead of a full path, it will be prepended
+ #: with this path.
 -INSTALLED_SITE_PATH = "/var/www"
 +INSTALLED_SITE_PATH = "/var/lib/reviewboard/sites"
 -- 

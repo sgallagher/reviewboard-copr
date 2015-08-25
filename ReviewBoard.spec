@@ -3,13 +3,13 @@
 %global djblets_version 0.8.21
 
 Name:           ReviewBoard
-Version:        2.0.18
-Release:        1%{?dist}.1
+Version:        2.5
+Release:        4.b2%{?dist}
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
 URL:            http://www.review-board.org
-Source0:        http://downloads.reviewboard.org/releases/%{name}/2.0/%{name}-%{version}.tar.gz
+Source0:        http://downloads.reviewboard.org/releases/%{name}/2.5/%{name}-%{version}b2.tar.gz
 Source1:        reviewboard-sites.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
@@ -35,6 +35,7 @@ BuildRequires:  gettext
 BuildRequires:  systemd
 BuildRequires:  python-memcached
 BuildRequires:  python-crypto
+BuildRequires:  python-django-multiselectfield
 
 Requires:       python-djblets >= %{djblets_version}
 Requires:       python-imaging
@@ -55,6 +56,9 @@ Requires:       python-django-pipeline >= 1.3.15
 Requires:       python-docutils
 Requires:       python-markdown >= 2.3.1
 Requires:       python-crypto
+Requires:       python-django-multiselectfield
+Requires:       httpd
+
 
 # Pull in the client libraries for all of the supported databases
 Requires:       python-sqlite
@@ -71,16 +75,13 @@ Requires:       mercurial
 BuildRequires:  python-django < 1.7
 Requires:       python-django >= 1.6
 Conflicts:      python-django >= 1.7
-BuildRequires:  python-django-evolution >= 0.7.1
-Requires:       python-django-evolution >= 0.7.1
+BuildRequires:  python-django-evolution >= 0.7.5
+Requires:       python-django-evolution >= 0.7.5
 BuildRequires:  python-whoosh
 Requires:       python-whoosh
 BuildRequires:  python-django-haystack >= 2.3.1
 Requires:       python-django-haystack >= 2.3.1
 
-# Requires httpd 2.4.7-3 or later in order to support systemd snippets
-# Note: this differs on F20 and F21
-Requires:       httpd >= 2.4.7-5
 
 # Upstream patches awaiting the next release
 
@@ -101,7 +102,7 @@ projects to large companies and offers a variety of tools to take much
 of the stress and time out of the code review process.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{version}b2
 
 # Upstream patches
 
@@ -166,6 +167,12 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Mon Jul 20 2015 Stephen Gallagher <sgallagh@redhat.com> 2.5-4.b2
+- Require python-django-evolution 0.7.5
+
+* Mon Jul 20 2015 Stephen Gallagher <sgallagh@redhat.com> 2.5-3.b2
+- Review Board 2.5 beta 2
+
 * Mon Jun 29 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.18-1
 - New upstream release 2.0.18
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.18/
