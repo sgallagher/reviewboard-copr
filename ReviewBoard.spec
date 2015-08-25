@@ -3,8 +3,8 @@
 %global djblets_version 0.8.21
 
 Name:           ReviewBoard
-Version:        2.0.18
-Release:        1%{?dist}.1
+Version:        2.0.19
+Release:        0%{?dist}.2
 Summary:        Web-based code review tool
 Group:          Applications/Internet
 License:        MIT
@@ -166,6 +166,10 @@ rm -rf $RPM_BUILD_ROOT
 %{systemd_postun}
 
 %changelog
+* Tue Aug 25 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.19-0.2
+- New upstream release 2.0.19
+- https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.19/
+
 * Mon Jun 29 2015 Stephen Gallagher <sgallagh@redhat.com> 2.0.18-1
 - New upstream release 2.0.18
 - https://www.reviewboard.org/docs/releasenotes/reviewboard/2.0.18/

@@ -1,4 +1,4 @@
-From 0691c789b5f0a38b0bba5e993d8fafbf6bbbd902 Mon Sep 17 00:00:00 2001
+From 27bcaebe416997aef2447cf462fb89734e11c6e5 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 9 Jan 2015 08:53:37 -0500
 Subject: [PATCH 2/2] Change default paths to match Fedora policies
@@ -30,5 +30,5 @@ index e7ac73a60886645bf47ed3ee09ad2d69e07cafbc..a3495c8e77a75be25ea9016e4f52540e
 -INSTALLED_SITE_PATH = "/var/www"
 +INSTALLED_SITE_PATH = "/var/lib/reviewboard/sites"
 -- 
-2.4.3
+2.5.0
 

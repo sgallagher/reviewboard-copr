@@ -1,4 +1,4 @@
-From b6b7cdd45537916ad453bdd09e7ec7ec2ec50d12 Mon Sep 17 00:00:00 2001
+From dad6635f12c0fff9f41b93a029ca0453a4bc9ff0 Mon Sep 17 00:00:00 2001
 From: Stephen Gallagher <sgallagh@redhat.com>
 Date: Fri, 28 Feb 2014 16:20:03 -0500
 Subject: [PATCH 1/2] Soften dependencies
@@ -9,12 +9,12 @@ Subject: [PATCH 1/2] Soften dependencies
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/reviewboard/__init__.py b/reviewboard/__init__.py
-index e052c50698e7341f719d6c3761b594a24f444274..080ef04303fd3b57021c0c831894d286087ab30b 100644
+index a0e4f4b89221c8187684214c2a064f4fb47b5055..417d9a619cd0f171341213bd9ff9ee495066cacb 100644
 --- a/reviewboard/__init__.py
 +++ b/reviewboard/__init__.py
 @@ -9,11 +9,11 @@ from __future__ import unicode_literals
  #
- VERSION = (2, 0, 18, 0, 'final', 0, True)
+ VERSION = (2, 0, 19, 0, 'final', 0, True)
  
  
  # Required version of Django
@@ -53,5 +53,5 @@ index 8166b49b15ec1f57aeb5f334db005beb1b1dc677..a80937cbbec9f0cb5b388173f8f0c19d
            'http://downloads.reviewboard.org/releases/Djblets/0.8/',
            'http://downloads.reviewboard.org/releases/django-evolution/0.7/',
 -- 
-2.4.3
+2.5.0
 
